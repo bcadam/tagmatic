@@ -1,5 +1,6 @@
 {
-  "name": "parsereact-todo",
+  "name": "EmailBolt",
+  "version": "1",
   "main": "js/app.js",
   "dependencies": {
     "react": "^0.13.0",
