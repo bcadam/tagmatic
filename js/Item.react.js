@@ -24,8 +24,8 @@ var Item = React.createClass({
   copyToClipboard: function(){
     var bolt = this.props.bolt;
     var text = bolt.text;
-    alert("cat");
-    
+    //alert("cat");
+
     //var copySupported = document.queryCommandSupported('copy');
     //alert(copySupported);
     //window.clipboardData.setData("Text", text);
