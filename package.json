@@ -1,6 +1,6 @@
 {
   "name": "EmailBolt",
-  "version": "1",
+  "version": "0.1.4",
   "main": "js/app.js",
   "dependencies": {
     "react": "^0.13.0",
