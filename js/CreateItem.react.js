@@ -62,7 +62,7 @@ var CreateItem = React.createClass({
     return (
       <div className="col-sm-12" onKeyDown={this.onKeyDown}>
       <input type="text" className="form-control col-sm-8" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Email" onChange={this.handleChangeEmail} required/>
-      <input value="Create!" type="submit" onClick={this.handleSubmit} className="col-sm-12 btn btn-primary" />
+      <input value="Create!" type="submit" onClick={this.handleSubmit} className="col-sm-12 col-xs-12 btn btn-primary" />
       </div>
     );
   },

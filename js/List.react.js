@@ -28,8 +28,8 @@ var List = React.createClass({
     // Render the text of each comment as a list item
     var counter = 0;
     return (
-      <div className="container">
-      <div className="row">
+      <div>
+      <div>
       <div className="col-sm-9">
         <div className="panel panel-primary">
           <div className="panel-heading">
@@ -45,8 +45,9 @@ var List = React.createClass({
           <table className="table table-hover" id="dev-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Address</th>
+                <th style={{border:"none"}}>#</th>
+                <th className="col-sm-12" style={{border:"none"}}>Address</th>
+                <th className="col-sm-12" style={{border:"none"}}></th>
               </tr>
             </thead>
             <tbody>

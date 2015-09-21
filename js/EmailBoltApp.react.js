@@ -41,15 +41,13 @@ var EmailBoltApp = React.createClass({
         
         //body = <BoltList className="col-sm-8" user={user} />;
         //body = <List />
-        body = <List className="col-sm-12"/>
+        body = <List className=""/>
 
         return (
-          <div>
-          <Header user={user} />
           <div className="col-sm-12">
-          <UserProfile className="col-sm-12" />
+          <Header user={user} />
+          <UserProfile className="" />
           {body}
-          </div>
           </div>
           );
         }
