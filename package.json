@@ -15,7 +15,7 @@
     "watchify": "^2.1.1"
   },
   "scripts": {
-    "start": "node js/app.js"
+    "start": "watchify -o js/bundle.js -v -d js/app.js"
   },
   "browserify": {
     "transform": [
