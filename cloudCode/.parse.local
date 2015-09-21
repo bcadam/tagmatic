@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "EmailBolt": {
+      "applicationId": "Jq3E7ktrtc4o7sEVp5zgAebVFUFhN6qjLt8phTYi"
+    },
+    "_default": {
+      "link": "EmailBolt"
+    }
+  }
+}
