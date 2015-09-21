@@ -4,7 +4,9 @@
   "dependencies": {
     "react": "^0.13.0",
     "parse": "^1.6.0",
-    "parse-react": "^0.5.0"
+    "parse-react": "^0.5.0",
+    "ejs": "^2.3.1",
+    "express": "~4.9.x"
   },
   "devDependencies": {
     "babelify": "^6.0.2",
@@ -18,5 +20,8 @@
     "transform": [
       "babelify"
     ]
+  },
+  "engines": {
+    "node": "0.12.2"
   }
 }
