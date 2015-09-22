@@ -10,13 +10,14 @@ var Header = React.createClass({
         };
       },
       logClick: function(){
-
-      	if (this.state.user != null)
-      	{
-      		Parse.User.logOut();
-      	}
+      	
+		Parse.User.logOut();
+		this.props.handleChange(null);
 
 
+      },
+      pushUser: function(event){
+        this.props.handleChange(event);
       },
       render: function() {
       	var user = this.state.user;

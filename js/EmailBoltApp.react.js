@@ -45,7 +45,7 @@ var EmailBoltApp = React.createClass({
 
         return (
           <div className="col-sm-12">
-          <Header user={user} />
+          <Header user={user} handleChange={this.handleChange} />
           <UserProfile className="" />
           {body}
           </div>
