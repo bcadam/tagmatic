@@ -40,12 +40,12 @@ var Header = React.createClass({
           <header className="header fixed clearfix navbar navbar-static-top">
 			<div className="container">
 				<div className="row">
-					<div className="col-md-4">
+					<div className="col-md-4 col-sm-4 col-xs-4">
 
 						<div className="header-left clearfix">
 
 							<div className="logo smooth-scroll">
-								<a href="./index.html#banner"><img id="logo" src="images/logo.png" alt="EmailBolt"/></a>
+								<a className="hidden-sm hidden-xs" href="./index.html#banner"><img id="logo" src="images/logo.png" alt="EmailBolt"/></a>
 							</div>
 
 							<div className="site-name-and-slogan smooth-scroll">
@@ -56,7 +56,7 @@ var Header = React.createClass({
 						</div>
 
 					</div>
-					<div className="col-md-8">
+					<div className="col-sm-8 col-md-8">
 
 						<div className="header-right clearfix">
 
@@ -76,12 +76,12 @@ var Header = React.createClass({
 
 										<div className="collapse navbar-collapse scrollspy smooth-scroll" id="navbar-collapse-1">
 											<ul className="nav navbar-nav navbar-right">
-												<li className="active"><a href="./index.html#banner">Home</a></li>
+												<li><a href="./index.html#banner">Home</a></li>
 												<li><a href="./index.html#about">About</a></li>
 												<li><a href="./index.html#services">Services</a></li>
 												<li><a href="./index.html#faqs">FAQs</a></li>
 												<li><a href="./index.html#contact">Contact</a></li>
-												<li><a onClick={this.logClick} className={buttonClass} href="./profile.html">{button}</a></li>
+												<li><a onClick={this.logClick} className={buttonClass} href="#profile.html">{button}</a></li>
 											</ul>
 										</div>
 

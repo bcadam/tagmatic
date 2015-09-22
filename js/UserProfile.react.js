@@ -24,7 +24,7 @@ var UserProfile = React.createClass({
       	var email = user.get('email');
 
         return (
-        <div className="col-sm-3 well">
+        <div id="#profile" className="col-sm-3 well">
 				<div className="col-sm-12">Forwarding email: {email}</div>
         <div className="col-sm-12">Number of Bolts: {this.data.bolts.length}</div>
         </div>
