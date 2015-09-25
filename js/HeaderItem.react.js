@@ -1,10 +1,5 @@
 var React = require('react');
 
-// //<div className="options">
-//             <a onClick={this._startEdit}><i className="icon_edit" /></a>
-//             <a onClick={this._removeItem}><i className="icon_delete" /></a>
-//           </div>
-
 var HeaderItem = React.createClass({
 mixins: [React.addons.LinkedStateMixin],
 
@@ -83,3 +78,11 @@ mixins: [React.addons.LinkedStateMixin],
 });
 
 module.exports = HeaderItem;
+
+
+
+// //<div className="options">
+//             <a onClick={this._startEdit}><i className="icon_edit" /></a>
+//             <a onClick={this._removeItem}><i className="icon_delete" /></a>
+//           </div>
+

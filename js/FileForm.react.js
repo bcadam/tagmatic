@@ -89,7 +89,7 @@ var FileForm = React.createClass({
                       var positionHolder = formattingHeader[i];
                       //console.log(positionHolder);
 
-                      var entryHolder = [positionHolder,[],[true]];
+                      var entryHolder = [positionHolder,[],true];
                       builtHeader.push(entryHolder);
                   }
 

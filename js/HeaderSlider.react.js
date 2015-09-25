@@ -10,10 +10,8 @@ var HeaderSlider = React.createClass({
 
           render: function() {
                 var self = this;
-
-
                 var counter = -1;
-         
+      
 
                 return (
 
@@ -21,7 +19,13 @@ var HeaderSlider = React.createClass({
                       {this.state.header.value.map(function(c) {
                         counter = counter+1;
                         return (
-                          <HeaderBox key={c} editing={self.state.editing} header={self.props.header} data={self.state.data} counter={counter} />
+                          <HeaderBox 
+                            key={c} 
+                            editing={self.state.editing} 
+                            header={self.props.header} 
+                            data={self.state.data} 
+                            counter={counter} 
+                            />
                           );
                       })}
                       <div className="btn btn-success col-xs-12" onClick={this._doneAddingTags}>Done Adding Tags</div>
@@ -29,11 +33,12 @@ var HeaderSlider = React.createClass({
                 );
                   
           },
+
+          // Hides the add tag field to the header boxes
           _doneAddingTags: function()
           {
 
             var tempStage = this.state.stage.value;
-
             tempStage['headersUploaded'] = true;
 
             this.state.stage.requestChange(tempStage);
@@ -46,32 +51,10 @@ var HeaderSlider = React.createClass({
               return {
                 stage: this.props.stage,
                 header: this.props.header,
-                editing: true
+                editing: true,
+                data: this.props.data
                 };
-            },
-
-          componentDidMount: function() {
-            //console.log("I just mounted!");
-            //console.log(this.state.fileHeaders);
-          },
-
-          componentWillMount: function() {
-            //console.log("I'm about to mount guys!");
-          },
-
-          componentWillUnmount: function() {
-            //console.log("I'm about to Unmount guys!");
-          },
-
-          getDefaultProps: function() {
-            return {
-              //fileHeaders: ["Comment", "Article URL"]
-            };
-          },
-
-          componentWillReceiveProps: function(nextProps) {
-            //console.log("I'm about to receive some props");
-          }
+            }
         });
 
 module.exports = HeaderSlider;

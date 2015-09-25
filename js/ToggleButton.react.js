@@ -10,29 +10,32 @@ var ToggleButton = React.createClass({
 
           render: function() {
 
-                var activeHolder = this.state.active;
+                var publishState = this.props.publish;
+                var classHolder;
+                var colorHolder;
 
-                if (activeHolder){ activeHolder = "pull-right fa fa-square-o fa-2x"; }
-                else { activeHolder = "pull-right fa fa-check-square-o fa-2x"; }
-
+                if (publishState.value){ classHolder = "pull-right fa fa-check-square-o fa-2x"; colorHolder = "green"}
+                else { classHolder = "pull-right fa fa-square-o fa-2x"; colorHolder = "red"}
 
                 return (
 
-
-                    <i className={activeHolder} onClick={this._toggleActive} ></i>
-
+                    <i style={{color:colorHolder}} className={classHolder} onClick={this._toggleActive} ></i>
 
                 );
                   
           },
           _toggleActive: function(){
 
-            this.setState({ active : !this.state.active });
+            self = this;
+
+            console.log(this.props.publish);
+            
+            this.props.publish.requestChange(!self.state.publish.value);
 
           },
           getInitialState: function() {
               return {
-                active: this.props.active
+                publish: this.props.publish
                 };
             }
         });
