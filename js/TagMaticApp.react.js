@@ -18,7 +18,7 @@ Classes in step 2
 |   Header Slider                                       |
 |                                                       |
 |     |--------------------------------------------|    |
-|     | Header Box                                 |    |
+|     | Header Box                Published Button |    |
 |     |                                            |    |
 |     |  |-------------------------------------|   |    |
 |     |  |  Header Item                        |   |    |
@@ -44,6 +44,7 @@ var React = require('react/addons');
 var Login = require('./Login.react.js');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
+var TagMachine = require('./TagMachine.react.js');
 
 
 var TagMaticApp = React.createClass({
@@ -84,8 +85,17 @@ var TagMaticApp = React.createClass({
         //////////////
         //  This serves up the second view which is the tag option view
         //////////////
-        if (this.state.stage['fileUploaded'] == true) {
+        if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] == false) {
             body = <HeaderSlider 
+                  stage={this.linkState('stage')} 
+                  header={this.linkState('header')} />;
+        }
+
+        //////////////
+        //  This serves up the third view which is the tag option view
+        //////////////
+        if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] != false) {
+            body = <TagMachine 
                   data ={this.linkState('data')} 
                   stage={this.linkState('stage')} 
                   header={this.linkState('header')} />;

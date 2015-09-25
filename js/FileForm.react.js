@@ -76,6 +76,7 @@ var FileForm = React.createClass({
 
                 //write the parsed data object back to the app
                 self.props.data.requestChange(results);
+                console.log(results);
 
                 var formattingHeader = results['meta']['fields'];
                 var builtHeader = [];
@@ -137,7 +138,7 @@ var FileForm = React.createClass({
         var buttonStyle = {
             content: 'Select some files',
             display: 'inline-block',
-            background: '-webkit-linear-gradient(top, #f9f9f9, #e3e3e3)',
+            background: '',
             border: '1px solid #999',
             borderRadius: '3px',
             padding: '5px 8px',
@@ -151,7 +152,7 @@ var FileForm = React.createClass({
         }
 
         return (
-            <input type="file" style={buttonStyle} onChange={this.handleFile} />
+            <input className='btn btn-success col-xs-12' type="file" style={buttonStyle} onChange={this.handleFile} />
         );
     },
 });
