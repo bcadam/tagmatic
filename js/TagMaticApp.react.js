@@ -1,13 +1,7 @@
 var Parse = require('parse').Parse;
 var React = require('react/addons');
 
-
-
-var BoltList = require('./BoltList.react.js');
 var Login = require('./Login.react.js');
-var Header = require('./Header.react.js');
-var UserProfile = require('./UserProfile.react.js');
-var List = require('./List.react.js');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
 

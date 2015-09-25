@@ -4,11 +4,11 @@ var ParseReact = require('parse-react');
 var React = require('react/addons');
 var ParseComponent = ParseReact.Component(React);
 
-var TodoItem = require('./TodoItem.react.js');
-var TodoCreator = require('./TodoCreator.react.js');
-
 var HeaderItem = require('./HeaderItem.react.js');
 var HeaderCreator = require('./TodoCreator.react.js');
+
+var ToggleButton = require('./ToggleButton.react.js');
+
 
 // Top-Level component that binds to Parse using the ParseReact Mixin.
 // This should help demonstrate the "It's Just That Easy" potential here.
@@ -40,21 +40,8 @@ var HeaderBox = React.createClass({
 
     self = this;
     
-    //console.log(this.props.header.value[this.props.counter]);
-
     var holderHeader = self.props.header.value[self.props.counter][0];
-    //console.log("holder header " + holderHeader);
     var holderTags = self.props.header.value[self.props.counter][1];
-    //console.log("holder tags " + holderTags);
-
-    //console.log(holderHeader);
-
-
-
-    //console.log("data in headerbox");
-    //console.log(self.state.data.value['meta']['fields']);
-    
-    //console.log(self.props.header.value[self.props.counter][1]);
 
     // return (
     //   <div className={this.pendingQueries().length ? 'todo_list loading' : 'todo_list'}>
@@ -76,22 +63,18 @@ var HeaderBox = React.createClass({
     {
     appropriateAction = <HeaderCreator submit={this._createItem} />;
     }
-    // else
-    // {
-    //   appropriateAction = <div>button</div>;
-    // }
  
     return (
       <div className='todo_list xs-col-12'>
       <div className="row">
-      <div className="pull-left">{holderHeader}</div>
-      <div className="pull-right">{holderHeader} Right</div>
+        <div className="col-xs-6">{holderHeader}</div>
+        <div className="col-xs-6"><ToggleButton active={true} /></div>
       </div>
         {holderTags.map(function(i) {
           // Loop over the objects returned by the items query, rendering them
           // with TodoItem components.
           return (
-            <HeaderItem item={i} className="xs-col-12" />
+            <HeaderItem key={i} item={i} className="xs-col-12" />
           );
         }, this)}
         {appropriateAction}
@@ -115,23 +98,14 @@ var HeaderBox = React.createClass({
     // }).dispatch();
     
     var holderHeader = this.state.header.value[this.props.counter][0];
-    //console.log("The holder header is: " + holderHeader);
-
     var existingTags = this.state.header.value[this.props.counter][1];
-    //console.log(existingTags);
 
     existingTags.push(text);
-    //console.log(existingTags);
-
     var fullHeaderWithTags = [holderHeader,existingTags];
-    //console.log(fullHeaderWithTags);
-    //console.log(above);
-
     var tempFullHeader = this.state.header.value;
     tempFullHeader[this.props.counter] = fullHeaderWithTags;
 
     this.props.header.requestChange(tempFullHeader);  
-    // this.setState({value: !this.state.value});
   },
 
   // A Set mutation takes an Id object and a set of attribute changes

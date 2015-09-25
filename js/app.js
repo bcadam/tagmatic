@@ -26,8 +26,6 @@ var Parse = require('parse');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
 var DefaultClass = require('./DefaultClass.react.js');
-var TodoItem = require('./TodoItem.react.js');
-var TodoList = require('./TodoList.react.js');
 var HeaderBox = require('./HeaderBox.react.js');
 
 

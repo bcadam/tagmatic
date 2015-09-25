@@ -10,39 +10,22 @@ var HeaderSlider = React.createClass({
 
           render: function() {
                 var self = this;
-                
-                //console.log("firing render in headerslider");
-                //console.log(this.props.header);
 
-                // this is a debug to test the headers in the data object
-                //console.log(self.state.data.value['meta']['fields']);
 
                 var counter = -1;
-                // <HeaderBox header={c} data={self.state.data} count={counter} />
+         
 
-                //console.log(self.props.header);
-
-                //console.log("sliderLoaded");
-                //console.log(self.props.header);
                 return (
 
-
                   <div>
-
-
-                  {this.state.header.value.map(function(c) {
-                    counter = counter+1;
-                    return (
-                      <HeaderBox editing={self.state.editing} header={self.props.header} data={self.state.data} counter={counter} />
-                      );
-                  })}
-
-
-                  <div className="btn btn-success col-xs-12" onClick={this._doneAddingTags}>Done Adding Tags</div>
-
+                      {this.state.header.value.map(function(c) {
+                        counter = counter+1;
+                        return (
+                          <HeaderBox key={c} editing={self.state.editing} header={self.props.header} data={self.state.data} counter={counter} />
+                          );
+                      })}
+                      <div className="btn btn-success col-xs-12" onClick={this._doneAddingTags}>Done Adding Tags</div>
                   </div>
-
-
                 );
                   
           },
@@ -53,17 +36,9 @@ var HeaderSlider = React.createClass({
 
             tempStage['headersUploaded'] = true;
 
-            //console.log(tempStage);
-
-
             this.state.stage.requestChange(tempStage);
             this.setState({editing: !this.state.editing });
-            //console.log(this.state.editing);
-
-
-            //this.editing
-
-            //console.log(this.state.stage);
+         
           },
 
 
