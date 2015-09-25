@@ -11,7 +11,17 @@ var HeaderSlider = React.createClass({
           render: function() {
                 var self = this;
                 var counter = -1;
-      
+                
+                if (self.state.stage.value['headersUploaded'] == false)
+                {
+                  var wording = "Done adding tags";
+                  var doneEditingButtonColor = "btn btn-success col-xs-12";
+                }
+                else
+                {
+                  var wording = "Add more tags";
+                  var doneEditingButtonColor = "btn btn-info col-xs-12";
+                }
 
                 return (
 
@@ -28,7 +38,7 @@ var HeaderSlider = React.createClass({
                             />
                           );
                       })}
-                      <div className="btn btn-success col-xs-12" onClick={this._doneAddingTags}>Done Adding Tags</div>
+                      <div className={doneEditingButtonColor} onClick={this._doneAddingTags}>{wording}</div>
                   </div>
                 );
                   
