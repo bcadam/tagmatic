@@ -21,33 +21,45 @@
  */
 
 var React = require('react');
-var Parse = require('parse');
 
-var FileForm = require('./FileForm.react.js');
-var HeaderSlider = require('./HeaderSlider.react.js');
-var DefaultClass = require('./DefaultClass.react.js');
-var TodoItem = require('./TodoItem.react.js');
-var TodoList = require('./TodoList.react.js');
-var HeaderBox = require('./HeaderBox.react.js');
+var TodoCreator = React.createClass({
+  getInitialState: function() {
+    return ({
+      value: ''
+    });
+  },
 
+  render: function() {
+    return (
+      <div className="todo_creator">
+        <input
+          value={this.state.value}
+          onChange={this._onChange}
+          onKeyDown={this._onKeyDown}
+        />
+        <a onClick={this._submit} className="todo_submit">Add</a>
+      </div>
+    );
+  },
 
-// Insert your app's keys here:
-Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+  _onChange: function(e) {
+    this.setState({
+      value: e.target.value
+    });
+  },
 
+  _onKeyDown: function(e) {
+    if (e.keyCode === 13) {
+      this._submit();
+    }
+  },
 
-// Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
-//   success: function(ratings) {
-//     // ratings should be 4.5
-//     console.log(ratings);
-//   },
-//   error: function(error) {
-//   }
-// });
+  _submit: function() {
+    this.props.submit(this.state.value);
+    this.setState({
+      value: ''
+    });
+  }
+});
 
-
-var TagMaticApp = require('./TagMaticApp.react.js');
-
-React.render(
-  <TagMaticApp />,
-  document.getElementById('app')
-);
+module.exports = TodoCreator;

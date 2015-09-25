@@ -1,3 +1,11 @@
+// Parse.Cloud.beforeSave("BoltItem", function(request, response) {
+
+//   	console.log("done");
+//   	response.success;
+
+// });
+
+
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
