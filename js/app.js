@@ -24,6 +24,6 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 var TagMaticApp = require('./TagMaticApp.react.js');
 
 React.render(
-  <TagMaticApp />,
-  document.getElementById('app')
+    <TagMaticApp />,
+    document.getElementById('app')
 );
