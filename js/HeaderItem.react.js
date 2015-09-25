@@ -13,17 +13,17 @@ var HeaderItem = React.createClass({
     render: function() {
         if (this.state.editing) {
             return (
-                <div className="todo_item editing">
-          <input
-            ref="edit_input"
-            onChange={this._onChange}
-            onKeyDown={this._onKeyDown}
-            value={this.state.editText}
-          />
-          <a className="save" onClick={this._stopEdit}>
-            <i className="icon_submit" />
-          </a>
-        </div>
+              <div className="todo_item editing">
+                <input
+                  ref="edit_input"
+                  onChange={this._onChange}
+                  onKeyDown={this._onKeyDown}
+                  value={this.state.editText}
+                />
+                <a className="save" onClick={this._stopEdit}>
+                  <i className="icon_submit" />
+                </a>
+              </div>
             );
         }
         return (

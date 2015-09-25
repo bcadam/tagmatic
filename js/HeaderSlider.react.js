@@ -3,8 +3,9 @@ var React = require('react/addons');
 var HeaderBox = require('./HeaderBox.react.js');
 
 
-/** HeaderSlider is a class that displays the headers from a parsed file.
+/** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
+
 var HeaderSlider = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
@@ -41,7 +42,7 @@ var HeaderSlider = React.createClass({
 
     },
 
-    // Hides the add tag field to the header boxes
+    // Hides the add tag creator field on the HeaderBoxes
     _doneAddingTags: function() {
 
         var tempStage = this.state.stage.value;
@@ -51,7 +52,6 @@ var HeaderSlider = React.createClass({
         this.setState({
             editing: !this.state.editing
         });
-
     },
 
 

@@ -5,17 +5,20 @@ var React = require('react/addons');
 var HeaderItem = require('./HeaderItem.react.js');
 var HeaderCreator = require('./TodoCreator.react.js');
 
-// var ToggleButton = require('./ToggleButton.react.js');
 
+/** The HeaderBox represents a column from a csv. It is used to add potential tags
+    to a column. It can be shown or hidden by the user. */
 
 //http://facebook.github.io/react/docs/component-specs.html#mounting-componentwillmount
 var HeaderBox = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
-
+    //////////////
+    //  In addition to the passed props this class used a published state to hide the added
+    //    tags and toggle the switch.
+    //////////////
     getInitialState: function() {
         return {
-            value: true,
             publish: this.props.header.value[this.props.counter][2]
         };
     },
@@ -25,12 +28,15 @@ var HeaderBox = React.createClass({
         self = this;
         var holderHeader = self.props.header.value[self.props.counter][0];
         var holderTags = self.props.header.value[self.props.counter][1];
-        var publishHolder = this.state.publish;
+        var publishHolder = self.state.publish;
 
+        //This inserts the HeaderCreator if appropriate
         var appropriateAction;
-        if (this.props.editing) {
-            appropriateAction = <HeaderCreator submit={this._createItem} className="xs-col-12" />;
+        if (self.props.editing) {
+            appropriateAction = <HeaderCreator submit={self._createItem} className="xs-col-12" />;
         }
+
+        // Class and wording for toggle editing buttons
         if (publishHolder) {
             var checkColor = "green";
             var checkClass = "pull-right fa fa-check-square-o fa-2x";
@@ -39,34 +45,31 @@ var HeaderBox = React.createClass({
             var checkClass = "pull-right fa fa-square-o fa-2x";
         }
 
-        var hidePublishToggle = ((self.state.publish) ? "" : "hidden");
+        var hidePublishToggle = ((publishHolder) ? "" : "hidden");
 
         return (
-            <div className='todo_list xs-col-12'>
-      <div className="row">
-        <div className="col-xs-6">{holderHeader}</div>
-        <div className="col-xs-6"><i onClick={this._togglePublish} style={{color:checkColor}} className={checkClass}></i></div>
-      </div>
-      
-
+          <div className='todo_list xs-col-12'>
+            <div className="row">
+              <div className="col-xs-6">{holderHeader}</div>
+              <div className="col-xs-6"><i onClick={this._togglePublish} style={{color:checkColor}} className={checkClass}></i></div>
+            </div>
      
-      <div className={hidePublishToggle} >
-        {holderTags.map(function(i) {
-          // Loop over the objects returned by the items query, rendering them
-          // with TodoItem components.
-          return (
-            <HeaderItem 
-              key={i} 
-              item={i} 
-              className="xs-col-12" 
-              />
-          );
-        }, this)}
-        {appropriateAction}
-      </div>
+            <div className={hidePublishToggle} >
+              {holderTags.map(function(i) {
+                // Loop over the objects returned by the items query, rendering them
+                // with TodoItem components.
+                return (
+                  <HeaderItem 
+                    key={i} 
+                    item={i} 
+                    className="xs-col-12" 
+                    />
+                );
+              }, this)}
+              {appropriateAction}
+            </div>
 
-
-      </div>
+          </div>
         );
 
 

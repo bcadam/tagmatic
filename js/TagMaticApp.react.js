@@ -49,26 +49,31 @@ var HeaderSlider = require('./HeaderSlider.react.js');
 var TagMaticApp = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
+
+    /** State   Variables
+        User:   Not currently used anywhere.
+        Stage:
+                fileUploaded: used to progress user from the file input view to the adding tags options view.
+                headersUploaded: used to progress user from adding tags options view to tweet tagging view.
+
+    **/
     getInitialState: function() {
         return ({
             user: Parse.User.current(),
             stage: {
                 fileUploaded: false,
-                headersUploaded: false,
-                processing: false
+                headersUploaded: false
             },
             data: null,
             header: {}
         });
     },
-    handleChange: function(event) {
-        this.setState({
-            user: event
-        });
-    },
     render: function() {
         var body;
 
+        //////////////
+        //  This serves up the first view which is a file upload form
+        //////////////
         if (this.state.stage['fileUploaded'] == false) {
             body = <FileForm 
                   data={this.linkState('data')} 
@@ -76,26 +81,21 @@ var TagMaticApp = React.createClass({
                   header={this.linkState('header')} />;
         }
 
-        //if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] == false)
-
+        //////////////
+        //  This serves up the second view which is the tag option view
+        //////////////
         if (this.state.stage['fileUploaded'] == true) {
             body = <HeaderSlider 
                   data ={this.linkState('data')} 
                   stage={this.linkState('stage')} 
                   header={this.linkState('header')} />;
         }
-        // if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] == true)
-        // {
-        //   body = <div>We did it</div>;
-        // }
 
         return (
             <div className="col-sm-12">
-          {body}
+            {body}
           </div>
         );
-
-
 
     }
 
