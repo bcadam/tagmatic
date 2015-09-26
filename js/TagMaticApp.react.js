@@ -54,9 +54,10 @@ var TagMaticApp = React.createClass({
     /** State   Variables
         User:   Not currently used anywhere.
         Stage:
-                fileUploaded: used to progress user from the file input view to the adding tags options view.
-                headersUploaded: used to progress user from adding tags options view to tweet tagging view.
-
+                fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
+                headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
+        Header: Array of (test,array,test)
+                "Name of Header", array of all tags, true/false for published
     **/
     getInitialState: function() {
         return ({
@@ -64,13 +65,15 @@ var TagMaticApp = React.createClass({
             stage: {
                 fileUploaded: false,
                 headersUploaded: false
-            },
+                },
             data: null,
             header: {}
         });
     },
     render: function() {
         var body;
+
+        var self = this;
 
         //////////////
         //  This serves up the first view which is a file upload form
@@ -96,6 +99,7 @@ var TagMaticApp = React.createClass({
         //////////////
         if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] != false) {
             body = <TagMachine 
+                  onKeyDown={self._advancePosition}
                   data ={this.linkState('data')} 
                   stage={this.linkState('stage')} 
                   header={this.linkState('header')} />;
@@ -107,6 +111,9 @@ var TagMaticApp = React.createClass({
           </div>
         );
 
+    },
+    _advancePosition: function(){
+      alert("cat");
     }
 
 });

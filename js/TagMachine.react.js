@@ -10,58 +10,35 @@ var TagMachine = React.createClass({
 
     render: function() {
         var self = this;
-        var counter = -1;
 
-        if (self.state.stage.value['headersUploaded'] == false) {
-            var wording = "Done adding tags";
-            var doneEditingButtonColor = "btn btn-success col-xs-12";
-        } else {
-            var wording = "Add more tags";
-            var doneEditingButtonColor = "btn btn-info col-xs-12";
-        }
+        console.log(this.state.data.value.data);
 
         return (
 
-            <div>
-                      {this.state.header.value.map(function(c) {
-                        counter = counter+1;
-                        return (
-                          <div 
-                            key={c} 
-                            editing={self.state.editing} 
-                            header={self.props.header} 
-                            data={self.state.data} 
-                            counter={counter} 
-                            />
-                          );
-                      })}
-                      <div className={doneEditingButtonColor} onClick={this._doneAddingTags}>{wording}</div>
-                  </div>
+            <div onKeyDown={self._advancePosition} >{self.state.data.value.data[self.state.positionInData]}</div>
         );
 
     },
-
-    // Hides the add tag creator field on the HeaderBoxes
-    _doneAddingTags: function() {
-
-        var tempStage = this.state.stage.value;
-        tempStage['headersUploaded'] = true;
-
-        this.state.stage.requestChange(tempStage);
-        this.setState({
-            editing: !this.state.editing
-        });
+    _advancePosition: function(e) {
+        if (e.keyCode === 13) {
+            alert("done");
+        }
+        alert(e.keyCode);
     },
-
-
     getInitialState: function() {
         return {
-            stage: this.props.stage,
-            header: this.props.header,
-            editing: true,
+            positionInData: 0,
             data: this.props.data
         };
     }
 });
 
 module.exports = TagMachine;
+
+
+//{self.state.data.value.data.map(function(c) {
+                      //   counter = counter+1;
+                      //   return (
+                      //     <div>{c}</div>
+                      //     );
+                      // })}
