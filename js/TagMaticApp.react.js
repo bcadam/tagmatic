@@ -39,7 +39,8 @@ Step 3 <------ COMING SOON ---------->
 ---------------------------------------
 TagMachine takes two states, the data that was parsed and the header object. Using the header object
   it goes through each line of the data and presents the appropriate tags with for that point. The tags 
-  are bound to a key based on their order.
+  are bound to a key based on their order. When the key is pressed each tag is added to the appropriate
+  header in the data.
 
 **/
 
