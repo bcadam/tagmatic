@@ -194,7 +194,7 @@ var TagMachine = React.createClass({
                 self._enterTags(4);
                 break;
             case 53:
-                // #5 button
+                //  #5 button
                 self._enterTags(5);
                 break;
             default:
