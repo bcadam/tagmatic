@@ -14,17 +14,11 @@ var DataScroller = React.createClass({
         //console.log(holderOfTweetColumn);
         return (
             <div className="col-xs-12">
-            {self.state.data.value.data[self.state.positionInData.value][holderOfTweetColumn]}
+            {self.props.data.value.data[self.props.positionInData.value][holderOfTweetColumn]}
             </div>
 
         );
 
-    },
-    getInitialState: function() {
-        return {
-            positionInData: this.props.positionInData,
-            data: this.props.data,
-        };
     }
 });
 
