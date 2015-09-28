@@ -3,7 +3,7 @@ var ParseReact = require('parse-react');
 var React = require('react/addons');
 
 var HeaderItem = require('./HeaderItem.react.js');
-var HeaderCreator = require('./TodoCreator.react.js');
+var HeaderCreator = require('./HeaderCreator.react.js');
 
 
 /** The HeaderBox represents a column from a csv. It is used to add potential tags
@@ -19,7 +19,8 @@ var HeaderBox = React.createClass({
     //////////////
     getInitialState: function() {
         return {
-            publish: this.props.header.value[this.props.counter][2]
+            publish: this.props.header.value[this.props.counter][2],
+            stage: this.props.stage
         };
     },
 
@@ -51,7 +52,7 @@ var HeaderBox = React.createClass({
           <div className='todo_list xs-col-12'>
             <div className="row">
               <div className="col-xs-6">{holderHeader}</div>
-              <div className="col-xs-6"><i onClick={this._togglePublish} style={{color:checkColor}} className={checkClass}></i></div>
+              <div className="col-xs-6"><i className="fa fa-twitter" onClick={this._markTweet}></i><i onClick={this._togglePublish} style={{color:checkColor}} className={checkClass}></i></div>
             </div>
      
             <div className={hidePublishToggle} >
@@ -73,6 +74,35 @@ var HeaderBox = React.createClass({
         );
 
 
+    },
+    _markTweet: function(){
+        //alert("test");
+        //console.log(this.state.stage.value);
+        var self = this;
+        var holderStage = self.state.stage.value;
+        holderStage.tweet = self.props.header.value[self.props.counter][0];
+        holderStage.tweetCounter = self.props.counter;
+        self.state.stage.requestChange(holderStage);
+
+
+        var newPublishState = !this.state.publish;
+        this.setState({
+            "publish": newPublishState
+        });
+
+
+        var holderHeader = this.props.header.value[this.props.counter][0];
+        var existingTags = this.props.header.value[this.props.counter][1];
+
+        var fullHeaderWithTags = [holderHeader, existingTags, newPublishState];
+        var tempFullHeader = this.props.header.value;
+        tempFullHeader[this.props.counter] = fullHeaderWithTags;
+
+        this.props.header.requestChange(tempFullHeader);
+
+
+        
+        console.log(self.state.stage.value);
     },
     _togglePublish: function() {
         // console.log("the publish var is currently: ");

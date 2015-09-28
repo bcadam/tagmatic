@@ -32,7 +32,8 @@ var HeaderSlider = React.createClass({
                             editing={self.state.editing} 
                             header={self.props.header} 
                             data={self.state.data} 
-                            counter={counter} 
+                            counter={counter}
+                            stage={self.state.stage} 
                             />
                           );
                       })}

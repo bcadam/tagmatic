@@ -51,6 +51,7 @@ var Login = require('./Login.react.js');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
 var TagMachine = require('./TagMachine.react.js');
+var HeaderTagBox = require('./HeaderTagBox.react.js');
 
 
 var TagMaticApp = React.createClass({
@@ -77,8 +78,7 @@ var TagMaticApp = React.createClass({
         });
     },
     render: function() {
-        var body;
-
+        var body; // holds the content to be passed back based on the stage variable
         var self = this;
 
         //////////////
@@ -105,10 +105,10 @@ var TagMaticApp = React.createClass({
         //////////////
         if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] != false) {
             body = <TagMachine 
-                  onKeyDown={self._advancePosition}
                   data ={this.linkState('data')} 
                   stage={this.linkState('stage')} 
-                  header={this.linkState('header')} />;
+                  header={this.linkState('header')} 
+                  positionInData='0' />;
         }
 
         return (
@@ -117,9 +117,6 @@ var TagMaticApp = React.createClass({
           </div>
         );
 
-    },
-    _advancePosition: function(){
-      alert("cat");
     }
 
 });

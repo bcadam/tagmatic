@@ -76,7 +76,17 @@ var FileForm = React.createClass({
 
                 //write the parsed data object back to the app
                 self.props.data.requestChange(results);
-                console.log(results);
+                
+
+                /////////////////////////////////////
+                /////////////////////////////////////
+                /////////////////////////////////////
+                /////////////////////////////////////
+                /////////////////////////////////////
+                /////////////////////////////////////
+                /////////////////////////////////////
+                // LOG RESULTS FOR DEBUGGING
+                //console.log(results);
 
                 var formattingHeader = results['meta']['fields'];
                 var builtHeader = [];
