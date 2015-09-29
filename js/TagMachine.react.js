@@ -20,12 +20,14 @@ var TagMachine = React.createClass({
         //console.log(self.state.header.value);
         //console.log(this.state.publishHeaders);
 
+        var holderOfTweetColumn = self.props.stage.value.tweet;
+        var tweet = self.props.data.value.data[self.state.positionInData][holderOfTweetColumn];
+
         return (
             <div>
-            <DataScroller stage={self.props.stage} key={self.state.positionInData} positionInData={self.linkState('positionInData')} data={self.state.data} />
+            <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
             <div>{publishHeaders[self.state.positionInHeader][0]}</div> 
             {
-
                 publishHeaders[self.state.positionInHeader][1].map(function(c) {
                 counter = counter+1;
                 return (
@@ -33,7 +35,6 @@ var TagMachine = React.createClass({
                   );
                 })
             }
-                  
             <div className="btn btn-success" onClick={this._advanceHeader}>Advance</div>
             <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
             </div>
@@ -58,9 +59,6 @@ var TagMachine = React.createClass({
         this.setState({
             publishHeaders: tempArray
         });
-
-    },
-    componentWillReceiveProps: function(nextProps) {
 
     },
     componentWillUnmount: function() {
@@ -126,7 +124,7 @@ var TagMachine = React.createClass({
     },
     _advanceData: function() {
         var self = this;
-        console.log(self.state.data.value.data.length);
+        //console.log(self.state.data.value.data.length);
         var targetLength = self.state.data.value.data.length - 1;
         if (self.state.positionInData < self.state.data.value.data.length) {
             self.setState({

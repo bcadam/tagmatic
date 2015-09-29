@@ -99,10 +99,8 @@ var HeaderBox = React.createClass({
         tempFullHeader[this.props.counter] = fullHeaderWithTags;
 
         this.props.header.requestChange(tempFullHeader);
-
-
-        
-        console.log(self.state.stage.value);
+     
+        //console.log(self.state.stage.value);
     },
     _togglePublish: function() {
         // console.log("the publish var is currently: ");
