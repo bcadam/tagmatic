@@ -89,15 +89,24 @@ var DataScroller = React.createClass({
             }
 
             // matching for pefect match to junk/filler words
+            // these are the most common words in the english language with the addition of RT 
             switch (arrayOfTweet[i].toLowerCase()) {
                 case 'rt':
-                case 'by':
-                case 'a':
                 case 'the':
+                case 'be':
+                case 'to':
                 case 'of':
-                case 'for':
+                case 'and':
+                case 'a':
                 case 'in':
+                case 'that':
+                case 'have':
+                case 'I':
                 case 'it':
+                case 'for':
+                case 'not':
+                case 'with':
+                case 'he':                
                     arrayOfTweet[i] = "<div style='color:" + colorOfIgnoredText + ";display:inline;font-size:" + sizeOfIgnoredText + ";'>" + arrayOfTweet[i] + "</div>";
                     break;
                 default:
