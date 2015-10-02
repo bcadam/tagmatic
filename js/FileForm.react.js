@@ -76,6 +76,7 @@ var FileForm = React.createClass({
 
                 //write the parsed data object back to the app
                 self.props.data.requestChange(results);
+<<<<<<< HEAD
                 
 
                 /////////////////////////////////////
@@ -87,6 +88,8 @@ var FileForm = React.createClass({
                 /////////////////////////////////////
                 // LOG RESULTS FOR DEBUGGING
                 //console.log(results);
+=======
+>>>>>>> jerry initial
 
                 var formattingHeader = results['meta']['fields'];
                 var builtHeader = [];
@@ -113,10 +116,13 @@ var FileForm = React.createClass({
                 // console.log(builtHeader);
                 //debug(builtHeader);
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> jerry initial
                 self.props.header.requestChange(builtHeader);
 
                 //create a temporary stage object which will be used to change the field we want
@@ -127,6 +133,10 @@ var FileForm = React.createClass({
                 // console.log(stage);
                 self.props.stage.requestChange(stage);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> jerry initial
             },
             error: undefined,
             download: false,
@@ -143,6 +153,7 @@ var FileForm = React.createClass({
 
     },
     render: function() {
+<<<<<<< HEAD
 
         // styling of file field to be customized based on Jerry's design
         var buttonStyle = {
@@ -164,6 +175,39 @@ var FileForm = React.createClass({
         return (
             <input className='btn btn-success col-xs-12' type="file" style={buttonStyle} onChange={this.handleFile} />
         );
+=======
+        // styling of file field to be customized based on Jerry's design
+        var fileFormContainer = {
+            textAlign: 'center',
+            width: '100%'
+        }
+        var buttonUpload = {
+            backgroundColor: 'white',
+            border: '3px solid #ff763d',
+            borderRadius: '20px',
+            color: '#ff763d',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            marginTop: '60px',
+            paddingTop: '15px',
+            paddingBottom: '15px',
+            textAlign: 'center',
+            width: '140px',
+        }
+
+        if (this.props.stage.value['fileUploaded'] == true) {
+            return (<div></div>);
+        } else {
+            return (
+                <div style={fileFormContainer}>
+                    <label className="w-button" style={buttonUpload} htmlFor="fileupload">UPLOAD</label>
+                    <input className="hidden" type="file" onChange={this.handleFile} id="fileupload"/>
+                </div>
+            );
+        };
+>>>>>>> jerry initial
     },
 });
 

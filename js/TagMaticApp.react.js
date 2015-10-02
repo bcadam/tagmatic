@@ -47,6 +47,7 @@ TagMachine takes two states, the data that was parsed and the header object. Usi
 var Parse = require('parse').Parse;
 var React = require('react/addons');
 
+<<<<<<< HEAD
 var Login = require('./Login.react.js');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
@@ -123,3 +124,94 @@ var TagMaticApp = React.createClass({
 
 
 module.exports = TagMaticApp;
+=======
+var FileForm = require('./FileForm.react.js');
+var HeaderSlider = require('./HeaderSlider.react.js');
+var TagMachine = require('./TagMachine.react.js');
+var StatusUpdates = require('./StatusUpdates.react.js');
+
+var TagMaticApp = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+  /** State   Variables
+      User:   Not currently used anywhere.
+      Stage:
+              fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
+              headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
+      Header: Array of (test,array,test)
+              "Name of Header", array of all tags, true/false for published
+  **/
+  getInitialState: function() {
+    return ({
+      user: Parse.User.current(),
+      stage: {
+        fileUploaded: false,
+        headersUploaded: false
+        },
+      data: null,
+      header: {}
+    });
+  },
+  render: function() {
+    var self = this;
+    var appMain = {
+      position: 'fixed',
+      left: '0px',
+      top: '0px',
+      right: '0px',
+      bottom: '200px',
+      textAlign: 'center'
+    }
+    var appTags = {
+      position: 'absolute',
+      left: '0px',
+      right: '0px',
+      bottom: '0px',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+      height: '200px',
+      borderTop: '3px solid #ff763d',
+      backgroundColor: 'whitesmoke'
+    }
+    //////////////
+    //  This serves up the second view which is the tag option view
+    //////////////
+    if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] != false) {
+      return (
+        <TagMachine 
+          onKeyDown={self._advancePosition}
+          data ={this.linkState('data')} 
+          stage={this.linkState('stage')} 
+          header={this.linkState('header')}
+        />
+      );
+    } else {
+      return (
+        <div>
+          <div style={appMain}>
+            <StatusUpdates 
+              data={this.linkState('data')} 
+              stage={this.linkState('stage')} 
+              header={this.linkState('header')}
+            />
+          </div>
+          <div style={appTags}>
+            <FileForm 
+              data={this.linkState('data')} 
+              stage={this.linkState('stage')} 
+              header={this.linkState('header')}
+            />
+            <HeaderSlider 
+              stage={this.linkState('stage')} 
+              header={this.linkState('header')}
+            />
+          </div>
+        </div>
+      );
+    }
+  },
+  _advancePosition: function(){
+    alert("cat");
+  }
+});
+module.exports = TagMaticApp;
+>>>>>>> jerry initial

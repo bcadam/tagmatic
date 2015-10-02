@@ -1,8 +1,11 @@
 var Parse = require('parse').Parse;
 var React = require('react/addons');
 
+<<<<<<< HEAD
 var HeaderTagBox = require('./HeaderTagBox.react.js');
 var DataScroller = require('./DataScroller.react.js');
+=======
+>>>>>>> jerry initial
 
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
@@ -12,6 +15,7 @@ var TagMachine = React.createClass({
 
     render: function() {
         var self = this;
+<<<<<<< HEAD
         var counter = 0;
         var publishHeaders = self.state.publishHeaders;
         //console.log(this.state.data.value.data);
@@ -244,15 +248,35 @@ var TagMachine = React.createClass({
         this.state.data.requestChange(originalData);
 
         //console.log(this.state.data.value);
+=======
+
+        console.log(this.state.data.value.data);
+
+        return (
+
+            <div onKeyDown={self._advancePosition} >{self.state.data.value.data[self.state.positionInData]}</div>
+        );
+
+    },
+    _advancePosition: function(e) {
+        if (e.keyCode === 13) {
+            alert("done");
+        }
+        alert(e.keyCode);
+>>>>>>> jerry initial
     },
     getInitialState: function() {
         return {
             positionInData: 0,
+<<<<<<< HEAD
             positionInHeader: 0,
             data: this.props.data,
             header: this.props.header,
             switcher: true,
             publishHeaders: []
+=======
+            data: this.props.data
+>>>>>>> jerry initial
         };
     }
 });
@@ -261,8 +285,16 @@ module.exports = TagMachine;
 
 
 //{self.state.data.value.data.map(function(c) {
+<<<<<<< HEAD
 //   counter = counter+1;
 //   return (
 //     <div>{c}</div>
 //     );
 // })}
+=======
+                      //   counter = counter+1;
+                      //   return (
+                      //     <div>{c}</div>
+                      //     );
+                      // })}
+>>>>>>> jerry initial
