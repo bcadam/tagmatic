@@ -76,20 +76,6 @@ var FileForm = React.createClass({
 
                 //write the parsed data object back to the app
                 self.props.data.requestChange(results);
-<<<<<<< HEAD
-                
-
-                /////////////////////////////////////
-                /////////////////////////////////////
-                /////////////////////////////////////
-                /////////////////////////////////////
-                /////////////////////////////////////
-                /////////////////////////////////////
-                /////////////////////////////////////
-                // LOG RESULTS FOR DEBUGGING
-                //console.log(results);
-=======
->>>>>>> jerry initial
 
                 var formattingHeader = results['meta']['fields'];
                 var builtHeader = [];
@@ -116,13 +102,7 @@ var FileForm = React.createClass({
                 // console.log(builtHeader);
                 //debug(builtHeader);
 
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> jerry initial
                 self.props.header.requestChange(builtHeader);
 
                 //create a temporary stage object which will be used to change the field we want
@@ -133,10 +113,7 @@ var FileForm = React.createClass({
                 // console.log(stage);
                 self.props.stage.requestChange(stage);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> jerry initial
             },
             error: undefined,
             download: false,
@@ -153,29 +130,6 @@ var FileForm = React.createClass({
 
     },
     render: function() {
-<<<<<<< HEAD
-
-        // styling of file field to be customized based on Jerry's design
-        var buttonStyle = {
-            content: 'Select some files',
-            display: 'inline-block',
-            background: '',
-            border: '1px solid #999',
-            borderRadius: '3px',
-            padding: '5px 8px',
-            outline: 'none',
-            whiteSpace: 'nowrap',
-            WebkitUserSelect: 'none',
-            cursor: 'pointer',
-            textShadow: '1px 1px #fff',
-            fontWeight: '700',
-            fontSize: '10pt'
-        }
-
-        return (
-            <input className='btn btn-success col-xs-12' type="file" style={buttonStyle} onChange={this.handleFile} />
-        );
-=======
         // styling of file field to be customized based on Jerry's design
         var fileFormContainer = {
             textAlign: 'center',
@@ -207,7 +161,6 @@ var FileForm = React.createClass({
                 </div>
             );
         };
->>>>>>> jerry initial
     },
 });
 

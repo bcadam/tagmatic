@@ -16,10 +16,9 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 
 
 var TagMaticApp = require('./TagMaticApp.react.js');
-<<<<<<< HEAD
+
 var DataScroller = require('./DataScroller.react.js');
-=======
->>>>>>> jerry initial
+
 
 React.render(
     <TagMaticApp />,

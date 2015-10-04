@@ -21,8 +21,8 @@ var StatusUpdates = React.createClass({
     }
     var bgSelect = {
       marginTop: '0px',
-      width: '200px',
-      opacity: '0.75'
+      width: '410px',
+      opacity: '0.8'
     }
     var statusText = {
       color: '#e0e0e0',
