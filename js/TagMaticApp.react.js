@@ -47,9 +47,10 @@ TagMachine takes two states, the data that was parsed and the header object. Usi
 var Parse = require('parse').Parse;
 var React = require('react/addons');
 
+var NavBar = require('./NavBar.react.js');
 var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
-//var TagMachine = require('./TagMachine.react.js');
+var TagMachine = require('./TagMachine.react.js');
 var StatusUpdates = require('./StatusUpdates.react.js');
 
 var TagMaticApp = React.createClass({
@@ -97,19 +98,22 @@ var TagMaticApp = React.createClass({
     //////////////
     //  This serves up the second view which is the tag option view
     //////////////
-    if (this.state.stage['fileUploaded'] == true && this.state.stage['headersUploaded'] != false) {
+    if (this.state.stage['fileUploaded'] && this.state.stage['headersUploaded']) {
+      console.log(this.linkState('data')); //raw data
+      console.log(this.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
+      console.log(this.linkState('header')); //tracks header, tags, and header visibility
       return (
-        <div></div>
-        // <TagMachine 
-        //   onKeyDown={self._advancePosition}
-        //   data ={this.linkState('data')} 
-        //   stage={this.linkState('stage')} 
-        //   header={this.linkState('header')}
-        // />
+        <TagMachine 
+          onKeyDown={self._advancePosition}
+          data ={this.linkState('data')} 
+          stage={this.linkState('stage')} 
+          header={this.linkState('header')}
+        />
       );
     } else {
       return (
         <div>
+          <NavBar />
           <div style={appMain}>
             <StatusUpdates 
               data={this.linkState('data')} 
@@ -131,9 +135,6 @@ var TagMaticApp = React.createClass({
         </div>
       );
     }
-  },
-  _advancePosition: function(){
-    alert("cat");
   }
 });
 module.exports = TagMaticApp;

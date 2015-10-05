@@ -1,6 +1,7 @@
 var Parse = require('parse').Parse;
 var React = require('react/addons');
 var ParseReact = require('parse-react');
+var bayes = require('bayes');
 
 
 
@@ -27,12 +28,18 @@ var TagMachine = React.createClass({
         var holderOfTweetColumn = self.props.stage.value.tweet;
         var tweet = self.props.data.value.data[self.state.positionInData][holderOfTweetColumn];
 
-        //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
-        //the should update method
         return (
             <div>
             <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
-            <HeaderScroller key={self.state.positionInHeader - 100} tweet={tweet} positionInData={self.state.positionInData} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
+            <div>{publishHeaders[self.state.positionInHeader][0]}</div> 
+            {
+                publishHeaders[self.state.positionInHeader][1].map(function(c) {
+                counter = counter+1;
+                return (
+                  <div key={c} className="col-xs-12" counter={counter} key={c.id} bolt={c}>{c} Key : {counter}</div>
+                  );
+                })
+            }
             <div className="btn btn-success" onClick={this._advanceHeader}>Advance</div>
             <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
             </div>
@@ -44,6 +51,7 @@ var TagMachine = React.createClass({
         //console.log("mount");
 
         var self = this;
+        self._launchClassifiers();
 
     },
     componentWillMount: function() {
@@ -60,6 +68,51 @@ var TagMachine = React.createClass({
         self.setState({
             publishHeaders: tempArray
         });
+
+    },
+    _launchClassifiers: function() {
+        var self = this;
+        var arrayOfClassifiers = [];
+
+        //console.log(self.state.publishHeaders.length);
+        for (var i = 0; i < self.state.publishHeaders.length; i++) {
+
+            var classifier = bayes();
+            var nameOfHeader = self.state.publishHeaders[i][0];
+
+            //added a placeholder in case it's empty
+            if (self.state.publishHeaders[i][1]) {
+                var tagsInHeader = self.state.publishHeaders[i][1];
+            } else {
+                var tagsInHeader = [];
+            }
+
+            //uniqueFromHeader.nameOfHeader.tagsInHeader = classifier;
+            var uniqueFromHeader = nameOfHeader + tagsInHeader;
+
+            // console.log(nameOfHeader);
+            // console.log(tagsInHeader);
+
+            console.log(classifier.toJson());
+
+            arrayOfClassifiers[uniqueFromHeader] = {
+                tags: tagsInHeader,
+                classifier: classifier
+            };
+            //console.log(tagsInHeader);
+            //console.log([nameOfHeader] + [tagsInHeader]);
+            //arrayOfClassifiers[nameOfHeader][tagsInHeader] = classifier;
+
+            ParseReact.Mutation.Create('Classifier', {
+                nameOfHeader: nameOfHeader,
+                tagsInHeader: tagsInHeader,
+                classifier: classifier
+            }).dispatch();
+
+        };
+        //console.log(arrayOfClassifiers);
+        //var tempName = arrayOfClassifiers.indexOf('No.');
+        console.log(arrayOfClassifiers);
 
     },
     componentWillUnmount: function() {
@@ -178,23 +231,23 @@ var TagMachine = React.createClass({
                 break;
             case 49:
                 // #1 button
-                //self._enterTags(1);
+                self._enterTags(1);
                 break;
             case 50:
                 // #2 button
-                //self._enterTags(2);
+                self._enterTags(2);
                 break;
             case 51:
                 // #3 button
-                //self._enterTags(3);
+                self._enterTags(3);
                 break;
             case 52:
                 // #4 button
-                //self._enterTags(4);
+                self._enterTags(4);
                 break;
             case 53:
                 //  #5 button
-                //self._enterTags(5);
+                self._enterTags(5);
                 break;
             default:
                 console.log(e.keyCode);
@@ -202,49 +255,49 @@ var TagMachine = React.createClass({
         }
     },
     _enterTags: function(key) {
-        // var self = this;
-        // var headerTextPointer = self.state.publishHeaders[self.state.positionInHeader][0];
-        // var button = key; //button should be set to number - 1
-        // button = button - 1;
-        // var valueOfTag = self.state.publishHeaders[self.state.positionInHeader][1][button];
-        // var positionInData = self.state.positionInData;
-        // var positionInHeader = self.state.positionInHeader;
-        // var headerBeingUsed = self.state.publishHeaders[self.state.positionInHeader];
-        // var originalDataAtPoint = self.state.data.value.data[self.state.positionInData];
-        // var originalData = self.state.data.value;
-        // var originalDataAtHeader = self.state.data.value.data[self.state.positionInData];
+        var self = this;
+        var headerTextPointer = self.state.publishHeaders[self.state.positionInHeader][0];
+        var button = key; //button should be set to number - 1
+        button = button - 1;
+        var valueOfTag = self.state.publishHeaders[self.state.positionInHeader][1][button];
+        var positionInData = self.state.positionInData;
+        var positionInHeader = self.state.positionInHeader;
+        var headerBeingUsed = self.state.publishHeaders[self.state.positionInHeader];
+        var originalDataAtPoint = self.state.data.value.data[self.state.positionInData];
+        var originalData = self.state.data.value;
+        var originalDataAtHeader = self.state.data.value.data[self.state.positionInData];
 
 
-        // // console.log(valueOfTag);
-        // // console.log("^^^^^^^^VALUE OF TAG^^^^^^^^^^^^^^^^^^^^^^")
-        // // console.log("Position in Data: " + positionInData);
-        // // console.log("Position in Header: " + positionInHeader);
-        // // console.log(headerBeingUsed);
-        // // console.log("^^^^^^^^^^^HEADER BEING USED^^^^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalData);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalDataAtHeader);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA AT HEADER^^^^^^^^^^^^^^^");
+        // console.log(valueOfTag);
+        // console.log("^^^^^^^^VALUE OF TAG^^^^^^^^^^^^^^^^^^^^^^")
+        // console.log("Position in Data: " + positionInData);
+        // console.log("Position in Header: " + positionInHeader);
+        // console.log(headerBeingUsed);
+        // console.log("^^^^^^^^^^^HEADER BEING USED^^^^^^^^^^^^^^^^^^^^^^^^");
+        // console.log(originalData);
+        // console.log("^^^^^^^^^^^^^ORIGINAL DATA^^^^^^^^^^^^^^^^^^^^^");
+        // console.log(originalDataAtHeader);
+        // console.log("^^^^^^^^^^^^^ORIGINAL DATA AT HEADER^^^^^^^^^^^^^^^");
 
-        // //console.log(originalData);
-        // //console.log(originalDataAtHeader);
+        //console.log(originalData);
+        //console.log(originalDataAtHeader);
 
-        // //console.log("Position in data: " + positionInData);
-        // positionInData = parseInt(positionInData);
+        //console.log("Position in data: " + positionInData);
+        positionInData = parseInt(positionInData);
 
-        // originalDataAtHeader[headerTextPointer] = valueOfTag;
+        originalDataAtHeader[headerTextPointer] = valueOfTag;
 
-        // var originalData = React.addons.update(originalData, {
-        //     'data': {
-        //         positionInData: {
-        //             $set: originalDataAtHeader
-        //         }
-        //     }
-        // });
+        var originalData = React.addons.update(originalData, {
+            'data': {
+                positionInData: {
+                    $set: originalDataAtHeader
+                }
+            }
+        });
 
-        // this.state.data.requestChange(originalData);
+        this.state.data.requestChange(originalData);
 
-        // //console.log(this.state.data.value);
+        //console.log(this.state.data.value);
     },
     getInitialState: function() {
         return {

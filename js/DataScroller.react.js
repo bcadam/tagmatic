@@ -4,7 +4,6 @@ var React = require('react/addons');
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 
-
 /**
 
 
@@ -13,19 +12,12 @@ var React = require('react/addons');
     //from here
 
 
-
-
-
-
     var holderOfTweetColumn = self.props.stage.value.tweet;
     var tweet = self.props.data.value.data[self.state.positionInData][holderOfTweetColumn];
 
     return (
         <div>
         <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
-
-
-
 
 
     /// till here

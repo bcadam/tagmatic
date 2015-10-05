@@ -140,6 +140,7 @@ var FileForm = React.createClass({
             border: '3px solid #ff763d',
             borderRadius: '20px',
             color: '#ff763d',
+            cursor: 'pointer',
             fontFamily: 'Lato, sans-serif',
             fontSize: '20px',
             fontWeight: '700',

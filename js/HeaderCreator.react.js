@@ -59,7 +59,7 @@ var HeaderCreator = React.createClass({
     );
   },
   shouldComponentUpdate: function (nextProps, nextState) {
-    console.log(this.state.justUpdated);
+    //console.log(this.state.justUpdated);
     return true;
   },
   componentDidUpdate: function () {

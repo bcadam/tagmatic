@@ -20,7 +20,8 @@ var HeaderBox = React.createClass({
   getInitialState: function() {
     return {
       publish: this.props.header.value[this.props.counter][2],
-        stage: this.props.stage
+        stage: this.props.stage,
+        tweet: false
     };
   },
   render: function() {
@@ -100,22 +101,16 @@ var HeaderBox = React.createClass({
 
   },
   _markTweet: function(){
+    var newTweetState = !this.state.tweet;
+    this.setState({tweet: newTweetState});
+
     var self = this;
     var holderStage = self.state.stage.value;
-    holderStage.tweet = self.props.header.value[self.props.counter][0];
-    holderStage.tweetCounter = self.props.counter;
+    holderStage.tweet = (newTweetState ? self.props.header.value[self.props.counter][0] : "");
+    holderStage.tweetCounter = (newTweetState ? self.props.counter : null);
+    self.state.stage.requestChange(holderStage);
 
-    var newPublishState = !this.state.publish;
-    this.setState({publish: newPublishState});
-
-    var holderHeader = this.props.header.value[this.props.counter][0];
-    var existingTags = this.props.header.value[this.props.counter][1];
-
-    var fullHeaderWithTags = [holderHeader, existingTags, newPublishState];
-    var tempFullHeader = this.props.header.value;
-    tempFullHeader[this.props.counter] = fullHeaderWithTags;
-
-    this.props.header.requestChange(tempFullHeader);    
+    if(this.state.publish) { this._togglePublish();}   
   },
   _togglePublish: function() {
     var newPublishState = !this.state.publish;
