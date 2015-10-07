@@ -9,6 +9,19 @@ var NavBar = React.createClass({
     });
   },
   render: function() {
+    var navContainer = {
+      backgroundColor: 'white',
+      borderRight: '1px solid #efefef',
+      overflow: 'hidden',
+      position: 'fixed',
+      width: '0px',
+      bottom: '0',
+      top: '0',
+      left: '0',
+      WebkitTransition: 'all 200ms ease',
+      transition: 'all 200ms ease'
+    }
+
     var navBar = {
       backgroundColor: 'white',
       borderColor: 'black black #efefef',
@@ -43,24 +56,13 @@ var NavBar = React.createClass({
       marginTop: '25px'
     }
 
+    var closeMenu = {
+      margin: '20px 15px',
+    }
+
     var navMenu = {
       width: (this.state.menu? '200px' : '0px')
     }
-
-    var NavMenu
-    if(this.state.menu) {
-      NavMenu =
-        <div>
-        <i className="fa fa-times" onClick={this._toggleMenu}></i>
-        <div>menu</div>
-        <nav className="w-nav-menu nav_menu" role="navigation">
-          <i className="fa fa-times" onClick={this._toggleMenu}></i>
-          <a className="w-nav-link nav_link" href="#">09/22/15 12:55 PM</a>
-          <a className="w-nav-link nav_link" href="#">09/22/15 12:56 PM</a>
-          <a className="w-nav-link nav_link" href="#">+</a>
-        </nav>
-        </div>
-    };
 
     return (
       <div style={navBar} className="navbar">
@@ -69,7 +71,12 @@ var NavBar = React.createClass({
         </div>
         <div>
           <a className="w-nav-brand brand" href="#"><h4 style={brandText}>tagmatic</h4></a>
-          {NavMenu}
+          <div className={"menu-" + this.state.menu} style={navContainer}>
+            <nav className="nav_menu"  style={closeMenu} role="navigation">
+            <i className="fa fa-times fa-2x" onClick={this._toggleMenu}></i>
+            <div>menu</div>
+            </nav>
+          </div>
         </div>
       </div>
     );

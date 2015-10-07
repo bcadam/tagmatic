@@ -27,10 +27,23 @@ var DataScroller = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
     render: function() {
+        console.log("PROPS", this.props);
         var self = this;
-
+        var tweetBox = {
+            border: '3px solid #efefef',
+            borderRadius: '5px',
+            fontSize:'16px',
+            left: '50%',
+            top: '50%',
+            marginLeft: '-200px',
+            marginTop: '-170px',
+            padding: '20px 10px',
+            position: 'fixed',
+            height: '200px',
+            width: '400px',
+        }
         return (
-            <div id="tweetLoc" className="col-xs-12" style={{fontSize:'20px'}}>
+            <div id="tweetLoc" className="col-xs-12" style={tweetBox}>
             {self.props.tweet}
             </div>
         );

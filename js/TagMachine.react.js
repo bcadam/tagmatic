@@ -3,7 +3,7 @@ var React = require('react/addons');
 var ParseReact = require('parse-react');
 
 
-
+var NavBar = require('./NavBar.react.js');
 var HeaderTagBox = require('./HeaderTagBox.react.js');
 var DataScroller = require('./DataScroller.react.js');
 var HeaderScroller = require('./HeaderScroller.react.js');
@@ -27,24 +27,53 @@ var TagMachine = React.createClass({
         var holderOfTweetColumn = self.props.stage.value.tweet;
         var tweet = self.props.data.value.data[self.state.positionInData][holderOfTweetColumn];
 
+        var appMain = {
+          position: 'fixed',
+          left: '0px',
+          top: '0px',
+          right: '0px',
+          bottom: '200px',
+          textAlign: 'center'
+        }
+        var appTags = {
+          position: 'absolute',
+          left: '0px',
+          right: '0px',
+          bottom: '0px',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+          height: '200px',
+          borderTop: '3px solid #ff763d',
+          backgroundColor: 'whitesmoke',
+          textAlign: 'center'
+        }
+
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
         //the should update method
         return (
             <div>
-            <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
-            <HeaderScroller key={self.state.positionInHeader - 100} tweet={tweet} positionInData={self.state.positionInData} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
-            <div className="btn btn-success" onClick={this._advanceHeader}>Advance</div>
-            <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
+              <NavBar />
+              <div style={appMain}>
+                <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
+              </div>
+              <div style={appTags}>
+                <HeaderScroller key={self.state.positionInHeader - 100} tweet={tweet} positionInData={self.state.positionInData} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
+                <div style={{textAlign:'center'}}>
+                    <div className="btn btn-success" onClick={this._advanceHeader}>Advance</div>
+                    <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
+                </div>
+              </div>
             </div>
+
         );
 
     },
     componentDidMount: function() {
-        $(document.body).on('keydown', this._receiveButton);
+
         //console.log("mount");
 
         var self = this;
-
+        $(document.body).on('keydown', self._receiveButton);
     },
     componentWillMount: function() {
         // This takes all the headers and returns the published ones.

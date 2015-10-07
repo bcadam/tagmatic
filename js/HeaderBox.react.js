@@ -65,6 +65,7 @@ var HeaderBox = React.createClass({
     var holderHeader = self.props.header.value[self.props.counter][0];
     var holderTags = self.props.header.value[self.props.counter][1];
     var publishHolder = self.state.publish;
+    var tweetHolder = self.state.tweet;
 
     var resizePublishToggle = ((publishHolder) ? "" : "hideContent");
 
@@ -73,7 +74,7 @@ var HeaderBox = React.createClass({
         <div style={card} className={resizePublishToggle}>
           <div style={cardHeader}>
             <HeaderTitle header={holderHeader} submit={self._updateHeader}/>
-            <HeaderIcons keyColor="#555" tweetColor="#555" publishColor={(publishHolder ? "green" : "#555")}
+            <HeaderIcons keyColor="#555" tweetColor={(tweetHolder ? "blue" : "#555")} publishColor={(publishHolder ? "green" : "#555")}
                          key={this._markKey} tweet={this._markTweet} publish={this._togglePublish}
             />
           </div>

@@ -46,6 +46,7 @@ TagMachine takes two states, the data that was parsed and the header object. Usi
 
 var Parse = require('parse').Parse;
 var React = require('react/addons');
+var ParseReact = require('parse-react');
 
 var NavBar = require('./NavBar.react.js');
 var FileForm = require('./FileForm.react.js');

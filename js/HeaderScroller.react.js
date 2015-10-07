@@ -36,24 +36,76 @@ var HeaderScroller = React.createClass({
         // var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
         // console.log(restoredClassifier.getClassifications(tweet));
 
+        var cardContainer = {
+          display: 'inline-block',
+          width: '230px',
+          height: '150px',
+          padding: '15px 2px 10px 2px',
+          opacity: '1', //toggle this between 0.4 and 1 depending on whether its active or not when tagging
+          verticalAlign: 'top'
+        }
+        var card = {
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderColor: '#efefef #eaeaea #eaeaea',
+          backgroundColor: 'white',
+          margin: '0px',
+          opacity: '1',
+          overflow: 'hidden'
+        }
+        var cardHeader = {
+          backgroundColor: '#f2f2f2',
+          borderBottom: '1px solid #efefef',
+          fontWeight: 'bold',
+          height: '30px',
+          width: '100%',
+          overflow: 'hidden',
+          paddingLeft: '5px',
+          paddingRight: '5px',
+          textAlign: 'center'
+        }
+        var cardIcon = {
+          opacity: '0.25'
+        }
+        var scrollWindow = {
+          borderBottom: '1px solid #efefef',
+          height: '120px',
+          overflowX: 'hidden',
+          overflowY: 'auto'
+        }
+        var hotKey = {
+            backgroundColor: 'green',
+            borderRadius: '50px',
+            color: 'white',
+            float: 'right',
+            fontSize: '8px',
+            fontWeight: 'bold',
+            marginTop: '4px',
+            padding: '1px 4px 1px 5px'
+        }
 
         return (
-            <div id="tweetLoc" className="col-xs-12" style={{fontSize:'20px'}}>
-            {tweet}
-            {
-                self.props.header[1].map(function(c) {
-                counter = counter + 1;
-                return (
-                  <div key={c} className="col-xs-12" counter={counter} key={c.id} bolt={c}>{c} Key : {counter}</div>
-                  );
-                })
-            }
-            </div>
+              <div style={cardContainer}>
+                <div style={card}>
+                  <div style={cardHeader}>{tweet}</div>
+                  <div style={scrollWindow}>
+                    {
+                        self.props.header[1].map(function(c) {
+                        counter = counter + 1;
+                        return (
+                          <div key={c} className="col-xs-12" counter={counter} key={c.id}>{c} <span style={hotKey}>{counter}</span></div>
+                          );
+                        })
+                    }
+                  </div>
+                </div>
+              </div>
         );
 
     },
     componentDidMount: function() {
         var self = this;
+        $(document.body).on('keydown', self._receiveButton);
 
         var headerName = self.props.header[0];
         var headerTags = self.props.header[1];
@@ -124,9 +176,6 @@ var HeaderScroller = React.createClass({
             //console.log(restoredClassifier.getClassifications(tweet));
 
         });
-
-
-        $(document.body).on('keydown', self._receiveButton);
         
     },
     _receiveButton: function(e) {

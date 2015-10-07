@@ -1,3 +1,7 @@
+.menu-true {
+  width: 240px !important;
+}
+
 @media screen and (max-width: 767px) {
   .w-nav-brand {
     padding-left: 10px;

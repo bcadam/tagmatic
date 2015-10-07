@@ -3,7 +3,6 @@ var React = require('react/addons');
 
 var HeaderTagInsert = require('./HeaderTagInsert.react.js');
 
-
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 
@@ -96,7 +95,7 @@ var HeaderTagBox = React.createClass({
                 // console.log("You pressed 5");
                 break;
             default:
-                //console.log(e.keyCode);
+                //console.log(e.keyCode); 
                 break;
         }
         //alert(e.value);
