@@ -74,7 +74,7 @@ var HeaderBox = React.createClass({
         <div style={card} className={resizePublishToggle}>
           <div style={cardHeader}>
             <HeaderTitle header={holderHeader} submit={self._updateHeader}/>
-            <HeaderIcons keyColor="#555" tweetColor={(tweetHolder ? "blue" : "#555")} publishColor={(publishHolder ? "green" : "#555")}
+            <HeaderIcons keyColor="#555" tweetColor={(tweetHolder ? "#009DFF" : "#555")} publishColor={(publishHolder ? "green" : "#555")}
                          key={this._markKey} tweet={this._markTweet} publish={this._togglePublish}
             />
           </div>
@@ -104,7 +104,6 @@ var HeaderBox = React.createClass({
   _markTweet: function(){
     var newTweetState = !this.state.tweet;
     this.setState({tweet: newTweetState});
-
     var self = this;
     var holderStage = self.state.stage.value;
     holderStage.tweet = (newTweetState ? self.props.header.value[self.props.counter][0] : "");

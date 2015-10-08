@@ -48,6 +48,13 @@ var TagMachine = React.createClass({
           textAlign: 'center'
         }
 
+        var counter = {
+            paddingTop: '80px'
+        }
+
+        var numOfTweets = this.state.data.value.data.length;
+        var currentPosition = this.state.positionInData + 1;
+
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
         //the should update method
         return (
@@ -55,6 +62,7 @@ var TagMachine = React.createClass({
               <NavBar />
               <div style={appMain}>
                 <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
+                <div style={counter}>{currentPosition} of {numOfTweets}</div>
               </div>
               <div style={appTags}>
                 <HeaderScroller key={self.state.positionInHeader - 100} tweet={tweet} positionInData={self.state.positionInData} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />

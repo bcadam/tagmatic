@@ -27,7 +27,6 @@ var DataScroller = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
     render: function() {
-        console.log("PROPS", this.props);
         var self = this;
         var tweetBox = {
             border: '3px solid #efefef',
