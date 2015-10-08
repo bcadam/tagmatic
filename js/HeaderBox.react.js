@@ -20,11 +20,19 @@ var HeaderBox = React.createClass({
   getInitialState: function() {
     return {
       publish: this.props.header.value[this.props.counter][2],
-        stage: this.props.stage,
-        tweet: false
+        stage: this.props.stage
     };
   },
   render: function() {
+
+    self = this;
+    var holderHeader = self.props.header.value[self.props.counter][0];
+    var holderTags = self.props.header.value[self.props.counter][1];
+    var holderPublish = self.state.publish;
+    var tweetStage = self.state.stage.value.tweet;
+    var holderTweet = (holderHeader === tweetStage);
+    var resizePublishToggle = ((holderPublish) ? "" : "hideContent");
+
     var cardContainer = {
       display: 'inline-block',
       width: '230px',
@@ -36,14 +44,14 @@ var HeaderBox = React.createClass({
     var card = {
       borderStyle: 'solid',
       borderWidth: '1px',
-      borderColor: '#efefef #eaeaea #eaeaea',
+      borderColor: holderTweet ? '#009DFF' : '#eaeaea',
       backgroundColor: 'white',
       margin: '0px',
       opacity: '1',
       overflow: 'hidden'
     }
     var cardHeader = {
-      backgroundColor: '#f2f2f2',
+      backgroundColor: holderTweet ? 'rgb(186, 229, 255)': (holderPublish ? '#D8FFD5' : '#f2f2f2'),
       borderBottom: '1px solid #efefef',
       height: '30px',
       width: '100%',
@@ -56,25 +64,18 @@ var HeaderBox = React.createClass({
     }
     var scrollWindow = {
       borderBottom: '1px solid #efefef',
+      color: holderTweet ? '#e8e8e8' : 'black',
       height: '101px',
       overflowX: 'hidden',
       overflowY: 'auto'
     }
-
-    self = this;
-    var holderHeader = self.props.header.value[self.props.counter][0];
-    var holderTags = self.props.header.value[self.props.counter][1];
-    var publishHolder = self.state.publish;
-    var tweetHolder = self.state.tweet;
-
-    var resizePublishToggle = ((publishHolder) ? "" : "hideContent");
 
     return (
       <div style={cardContainer}>
         <div style={card} className={resizePublishToggle}>
           <div style={cardHeader}>
             <HeaderTitle header={holderHeader} submit={self._updateHeader}/>
-            <HeaderIcons keyColor="#555" tweetColor={(tweetHolder ? "#009DFF" : "#555")} publishColor={(publishHolder ? "green" : "#555")}
+            <HeaderIcons keyColor="#555" tweetColor={(holderTweet ? "#009DFF" : "#555")} publishColor={(holderPublish ? "green" : "#555")}
                          key={this._markKey} tweet={this._markTweet} publish={this._togglePublish}
             />
           </div>
@@ -93,7 +94,7 @@ var HeaderBox = React.createClass({
               );
             }, this)}
           </div>
-            <HeaderCreator submit={self._createItem} published={publishHolder} />
+            <HeaderCreator submit={self._createItem} published={holderPublish} disabled={holderTweet} />
         </div>
       </div>
     );
@@ -102,28 +103,26 @@ var HeaderBox = React.createClass({
 
   },
   _markTweet: function(){
-    var newTweetState = !this.state.tweet;
-    this.setState({tweet: newTweetState});
     var self = this;
     var holderStage = self.state.stage.value;
-    holderStage.tweet = (newTweetState ? self.props.header.value[self.props.counter][0] : "");
-    holderStage.tweetCounter = (newTweetState ? self.props.counter : null);
-    self.state.stage.requestChange(holderStage);
+    var holderHeader = self.props.header.value[self.props.counter][0];
 
-    if(this.state.publish) { this._togglePublish();}   
+    if(holderStage.tweet === holderHeader) {
+      holderStage.tweet = "";
+      holderStage.tweetCounter = "";
+    } else {
+      holderStage.tweet = holderHeader;
+      holderStage.tweetCounter = self.props.counter;
+    }
+    self.state.stage.requestChange(holderStage); 
   },
   _togglePublish: function() {
     var newPublishState = !this.state.publish;
     this.setState({publish: newPublishState});
 
-    var holderHeader = this.props.header.value[this.props.counter][0];
-    var existingTags = this.props.header.value[this.props.counter][1];
-
-    var fullHeaderWithTags = [holderHeader, existingTags, newPublishState];
-    var tempFullHeader = this.props.header.value;
-    tempFullHeader[this.props.counter] = fullHeaderWithTags;
-
-    this.props.header.requestChange(tempFullHeader);
+    var fullHeader = this.props.header.value;
+    fullHeader[this.props.counter][2] = newPublishState;
+    this.props.header.requestChange(fullHeader);
   },
   _refresh: function() {
     //not currently being used but kept for future.

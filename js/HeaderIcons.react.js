@@ -14,8 +14,9 @@ var HeaderIcons = React.createClass({
     var cardIcons = {
       display: 'inline-block',
       height: '30px',
-      paddingTop: '5px',
+      position: 'relative',
       textAlign: 'center',
+      top: '-5px',
       width: '52px'
     }
     var keyIcon = {

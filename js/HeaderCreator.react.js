@@ -54,6 +54,7 @@ var HeaderCreator = React.createClass({
           onKeyDown={this._onKeyDown}
           placeholder="Add tags..."
           style={inputTag}
+          disabled={this.props.disabled}
         />
       </div>
     );

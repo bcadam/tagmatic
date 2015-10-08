@@ -102,7 +102,7 @@ var TagMaticApp = React.createClass({
     if (this.state.stage['fileUploaded'] && this.state.stage['headersUploaded']) {
       console.log(this.linkState('data')); //raw data
       console.log(this.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
-      console.log(this.linkState('header')); //tracks header, tags, and header visibility
+      console.log(this.linkState('header')); //tracks header, tags,  header visibility, tweet state
       return (
         <TagMachine 
           onKeyDown={self._advancePosition}
