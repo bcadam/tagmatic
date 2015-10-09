@@ -1,0 +1,8 @@
+{
+  "name": "TagMatic",
+  "description": "A workflow tool for social media.",
+  "repository": "https://github.com/bcadam/tagmatic",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["tag", "machine-learning", "social"],
+  "image": "heroku/nodejs"
+}
