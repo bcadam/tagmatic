@@ -3,6 +3,11 @@ var Parse = require('parse');
 
 var TagMaticApp = require('./TagMaticApp.react.js');
 
+
+var TwitterPull = require('./TwitterPull.react.js');
+
+
+
 // Insert your app's keys here:
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
@@ -17,6 +22,6 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 // });
 
 React.render(
-    <TagMaticApp />,
+    <TwitterPull />,
     document.getElementById('app')
 );

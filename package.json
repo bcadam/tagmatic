@@ -11,7 +11,9 @@
     "natural": "0.2.1",
     "WNdb" : "3.1.1",
     "lapack": "0.1.0",
-    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52"
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
+    "twitter-node-client": "0.0.6",
+    "nodemon" : "1.7.1"
   },
   "devDependencies": {
     "babelify": "^6.0.2",
