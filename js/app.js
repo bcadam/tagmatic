@@ -22,6 +22,6 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 // });
 
 React.render(
-    <TwitterPull />,
+    <TagMaticApp />,
     document.getElementById('app')
 );
