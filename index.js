@@ -33,7 +33,7 @@ app.get('/api/twitter', function(req, res) {
 });
 
 
-app.get('/api/twitter/user/:user', function(req, res) {
+app.get('/api/twitter/search/:query&count=:count', function(req, res) {
     var error = function(err, response, body) {
         console.log('ERROR [%s]', err);
     };
@@ -45,12 +45,14 @@ app.get('/api/twitter/user/:user', function(req, res) {
         data = JSON.parse(data);
 
         res.json({
-            data: data['statuses'][0].user.screen_name
+            data: data['statuses']
         });
 
     }
 
-    var user = req.params.user;
+    var query = req.params.query;
+    var count = req.params.count;
+
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
 
@@ -58,10 +60,8 @@ app.get('/api/twitter/user/:user', function(req, res) {
     //     'q': '#haiku',
     //     'count': 2
     // }, error, success);
-	
 
-	twitter.getSearch({'q':'scary movie', 'count': 10, 'result\_type':'popular'}, error, success);
-
+	twitter.getSearch({'q': query, 'count': count, 'result\_type':'popular'}, error, success);
 
 
 });
