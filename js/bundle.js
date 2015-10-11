@@ -2217,7 +2217,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 //   }
 // });
 
-React.render(React.createElement(TwitterPull, null), document.getElementById('app'));
+React.render(React.createElement(TagMaticApp, null), document.getElementById('app'));
 
 },{"./TagMaticApp.react.js":15,"./TwitterPull.react.js":16,"parse":380,"react":627}],18:[function(require,module,exports){
 (function (__dirname){
