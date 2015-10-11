@@ -1,6 +1,12 @@
 var express = require('express');
 var app = express();
 
+// var Parse = require('parse').Parse;
+// var React = require('react/addons');
+// var ParseReact = require('parse-react');
+// Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+
+
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
 
@@ -11,6 +17,7 @@ app.locals.twitterConfig = {
     "accessTokenSecret": "cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK",
     "callBackUrl": "https://tagmatic.herokuapp.com/"
 };
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -45,13 +52,13 @@ app.get('/api/twitter/search/:query&count=:count', function(req, res) {
         data = JSON.parse(data);
 
         res.json({
-            data: data['statuses']
+            data: data
         });
 
     }
 
     var query = req.params.query;
-    var count = req.params.count;
+    var count = (req.params.count === null ? 10 : req.params.count);
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
@@ -61,15 +68,13 @@ app.get('/api/twitter/search/:query&count=:count', function(req, res) {
     //     'count': 2
     // }, error, success);
 
-	twitter.getSearch({'q': query, 'count': count, 'result\_type':'popular'}, error, success);
-
+    twitter.getSearch({
+        'q': query,
+        'count': count
+    }, error, success);
 
 });
 
-//
-// app.get('/', function(request, response) {
-//   response.render('pages/index');
-// });
 
 app.listen(app.get('port'), function() {
     console.log('TagMatic is running on port', app.get('port'));
