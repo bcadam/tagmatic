@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var app = express();
 
 // var Parse = require('parse').Parse;
@@ -33,14 +34,14 @@ app.use('/css', express.static('css'));
 //app.use('/bootstrap', express.static('bootstrap'));
 
 
-app.get('/api/twitter', function(req, res) {
+app.get('/api/twitter', cors(), function(req, res) {
     res.json({
         message: 'Try these routes from here twitter/user/:username'
     });
 });
 
 
-app.get('/api/twitter/search/:query/:count?', function(req, res) {
+app.get('/api/twitter/search/:query/:count?', cors() , function(req, res) {
     twitterSearch(req, res);
 });
 

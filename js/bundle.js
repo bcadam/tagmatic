@@ -2113,7 +2113,7 @@ var TagMaticApp = React.createClass({
         React.createElement(
           'div',
           { style: appTags },
-          React.createElement(FileForm, {
+          React.createElement(TwitterPull, {
             data: this.linkState('data'),
             stage: this.linkState('stage'),
             header: this.linkState('header')
@@ -2168,7 +2168,7 @@ var TwitterPull = React.createClass({
         var self = this;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = "http://tagmatic.herokuapp.com/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
+        var url = "https://tagmatic.herokuapp.com/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
