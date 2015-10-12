@@ -184,73 +184,102 @@ var FileForm = React.createClass({
 
         var self = this;
 
-        // default configs for PapaParse besides the header field which is set as true.
-        // http://papaparse.com/docs#config
-        var confiVariables = {
-            delimiter: "", // auto-detect
-            newline: "", // auto-detect
-            header: true,
-            dynamicTyping: false,
-            preview: 0,
-            encoding: "",
-            worker: false,
-            comments: false,
-            step: undefined,
-            complete: function complete(results) {
+        var tempSuggestedClassifier = [];
 
-                //just for debugging
-                //var data = results;
-                //console.log(results['meta']['fields']); //this should show the headers in the csv
-                // end of debugging
-                // self.setState({parsedData: results });
+        var SuggestedClassifier = Parse.Object.extend("SuggestedClassifier");
+        var query = new Parse.Query(SuggestedClassifier);
+        query.equalTo("published", true);
+        query.find({
+            success: function success(results) {
+                for (var i = 0; i < results.length; i++) {
 
-                //write the parsed data object back to the app
-                self.props.data.requestChange(results);
-
-                var formattingHeader = results['meta']['fields'];
-                var builtHeader = [];
-                //console.log("firing from fileform");
-                //console.log(formattingHeader);
-
-                for (var i = 0; i < formattingHeader.length; i++) {
-                    //text += cars[i] + "<br>";
-
-                    var positionHolder = formattingHeader[i];
-                    //console.log(positionHolder);
-
-                    var entryHolder = [positionHolder, [], true];
-                    builtHeader.push(entryHolder);
+                    var object = results[i];
+                    //alert(object.id);
+                    tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
                 }
-
-                // console.log("builtHeader");
-                //console.log(builtHeader[0][0]);
-
-                //builtHeader[0][1].push("cat");
-                // console.log(builtHeader);
-                //debug(builtHeader);
-
-                self.props.header.requestChange(builtHeader);
-
-                //create a temporary stage object which will be used to change the field we want
-                var stage = self.props.stage.value;
-                stage['fileUploaded'] = true;
-
-                // console.log("the stage is to follow");
-                // console.log(stage);
-                self.props.stage.requestChange(stage);
             },
-            error: undefined,
-            download: false,
-            skipEmptyLines: false,
-            chunk: undefined,
-            fastMode: undefined,
-            beforeFirstChunk: undefined,
-            withCredentials: undefined
-        };
+            error: function error(_error) {
+                alert("Error: " + _error.code + " " + _error.message);
+            }
+        }).then(function () {
 
-        ////////////////// beginning of parsing function
-        Papa.parse(fileUploadControl, confiVariables);
-        ////////////////// end of parsing function
+            var confiVariables = {
+                delimiter: "", // auto-detect
+                newline: "", // auto-detect
+                header: true,
+                dynamicTyping: false,
+                preview: 0,
+                encoding: "",
+                worker: false,
+                comments: false,
+                step: undefined,
+                complete: function complete(results) {
+
+                    //just for debugging
+                    //var data = results;
+                    //console.log(results['meta']['fields']); //this should show the headers in the csv
+                    // end of debugging
+                    // self.setState({parsedData: results });
+
+                    //write the parsed data object back to the app
+                    self.props.data.requestChange(results);
+
+                    var formattingHeader = results['meta']['fields'];
+                    var builtHeader = [];
+                    //console.log("firing from fileform");
+                    //console.log(formattingHeader);
+
+                    for (var i = 0; i < formattingHeader.length; i++) {
+                        //text += cars[i] + "<br>";
+
+                        var positionHolder = formattingHeader[i];
+                        //console.log(positionHolder);
+
+                        var entryHolder = [positionHolder, [], true];
+                        builtHeader.push(entryHolder);
+                    }
+
+                    // console.log("builtHeader");
+                    //console.log(builtHeader[0][0]);
+
+                    //builtHeader[0][1].push("cat");
+                    // console.log(builtHeader);
+                    //debug(builtHeader);
+
+                    for (var i = 0; i < tempSuggestedClassifier.length; i++) {
+                        //text += cars[i] + "<br>";
+
+                        var positionHolder = tempSuggestedClassifier[i];
+                        //console.log(positionHolder);
+                        //console.log("positionHolder");
+
+                        var entryHolder = [positionHolder[0], positionHolder[1], true];
+                        builtHeader.push(entryHolder);
+                    }
+                    self.props.header.requestChange(builtHeader);
+
+                    //create a temporary stage object which will be used to change the field we want
+                    var stage = self.props.stage.value;
+                    stage['fileUploaded'] = true;
+
+                    // console.log("the stage is to follow");
+                    // console.log(stage);
+                    self.props.stage.requestChange(stage);
+                },
+                error: undefined,
+                download: false,
+                skipEmptyLines: false,
+                chunk: undefined,
+                fastMode: undefined,
+                beforeFirstChunk: undefined,
+                withCredentials: undefined
+            };
+
+            //var data = Papa.unparse(data['twitterResponse']);
+
+            ////////////////// beginning of parsing function
+            Papa.parse(fileUploadControl, confiVariables);
+        });
     },
     render: function render() {
         // styling of file field to be customized based on Jerry's design
@@ -1143,7 +1172,7 @@ var HeaderSlider = React.createClass({
             { style: appTagsContainer },
             this.props.header.value.map(function (c) {
               counter = counter + 1;
-              console.log(c);
+              //console.log(c);
               return React.createElement(HeaderBox, {
                 key: c,
                 editing: self.state.editing,
@@ -2198,76 +2227,127 @@ var TwitterPull = React.createClass({
         //     data: myArr
         // });
 
-        var data = Papa.unparse(data['twitterResponse']);
         //console.log(data);
+        var tempSuggestedClassifier = [];
 
-        var confiVariables = {
-            delimiter: "", // auto-detect
-            newline: "", // auto-detect
-            header: true,
-            dynamicTyping: false,
-            preview: 0,
-            encoding: "",
-            worker: false,
-            comments: false,
-            step: undefined,
-            complete: function complete(results) {
+        var SuggestedClassifier = Parse.Object.extend("SuggestedClassifier");
+        var query = new Parse.Query(SuggestedClassifier);
+        query.equalTo("published", true);
+        query.find({
+            success: function success(results) {
+                for (var i = 0; i < results.length; i++) {
 
-                //just for debugging
-                //var data = results;
-                //console.log(results['meta']['fields']); //this should show the headers in the csv
-                // end of debugging
-                // self.setState({parsedData: results });
-
-                //write the parsed data object back to the app
-                self.props.data.requestChange(results);
-
-                var formattingHeader = results['meta']['fields'];
-                var builtHeader = [];
-                //console.log("firing from fileform");
-                //console.log(formattingHeader);
-
-                for (var i = 0; i < formattingHeader.length; i++) {
-                    //text += cars[i] + "<br>";
-
-                    var positionHolder = formattingHeader[i];
-                    //console.log(positionHolder);
-
-                    var entryHolder = [positionHolder, [], true];
-                    builtHeader.push(entryHolder);
+                    var object = results[i];
+                    //alert(object.id);
+                    tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
                 }
-
-                // console.log("builtHeader");
-                //console.log(builtHeader[0][0]);
-
-                //builtHeader[0][1].push("cat");
-                // console.log(builtHeader);
-                //debug(builtHeader);
-
-                self.props.header.requestChange(builtHeader);
-
-                //create a temporary stage object which will be used to change the field we want
-                var stage = self.props.stage.value;
-                stage['fileUploaded'] = true;
-
-                // console.log("the stage is to follow");
-                // console.log(stage);
-                self.props.stage.requestChange(stage);
             },
-            error: undefined,
-            download: false,
-            skipEmptyLines: false,
-            chunk: undefined,
-            fastMode: undefined,
-            beforeFirstChunk: undefined,
-            withCredentials: undefined
-        };
+            error: function error(_error) {
+                alert("Error: " + _error.code + " " + _error.message);
+            }
+        }).then(function () {
 
-        ////////////////// beginning of parsing function
-        Papa.parse(data, confiVariables);
+            var confiVariables = {
+                delimiter: "", // auto-detect
+                newline: "", // auto-detect
+                header: true,
+                dynamicTyping: false,
+                preview: 0,
+                encoding: "",
+                worker: false,
+                comments: false,
+                step: undefined,
+                complete: function complete(results) {
+
+                    //just for debugging
+                    //var data = results;
+                    //console.log(results['meta']['fields']); //this should show the headers in the csv
+                    // end of debugging
+                    // self.setState({parsedData: results });
+
+                    //write the parsed data object back to the app
+                    self.props.data.requestChange(results);
+
+                    var formattingHeader = results['meta']['fields'];
+                    var builtHeader = [];
+                    //console.log("firing from fileform");
+                    //console.log(formattingHeader);
+
+                    for (var i = 0; i < formattingHeader.length; i++) {
+                        //text += cars[i] + "<br>";
+
+                        var positionHolder = formattingHeader[i];
+                        //console.log(positionHolder);
+
+                        var entryHolder = [positionHolder, [], true];
+                        builtHeader.push(entryHolder);
+                    }
+
+                    // console.log("builtHeader");
+                    //console.log(builtHeader[0][0]);
+
+                    //builtHeader[0][1].push("cat");
+                    // console.log(builtHeader);
+                    //debug(builtHeader);
+
+                    for (var i = 0; i < tempSuggestedClassifier.length; i++) {
+                        //text += cars[i] + "<br>";
+
+                        var positionHolder = tempSuggestedClassifier[i];
+                        //console.log(positionHolder);
+                        //console.log("positionHolder");
+
+                        var entryHolder = [positionHolder[0], positionHolder[1], true];
+                        builtHeader.push(entryHolder);
+                    }
+                    self.props.header.requestChange(builtHeader);
+
+                    //create a temporary stage object which will be used to change the field we want
+                    var stage = self.props.stage.value;
+                    stage['fileUploaded'] = true;
+
+                    // console.log("the stage is to follow");
+                    // console.log(stage);
+                    self.props.stage.requestChange(stage);
+                },
+                error: undefined,
+                download: false,
+                skipEmptyLines: false,
+                chunk: undefined,
+                fastMode: undefined,
+                beforeFirstChunk: undefined,
+                withCredentials: undefined
+            };
+
+            var data = Papa.unparse(data['twitterResponse']);
+
+            ////////////////// beginning of parsing function
+            Papa.parse(data, confiVariables);
+        });
     },
 
     render: function render() {
+
+        var fileFormContainer = {
+            textAlign: 'center',
+            width: '100%'
+        };
+        var buttonUpload = {
+            backgroundColor: 'white',
+            border: '3px solid #ff763d',
+            borderRadius: '20px',
+            color: '#ff763d',
+            cursor: 'pointer',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            marginTop: '60px',
+            paddingTop: '15px',
+            paddingBottom: '15px',
+            textAlign: 'center',
+            width: '140px'
+        };
 
         var self = this;
         //console.log(self.state.data);
@@ -2276,12 +2356,16 @@ var TwitterPull = React.createClass({
             return React.createElement(
                 'div',
                 null,
-                React.createElement('input', { type: 'text', value: self.state.searchValue, onChange: self._onChange }),
-                React.createElement('input', { type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement('input', { placeholder: 'Value to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
+                React.createElement('input', { placeholder: 'Amount', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'div',
-                    { onClick: self._getSearch, className: 'btn btn-success' },
-                    'Get Tweets'
+                    { style: fileFormContainer },
+                    React.createElement(
+                        'label',
+                        { className: 'w-button', style: buttonUpload, onClick: self._getSearch },
+                        'SEARCH'
+                    )
                 )
             );
         } else {

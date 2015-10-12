@@ -68,7 +68,7 @@ var HeaderSlider = React.createClass({
             <div style={appTagsContainer}>
               {this.props.header.value.map(function(c) {
                 counter = counter+1;
-                console.log(c);
+                //console.log(c);
                 return (
                   <HeaderBox 
                     key={c} 
