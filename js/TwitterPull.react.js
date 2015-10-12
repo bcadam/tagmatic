@@ -8,15 +8,32 @@ var TwitterPull = React.createClass({
 
     getInitialState: function() {
         return {
-            data: null
+            data: null,
+            searchValue: '',
+            searchCount: null
         };
     },
-    componentWillMount: function() {
-        var xmlhttp = new XMLHttpRequest();
-        var url = "http://localhost:5000/api/twitter/search/intel&count=1";
 
+    _onChange: function(e) {
+        this.setState({
+            searchValue: e.target.value
+        });
+        //alert(this.state.searchValue);
+    },
+
+    _onChangeCount: function(e) {
+        this.setState({
+            searchCount: e.target.value
+        });
+        //alert(this.state.searchCount);
+    },
+
+    getSearch: function() {
         var myArr = this.state.data;
         var self = this;
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "http://localhost:5000/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -26,37 +43,31 @@ var TwitterPull = React.createClass({
                 });
                 //myFunction(myArr);
                 //alert("cat");
-                console.log(myArr);
+                //console.log(myArr);
             }
         }
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
-        
     },
 
     render: function() {
 
         var self = this;
-        console.log(self.state.data);
-
+        //console.log(self.state.data);
+        var counter = 0;
         if (self.state.data == null) {
-            return (<div></div>);
-        } else 
-        {
-            return (
-                <div>
-            {self.state.data.map(function(c) {
-                var counter = counter+1;
-                console.log(c);
+            return (<div><input type="text" value={self.state.searchValue} onChange={self._onChange} /><input type="number" value={self.state.searchCount} onChange={self._onChangeCount} /><div onClick={self.getSearch} className="btn btn-success">Get Tweets</div></div>);
+        } else {
+            console.log(self.state.data["twitterResponse"]);
+
+            return (<div>{self.state.data['twitterResponse'].map(function(c) {
+                counter = counter+1;
                 return (
-                  <div>{counter}</div>
+                  <div key={c.tweetId} className="col-xs-12"><img src={c.userProfileImageUrl} /><div className="col-xs-9">{c.text}</div></div>
                 );
-              })}
-            </div>);
+              })}</div>);
         }
-
-
 
     }
 

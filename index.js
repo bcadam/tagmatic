@@ -40,25 +40,55 @@ app.get('/api/twitter', function(req, res) {
 });
 
 
-app.get('/api/twitter/search/:query&count=:count', function(req, res) {
+app.get('/api/twitter/search/:query/:count?', function(req, res) {
+    twitterSearch(req, res);
+});
+
+
+app.listen(app.get('port'), function() {
+    console.log('TagMatic is running on port', app.get('port'));
+});
+
+
+function twitterSearch(req, res) {
+
     var error = function(err, response, body) {
         console.log('ERROR [%s]', err);
     };
 
     var success = function(data) {
-        console.log('Data [%s]', data);
+        //console.log('Data [%s]', data);
 
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
 
+        statuses = data['statuses'];
+        //console.log(statuses);
+
+
+        //	Tweets data structure
+        var tweets = [];
+
+        for (var i = 0; i < statuses.length; i++) {
+            //console.log(statuses[i]['text']);
+            //tweets.push([statuses[i]['id'],statuses[i]['text'],statuses[i]['user']['id']]);
+            tweets.push({
+                "tweetId": statuses[i]['id'],
+                "text": statuses[i]['text'],
+                "userId": statuses[i]['user']['id'],
+                "userScreenName": statuses[i]['user']['screen_name'],
+                "userProfileImageUrl": statuses[i]['user']['profile_image_url']
+            });
+        };
+
         res.json({
-            data: data
+            twitterResponse: tweets
         });
 
     }
 
     var query = req.params.query;
-    var count = (req.params.count === null ? 10 : req.params.count);
+    var count = (req.params.count == null || req.params.count > 20 ? 1 : req.params.count);
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
@@ -72,10 +102,4 @@ app.get('/api/twitter/search/:query&count=:count', function(req, res) {
         'q': query,
         'count': count
     }, error, success);
-
-});
-
-
-app.listen(app.get('port'), function() {
-    console.log('TagMatic is running on port', app.get('port'));
-});
+}

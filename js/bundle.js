@@ -2142,15 +2142,32 @@ var TwitterPull = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            data: null
+            data: null,
+            searchValue: '',
+            searchCount: null
         };
     },
-    componentWillMount: function componentWillMount() {
-        var xmlhttp = new XMLHttpRequest();
-        var url = "http://localhost:5000/api/twitter/search/intel&count=1";
 
+    _onChange: function _onChange(e) {
+        this.setState({
+            searchValue: e.target.value
+        });
+        //alert(this.state.searchValue);
+    },
+
+    _onChangeCount: function _onChangeCount(e) {
+        this.setState({
+            searchCount: e.target.value
+        });
+        //alert(this.state.searchCount);
+    },
+
+    getSearch: function getSearch() {
         var myArr = this.state.data;
         var self = this;
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "http://localhost:5000/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2160,7 +2177,7 @@ var TwitterPull = React.createClass({
                 });
                 //myFunction(myArr);
                 //alert("cat");
-                console.log(myArr);
+                //console.log(myArr);
             }
         };
         xmlhttp.open("GET", url, true);
@@ -2170,21 +2187,37 @@ var TwitterPull = React.createClass({
     render: function render() {
 
         var self = this;
-        console.log(self.state.data);
-
+        //console.log(self.state.data);
+        var counter = 0;
         if (self.state.data == null) {
-            return React.createElement('div', null);
-        } else {
             return React.createElement(
                 'div',
                 null,
-                self.state.data.map(function (c) {
-                    var counter = counter + 1;
-                    console.log(c);
+                React.createElement('input', { type: 'text', value: self.state.searchValue, onChange: self._onChange }),
+                React.createElement('input', { type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement(
+                    'div',
+                    { onClick: self.getSearch, className: 'btn btn-success' },
+                    'Get Tweets'
+                )
+            );
+        } else {
+            console.log(self.state.data["twitterResponse"]);
+
+            return React.createElement(
+                'div',
+                null,
+                self.state.data['twitterResponse'].map(function (c) {
+                    counter = counter + 1;
                     return React.createElement(
                         'div',
-                        null,
-                        counter
+                        { key: c.tweetId, className: 'col-xs-12' },
+                        React.createElement('img', { src: c.userProfileImageUrl }),
+                        React.createElement(
+                            'div',
+                            { className: 'col-xs-9' },
+                            c.text
+                        )
                     );
                 })
             );
@@ -2217,7 +2250,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 //   }
 // });
 
-React.render(React.createElement(TagMaticApp, null), document.getElementById('app'));
+React.render(React.createElement(TwitterPull, null), document.getElementById('app'));
 
 },{"./TagMaticApp.react.js":15,"./TwitterPull.react.js":16,"parse":380,"react":627}],18:[function(require,module,exports){
 (function (__dirname){
