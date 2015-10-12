@@ -38,9 +38,9 @@ var TwitterPull = React.createClass({
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
-                self.setState({
-                    data: myArr
-                });
+
+
+
                 self._moveStageAndDataAlong(myArr);
 
                 //myFunction(myArr);
@@ -55,43 +55,86 @@ var TwitterPull = React.createClass({
     _moveStageAndDataAlong: function(data) {
 
         var self = this;
-        self.props.data.requestChange(data);
 
-        //var formattingHeader = results['meta']['fields'];
-        //var builtHeader = [];
-        //console.log("firing from fileform");
-        //console.log(formattingHeader);
+        // self.setState({
+        //     data: myArr
+        // });
+
+        var data = Papa.unparse(data['twitterResponse']);
+        //console.log(data);
+
+        var confiVariables = {
+            delimiter: "", // auto-detect
+            newline: "", // auto-detect
+            header: true,
+            dynamicTyping: false,
+            preview: 0,
+            encoding: "",
+            worker: false,
+            comments: false,
+            step: undefined,
+            complete: function(results) {
+
+                //just for debugging
+                //var data = results;
+                //console.log(results['meta']['fields']); //this should show the headers in the csv
+                // end of debugging
+                // self.setState({parsedData: results });
+
+
+                //write the parsed data object back to the app
+                self.props.data.requestChange(results);
+
+                var formattingHeader = results['meta']['fields'];
+                var builtHeader = [];
+                //console.log("firing from fileform");
+                //console.log(formattingHeader);
 
 
 
-        // for (var i = 0; i < formattingHeader.length; i++) {
-        //     //text += cars[i] + "<br>";
+                for (var i = 0; i < formattingHeader.length; i++) {
+                    //text += cars[i] + "<br>";
 
-        //     var positionHolder = formattingHeader[i];
-        //     //console.log(positionHolder);
+                    var positionHolder = formattingHeader[i];
+                    //console.log(positionHolder);
 
-        //     var entryHolder = [positionHolder, [], true];
-        //     builtHeader.push(entryHolder);
-        // }
-
-
-        // console.log("builtHeader");
-        //console.log(builtHeader[0][0]);
-
-        //builtHeader[0][1].push("cat");
-        // console.log(builtHeader);
-        //debug(builtHeader);
+                    var entryHolder = [positionHolder, [], true];
+                    builtHeader.push(entryHolder);
+                }
 
 
-        //self.props.header.requestChange(builtHeader);
+                // console.log("builtHeader");
+                //console.log(builtHeader[0][0]);
 
-        //create a temporary stage object which will be used to change the field we want
-        var stage = self.props.stage.value;
-        stage['fileUploaded'] = true;
+                //builtHeader[0][1].push("cat");
+                // console.log(builtHeader);
+                //debug(builtHeader);
 
-        // console.log("the stage is to follow");
-        // console.log(stage);
-        self.props.stage.requestChange(stage);
+
+                self.props.header.requestChange(builtHeader);
+
+                //create a temporary stage object which will be used to change the field we want
+                var stage = self.props.stage.value;
+                stage['fileUploaded'] = true;
+
+                // console.log("the stage is to follow");
+                // console.log(stage);
+                self.props.stage.requestChange(stage);
+
+
+            },
+            error: undefined,
+            download: false,
+            skipEmptyLines: false,
+            chunk: undefined,
+            fastMode: undefined,
+            beforeFirstChunk: undefined,
+            withCredentials: undefined
+        };
+
+        ////////////////// beginning of parsing function
+        Papa.parse(data, confiVariables);
+        
     },
 
 

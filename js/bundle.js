@@ -2046,8 +2046,8 @@ var TagMaticApp = React.createClass({
     /** State   Variables
         User:   Not currently used anywhere.
         Stage:
-                fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
-                headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
+                fileUploaded: true or false - used to progress user from the file input view to the adding tags options view.
+                headersUploaded: true or false - used to progress user from adding tags options view to tweet tagging view.
         Header: Array of (test,array,test)
                 "Name of Header", array of all tags, true/false for published
     **/
@@ -2100,14 +2100,12 @@ var TagMaticApp = React.createClass({
 
             var postionHolder;
             if (!self.state.stage['fileUploaded']) {
-
                 postionHolder = React.createElement(FileForm, {
                     data: self.linkState('data'),
                     stage: self.linkState('stage'),
                     header: self.linkState('header')
                 });
             } else {
-
                 postionHolder = React.createElement(HeaderSlider, {
                     stage: self.linkState('stage'),
                     header: self.linkState('header')
@@ -2181,9 +2179,7 @@ var TwitterPull = React.createClass({
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
-                self.setState({
-                    data: myArr
-                });
+
                 self._moveStageAndDataAlong(myArr);
 
                 //myFunction(myArr);
@@ -2197,39 +2193,78 @@ var TwitterPull = React.createClass({
     _moveStageAndDataAlong: function _moveStageAndDataAlong(data) {
 
         var self = this;
-        self.props.data.requestChange(data);
 
-        //var formattingHeader = results['meta']['fields'];
-        //var builtHeader = [];
-        //console.log("firing from fileform");
-        //console.log(formattingHeader);
+        // self.setState({
+        //     data: myArr
+        // });
 
-        // for (var i = 0; i < formattingHeader.length; i++) {
-        //     //text += cars[i] + "<br>";
+        var data = Papa.unparse(data['twitterResponse']);
+        //console.log(data);
 
-        //     var positionHolder = formattingHeader[i];
-        //     //console.log(positionHolder);
+        var confiVariables = {
+            delimiter: "", // auto-detect
+            newline: "", // auto-detect
+            header: true,
+            dynamicTyping: false,
+            preview: 0,
+            encoding: "",
+            worker: false,
+            comments: false,
+            step: undefined,
+            complete: function complete(results) {
 
-        //     var entryHolder = [positionHolder, [], true];
-        //     builtHeader.push(entryHolder);
-        // }
+                //just for debugging
+                //var data = results;
+                //console.log(results['meta']['fields']); //this should show the headers in the csv
+                // end of debugging
+                // self.setState({parsedData: results });
 
-        // console.log("builtHeader");
-        //console.log(builtHeader[0][0]);
+                //write the parsed data object back to the app
+                self.props.data.requestChange(results);
 
-        //builtHeader[0][1].push("cat");
-        // console.log(builtHeader);
-        //debug(builtHeader);
+                var formattingHeader = results['meta']['fields'];
+                var builtHeader = [];
+                //console.log("firing from fileform");
+                //console.log(formattingHeader);
 
-        //self.props.header.requestChange(builtHeader);
+                for (var i = 0; i < formattingHeader.length; i++) {
+                    //text += cars[i] + "<br>";
 
-        //create a temporary stage object which will be used to change the field we want
-        var stage = self.props.stage.value;
-        stage['fileUploaded'] = true;
+                    var positionHolder = formattingHeader[i];
+                    //console.log(positionHolder);
 
-        // console.log("the stage is to follow");
-        // console.log(stage);
-        self.props.stage.requestChange(stage);
+                    var entryHolder = [positionHolder, [], true];
+                    builtHeader.push(entryHolder);
+                }
+
+                // console.log("builtHeader");
+                //console.log(builtHeader[0][0]);
+
+                //builtHeader[0][1].push("cat");
+                // console.log(builtHeader);
+                //debug(builtHeader);
+
+                self.props.header.requestChange(builtHeader);
+
+                //create a temporary stage object which will be used to change the field we want
+                var stage = self.props.stage.value;
+                stage['fileUploaded'] = true;
+
+                // console.log("the stage is to follow");
+                // console.log(stage);
+                self.props.stage.requestChange(stage);
+            },
+            error: undefined,
+            download: false,
+            skipEmptyLines: false,
+            chunk: undefined,
+            fastMode: undefined,
+            beforeFirstChunk: undefined,
+            withCredentials: undefined
+        };
+
+        ////////////////// beginning of parsing function
+        Papa.parse(data, confiVariables);
     },
 
     render: function render() {

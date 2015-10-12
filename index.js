@@ -41,7 +41,7 @@ app.get('/api/twitter', cors(), function(req, res) {
 });
 
 
-app.get('/api/twitter/search/:query/:count?', cors() , function(req, res) {
+app.get('/api/twitter/search/:query/:count?', cors(), function(req, res) {
     twitterSearch(req, res);
 });
 
@@ -74,8 +74,8 @@ function twitterSearch(req, res) {
             //console.log(statuses[i]['text']);
             //tweets.push([statuses[i]['id'],statuses[i]['text'],statuses[i]['user']['id']]);
             tweets.push({
-                "tweetId": statuses[i]['id'],
                 "text": statuses[i]['text'],
+                "tweetId": statuses[i]['id'],
                 "userId": statuses[i]['user']['id'],
                 "userScreenName": statuses[i]['user']['screen_name'],
                 "userProfileImageUrl": statuses[i]['user']['profile_image_url']

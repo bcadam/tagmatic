@@ -60,8 +60,8 @@ var TagMaticApp = React.createClass({
     /** State   Variables
         User:   Not currently used anywhere.
         Stage:
-                fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
-                headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
+                fileUploaded: true or false - used to progress user from the file input view to the adding tags options view.
+                headersUploaded: true or false - used to progress user from adding tags options view to tweet tagging view.
         Header: Array of (test,array,test)
                 "Name of Header", array of all tags, true/false for published
     **/
@@ -116,14 +116,12 @@ var TagMaticApp = React.createClass({
 
             var postionHolder;
             if (!self.state.stage['fileUploaded']) {
-
                 postionHolder = <FileForm 
               data={self.linkState('data')} 
               stage={self.linkState('stage')} 
               header={self.linkState('header')}
             />;
             } else {
-
                 postionHolder = <HeaderSlider 
               stage={self.linkState('stage')} 
               header={self.linkState('header')}
