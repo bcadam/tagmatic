@@ -124,7 +124,7 @@ var TagMaticApp = React.createClass({
             />
           </div>
           <div style={appTags}>
-            <TwitterPull 
+            <FileForm 
               data={this.linkState('data')} 
               stage={this.linkState('stage')} 
               header={this.linkState('header')}
