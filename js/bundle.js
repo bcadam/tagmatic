@@ -2040,92 +2040,100 @@ var StatusUpdates = require('./StatusUpdates.react.js');
 var TwitterPull = require('./TwitterPull.react.js');
 
 var TagMaticApp = React.createClass({
-  displayName: 'TagMaticApp',
+    displayName: 'TagMaticApp',
 
-  mixins: [React.addons.LinkedStateMixin],
-  /** State   Variables
-      User:   Not currently used anywhere.
-      Stage:
-              fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
-              headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
-      Header: Array of (test,array,test)
-              "Name of Header", array of all tags, true/false for published
-  **/
-  getInitialState: function getInitialState() {
-    return {
-      user: Parse.User.current(),
-      stage: {
-        fileUploaded: false,
-        headersUploaded: false
-      },
-      data: null,
-      header: {}
-    };
-  },
-  render: function render() {
-    var self = this;
-    var appMain = {
-      position: 'fixed',
-      left: '0px',
-      top: '0px',
-      right: '0px',
-      bottom: '200px',
-      textAlign: 'center'
-    };
-    var appTags = {
-      position: 'absolute',
-      left: '0px',
-      right: '0px',
-      bottom: '0px',
-      overflowX: 'hidden',
-      overflowY: 'hidden',
-      height: '200px',
-      borderTop: '3px solid #ff763d',
-      backgroundColor: 'whitesmoke'
-    };
-    //////////////
-    //  This serves up the second view which is the tag option view
-    //////////////
-    if (this.state.stage['fileUploaded'] && this.state.stage['headersUploaded']) {
-      console.log(this.linkState('data')); //raw data
-      console.log(this.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
-      console.log(this.linkState('header')); //tracks header, tags,  header visibility, tweet state
-      return React.createElement(TagMachine, {
-        onKeyDown: self._advancePosition,
-        data: this.linkState('data'),
-        stage: this.linkState('stage'),
-        header: this.linkState('header')
-      });
-    } else {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(NavBar, null),
-        React.createElement(
-          'div',
-          { style: appMain },
-          React.createElement(StatusUpdates, {
-            data: this.linkState('data'),
-            stage: this.linkState('stage'),
-            header: this.linkState('header')
-          })
-        ),
-        React.createElement(
-          'div',
-          { style: appTags },
-          React.createElement(TwitterPull, {
-            data: this.linkState('data'),
-            stage: this.linkState('stage'),
-            header: this.linkState('header')
-          }),
-          React.createElement(HeaderSlider, {
-            stage: this.linkState('stage'),
-            header: this.linkState('header')
-          })
-        )
-      );
+    mixins: [React.addons.LinkedStateMixin],
+    /** State   Variables
+        User:   Not currently used anywhere.
+        Stage:
+                fileUploaded: true or fals - used to progress user from the file input view to the adding tags options view.
+                headersUploaded: true or fals - used to progress user from adding tags options view to tweet tagging view.
+        Header: Array of (test,array,test)
+                "Name of Header", array of all tags, true/false for published
+    **/
+    getInitialState: function getInitialState() {
+        return {
+            user: Parse.User.current(),
+            stage: {
+                fileUploaded: false,
+                headersUploaded: false
+            },
+            data: null,
+            header: {}
+        };
+    },
+    render: function render() {
+        var self = this;
+        var appMain = {
+            position: 'fixed',
+            left: '0px',
+            top: '0px',
+            right: '0px',
+            bottom: '200px',
+            textAlign: 'center'
+        };
+        var appTags = {
+            position: 'absolute',
+            left: '0px',
+            right: '0px',
+            bottom: '0px',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
+            height: '200px',
+            borderTop: '3px solid #ff763d',
+            backgroundColor: 'whitesmoke'
+        };
+        //////////////
+        //  This serves up the second view which is the tag option view
+        //////////////
+        if (self.state.stage['fileUploaded'] && self.state.stage['headersUploaded']) {
+            console.log(self.linkState('data')); //raw data
+            console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
+            console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
+            return React.createElement(TagMachine, {
+                onKeyDown: self._advancePosition,
+                data: self.linkState('data'),
+                stage: self.linkState('stage'),
+                header: self.linkState('header')
+            });
+        } else {
+
+            var postionHolder;
+            if (!self.state.stage['fileUploaded']) {
+
+                postionHolder = React.createElement(FileForm, {
+                    data: self.linkState('data'),
+                    stage: self.linkState('stage'),
+                    header: self.linkState('header')
+                });
+            } else {
+
+                postionHolder = React.createElement(HeaderSlider, {
+                    stage: self.linkState('stage'),
+                    header: self.linkState('header')
+                });
+            }
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(NavBar, null),
+                React.createElement(
+                    'div',
+                    { style: appMain },
+                    React.createElement(StatusUpdates, {
+                        data: self.linkState('data'),
+                        stage: self.linkState('stage'),
+                        header: self.linkState('header')
+                    })
+                ),
+                React.createElement(
+                    'div',
+                    { style: appTags },
+                    postionHolder
+                )
+            );
+        }
     }
-  }
 });
 module.exports = TagMaticApp;
 
@@ -2163,7 +2171,7 @@ var TwitterPull = React.createClass({
         //alert(this.state.searchCount);
     },
 
-    getSearch: function getSearch() {
+    _getSearch: function _getSearch() {
         var myArr = this.state.data;
         var self = this;
 
@@ -2176,6 +2184,8 @@ var TwitterPull = React.createClass({
                 self.setState({
                     data: myArr
                 });
+                self._moveStageAndDataAlong(myArr);
+
                 //myFunction(myArr);
                 //alert("cat");
                 //console.log(myArr);
@@ -2183,6 +2193,43 @@ var TwitterPull = React.createClass({
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+    },
+    _moveStageAndDataAlong: function _moveStageAndDataAlong(data) {
+
+        var self = this;
+        self.props.data.requestChange(data);
+
+        //var formattingHeader = results['meta']['fields'];
+        //var builtHeader = [];
+        //console.log("firing from fileform");
+        //console.log(formattingHeader);
+
+        // for (var i = 0; i < formattingHeader.length; i++) {
+        //     //text += cars[i] + "<br>";
+
+        //     var positionHolder = formattingHeader[i];
+        //     //console.log(positionHolder);
+
+        //     var entryHolder = [positionHolder, [], true];
+        //     builtHeader.push(entryHolder);
+        // }
+
+        // console.log("builtHeader");
+        //console.log(builtHeader[0][0]);
+
+        //builtHeader[0][1].push("cat");
+        // console.log(builtHeader);
+        //debug(builtHeader);
+
+        //self.props.header.requestChange(builtHeader);
+
+        //create a temporary stage object which will be used to change the field we want
+        var stage = self.props.stage.value;
+        stage['fileUploaded'] = true;
+
+        // console.log("the stage is to follow");
+        // console.log(stage);
+        self.props.stage.requestChange(stage);
     },
 
     render: function render() {
@@ -2198,7 +2245,7 @@ var TwitterPull = React.createClass({
                 React.createElement('input', { type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'div',
-                    { onClick: self.getSearch, className: 'btn btn-success' },
+                    { onClick: self._getSearch, className: 'btn btn-success' },
                     'Get Tweets'
                 )
             );

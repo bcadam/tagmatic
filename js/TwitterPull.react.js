@@ -28,7 +28,7 @@ var TwitterPull = React.createClass({
         //alert(this.state.searchCount);
     },
 
-    getSearch: function() {
+    _getSearch: function() {
         var myArr = this.state.data;
         var self = this;
 
@@ -41,6 +41,8 @@ var TwitterPull = React.createClass({
                 self.setState({
                     data: myArr
                 });
+                self._moveStageAndDataAlong(myArr);
+
                 //myFunction(myArr);
                 //alert("cat");
                 //console.log(myArr);
@@ -50,6 +52,48 @@ var TwitterPull = React.createClass({
         xmlhttp.send();
 
     },
+    _moveStageAndDataAlong: function(data) {
+
+        var self = this;
+        self.props.data.requestChange(data);
+
+        //var formattingHeader = results['meta']['fields'];
+        //var builtHeader = [];
+        //console.log("firing from fileform");
+        //console.log(formattingHeader);
+
+
+
+        // for (var i = 0; i < formattingHeader.length; i++) {
+        //     //text += cars[i] + "<br>";
+
+        //     var positionHolder = formattingHeader[i];
+        //     //console.log(positionHolder);
+
+        //     var entryHolder = [positionHolder, [], true];
+        //     builtHeader.push(entryHolder);
+        // }
+
+
+        // console.log("builtHeader");
+        //console.log(builtHeader[0][0]);
+
+        //builtHeader[0][1].push("cat");
+        // console.log(builtHeader);
+        //debug(builtHeader);
+
+
+        //self.props.header.requestChange(builtHeader);
+
+        //create a temporary stage object which will be used to change the field we want
+        var stage = self.props.stage.value;
+        stage['fileUploaded'] = true;
+
+        // console.log("the stage is to follow");
+        // console.log(stage);
+        self.props.stage.requestChange(stage);
+    },
+
 
     render: function() {
 
@@ -57,7 +101,7 @@ var TwitterPull = React.createClass({
         //console.log(self.state.data);
         var counter = 0;
         if (self.state.data == null) {
-            return (<div><input type="text" value={self.state.searchValue} onChange={self._onChange} /><input type="number" value={self.state.searchCount} onChange={self._onChangeCount} /><div onClick={self.getSearch} className="btn btn-success">Get Tweets</div></div>);
+            return (<div><input type="text" value={self.state.searchValue} onChange={self._onChange} /><input type="number" value={self.state.searchCount} onChange={self._onChangeCount} /><div onClick={self._getSearch} className="btn btn-success">Get Tweets</div></div>);
         } else {
             console.log(self.state.data["twitterResponse"]);
 
