@@ -2129,7 +2129,7 @@ var TagMaticApp = React.createClass({
 
             var postionHolder;
             if (!self.state.stage['fileUploaded']) {
-                postionHolder = React.createElement(FileForm, {
+                postionHolder = React.createElement(TwitterPull, {
                     data: self.linkState('data'),
                     stage: self.linkState('stage'),
                     header: self.linkState('header')
@@ -2203,7 +2203,7 @@ var TwitterPull = React.createClass({
         var self = this;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = "https://tagmatic.herokuapp.com/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
+        var url = "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2222,6 +2222,8 @@ var TwitterPull = React.createClass({
     _moveStageAndDataAlong: function _moveStageAndDataAlong(data) {
 
         var self = this;
+
+        var data = data['twitterResponse'];
 
         // self.setState({
         //     data: myArr
@@ -2247,6 +2249,8 @@ var TwitterPull = React.createClass({
             }
         }).then(function () {
 
+            var builtHeader = [];
+
             var confiVariables = {
                 delimiter: "", // auto-detect
                 newline: "", // auto-detect
@@ -2269,7 +2273,6 @@ var TwitterPull = React.createClass({
                     self.props.data.requestChange(results);
 
                     var formattingHeader = results['meta']['fields'];
-                    var builtHeader = [];
                     //console.log("firing from fileform");
                     //console.log(formattingHeader);
 
@@ -2319,8 +2322,21 @@ var TwitterPull = React.createClass({
                 withCredentials: undefined
             };
 
-            var data = Papa.unparse(data['twitterResponse']);
+            console.log(self.props.header.value);
 
+            for (var i = 0; i < builtHeader; i++) {
+                var headerValue = builtHeader[i];
+
+                for (var y = 0; y < data.length; y++) {
+                    data[data.length].push(headerValue);
+                }
+            }
+
+            //data.push(builtHeader);
+            //console.log(data);
+
+            data = Papa.unparse(data);
+            console.log(data);
             ////////////////// beginning of parsing function
             Papa.parse(data, confiVariables);
         });

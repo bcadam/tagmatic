@@ -116,7 +116,7 @@ var TagMaticApp = React.createClass({
 
             var postionHolder;
             if (!self.state.stage['fileUploaded']) {
-                postionHolder = <FileForm 
+                postionHolder = <TwitterPull 
               data={self.linkState('data')} 
               stage={self.linkState('stage')} 
               header={self.linkState('header')}
