@@ -2037,6 +2037,7 @@ var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
 var TagMachine = require('./TagMachine.react.js');
 var StatusUpdates = require('./StatusUpdates.react.js');
+var TwitterPull = require('./TwitterPull.react.js');
 
 var TagMaticApp = React.createClass({
   displayName: 'TagMaticApp',
@@ -2112,7 +2113,7 @@ var TagMaticApp = React.createClass({
         React.createElement(
           'div',
           { style: appTags },
-          React.createElement(FileForm, {
+          React.createElement(TwitterPull, {
             data: this.linkState('data'),
             stage: this.linkState('stage'),
             header: this.linkState('header')
@@ -2128,7 +2129,7 @@ var TagMaticApp = React.createClass({
 });
 module.exports = TagMaticApp;
 
-},{"./FileForm.react.js":2,"./HeaderSlider.react.js":8,"./NavBar.react.js":12,"./StatusUpdates.react.js":13,"./TagMachine.react.js":14,"parse":380,"parse-react":360,"react/addons":455}],16:[function(require,module,exports){
+},{"./FileForm.react.js":2,"./HeaderSlider.react.js":8,"./NavBar.react.js":12,"./StatusUpdates.react.js":13,"./TagMachine.react.js":14,"./TwitterPull.react.js":16,"parse":380,"parse-react":360,"react/addons":455}],16:[function(require,module,exports){
 'use strict';
 
 var Parse = require('parse').Parse;
@@ -2250,7 +2251,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 //   }
 // });
 
-React.render(React.createElement(TwitterPull, null), document.getElementById('app'));
+React.render(React.createElement(TagMaticApp, null), document.getElementById('app'));
 
 },{"./TagMaticApp.react.js":15,"./TwitterPull.react.js":16,"parse":380,"react":627}],18:[function(require,module,exports){
 (function (__dirname){

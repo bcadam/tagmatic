@@ -53,6 +53,7 @@ var FileForm = require('./FileForm.react.js');
 var HeaderSlider = require('./HeaderSlider.react.js');
 var TagMachine = require('./TagMachine.react.js');
 var StatusUpdates = require('./StatusUpdates.react.js');
+var TwitterPull = require('./TwitterPull.react.js');
 
 var TagMaticApp = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
@@ -123,7 +124,7 @@ var TagMaticApp = React.createClass({
             />
           </div>
           <div style={appTags}>
-            <FileForm 
+            <TwitterPull 
               data={this.linkState('data')} 
               stage={this.linkState('stage')} 
               header={this.linkState('header')}
