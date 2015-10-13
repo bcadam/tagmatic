@@ -33,7 +33,8 @@ var TwitterPull = React.createClass({
         var self = this;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
+        var host = "https://tagmatic.herokuapp.com"; 
+        var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

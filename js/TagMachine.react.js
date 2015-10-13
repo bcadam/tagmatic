@@ -18,14 +18,24 @@ var TagMachine = React.createClass({
         var self = this;
         var counter = 0;
         var publishHeaders = self.state.publishHeaders;
-        //console.log(this.state.data.value.data);
-        //console.log(this.state.header.value);
 
-        //console.log(self.state.header.value);
-        //console.log(this.state.publishHeaders);
+        //default "text" @ 0 to Tweet and Twitter column
+        //auto advance to next tag
+        //on next tweet, go back to first header
+        //move csv button to top right corner
+        //send all tweets to datascroller n all headers to headerscroller
+        //headerscroller shouldnt need tweet position 
 
         var holderOfTweetColumn = self.props.stage.value.tweet;
-        var tweet = self.props.data.value.data[self.state.positionInData][holderOfTweetColumn];
+        var numOfTweets = this.state.data.value.data.length;
+        var currentPosition = this.state.positionInData;
+        var previousPosition = ((currentPosition == 0) ? (numOfTweets - 1) : (currentPosition - 1));
+        var nextPosition = ((currentPosition + 1 == numOfTweets) ? 0 : (currentPosition + 1));
+
+        console.log(currentPosition, previousPosition, nextPosition);
+        var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
+        var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
+        var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
 
         var appMain = {
           position: 'fixed',
@@ -52,22 +62,18 @@ var TagMachine = React.createClass({
             paddingTop: '80px'
         }
 
-        var numOfTweets = this.state.data.value.data.length;
-        var currentPosition = this.state.positionInData + 1;
-
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
         //the should update method
         return (
             <div>
               <NavBar />
               <div style={appMain}>
-                <DataScroller key={self.state.positionInData} tweet={tweet} headers={publishHeaders} />
-                <div style={counter}>{currentPosition} of {numOfTweets}</div>
+                <DataScroller key={self.state.positionInData} tweet={currentTweet} next={nextTweet} previous={previousTweet} headers={publishHeaders} />
+                <div style={counter}>{currentPosition + 1} of {numOfTweets}</div>
               </div>
               <div style={appTags}>
-                <HeaderScroller key={self.state.positionInHeader - 100} tweet={tweet} positionInData={self.state.positionInData} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
+                <HeaderScroller key={self.state.positionInHeader - 100} tweet={currentTweet} positionInData={currentPosition} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
                 <div style={{textAlign:'center'}}>
-                    <div className="btn btn-success" onClick={this._advanceHeader}>Advance</div>
                     <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
                 </div>
               </div>

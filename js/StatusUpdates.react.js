@@ -37,14 +37,14 @@ var StatusUpdates = React.createClass({
       return (
         <div style={statusContainer}>
           <h1 style={statusText}>Welcome!&nbsp;Start by uploading your data...</h1>
-          <img style={bgImport} src="./images/bg-import.png"/>
+          <img style={bgImport} src="../images/bg-import.png"/>
         </div>
       );
     } else {
       return (
         <div style={statusContainer}>
           <h1 style={statusText}>Select the headers and tags you want</h1>
-          <img style={bgSelect} src="./images/bg-select.png"/>
+          <img style={bgSelect} src="../images/bg-select.png"/>
         </div>
       );
     }

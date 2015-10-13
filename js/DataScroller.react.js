@@ -41,9 +41,46 @@ var DataScroller = React.createClass({
             height: '200px',
             width: '400px',
         }
+        var tweetBoxPre = {
+            border: '3px solid #efefef',
+            borderRadius: '5px',
+            fontSize:'16px',
+            left: '50%',
+            top: '50%',
+            marginLeft: '-200px',
+            marginTop: '-390px',
+            opacity: '0.15',
+            padding: '20px 10px',
+            position: 'fixed',
+            height: '200px',
+            width: '400px',
+        }
+        var tweetBoxPost = {
+            border: '3px solid #efefef',
+            borderRadius: '5px',
+            fontSize:'16px',
+            left: '50%',
+            top: '50%',
+            marginLeft: '-200px',
+            marginTop: '50px',
+            opacity: '0.15',
+            padding: '20px 10px',
+            position: 'fixed',
+            height: '200px',
+            width: '400px',
+        }
+
         return (
-            <div id="tweetLoc" className="col-xs-12" style={tweetBox}>
-            {self.props.tweet}
+            <div>
+                <div id="tweetPre" className="col-xs-12" style={tweetBoxPre}>
+                    {self.props.previous}
+                </div>
+                <div id="tweetLoc" className="col-xs-12" style={tweetBox}>
+                    {self.props.tweet}
+                </div>
+                <div id="tweetPost" className="col-xs-12" style={tweetBoxPost}>
+                    {self.props.next}
+                </div>
             </div>
         );
 

@@ -113,13 +113,31 @@ var HeaderBox = React.createClass({
     } else {
       holderStage.tweet = holderHeader;
       holderStage.tweetCounter = self.props.counter;
+      this._unPublish();
     }
     self.state.stage.requestChange(holderStage); 
+  },
+  _unMarkTweet: function(){
+    var self = this;
+    var holderStage = self.state.stage.value;
+    var holderHeader = self.props.header.value[self.props.counter][0];
+
+    holderStage.tweet = "";
+    holderStage.tweetCounter = "";
+    self.state.stage.requestChange(holderStage); 
+  },
+  _unPublish: function() {
+    var newPublishState = false;
+    this.setState({publish: newPublishState});
+
+    var fullHeader = this.props.header.value;
+    fullHeader[this.props.counter][2] = newPublishState;
+    this.props.header.requestChange(fullHeader);
   },
   _togglePublish: function() {
     var newPublishState = !this.state.publish;
     this.setState({publish: newPublishState});
-
+    if(newPublishState === true) { this._unMarkTweet(); }
     var fullHeader = this.props.header.value;
     fullHeader[this.props.counter][2] = newPublishState;
     this.props.header.requestChange(fullHeader);
