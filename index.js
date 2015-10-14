@@ -89,7 +89,7 @@ function twitterSearch(req, res) {
     }
 
     var query = req.params.query;
-    var count = (req.params.count == null || req.params.count > 20 ? 1 : req.params.count);
+    var count = (req.params.count == null || req.params.count > 500 ? 1 : req.params.count);
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);

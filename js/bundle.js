@@ -1787,7 +1787,7 @@ var TagMachine = React.createClass({
         var previousPosition = currentPosition == 0 ? numOfTweets - 1 : currentPosition - 1;
         var nextPosition = currentPosition + 1 == numOfTweets ? 0 : currentPosition + 1;
 
-        console.log(currentPosition, previousPosition, nextPosition);
+        //console.log(currentPosition, previousPosition, nextPosition);
         var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
         var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
         var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
