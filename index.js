@@ -2,6 +2,13 @@ var express = require('express');
 var cors = require('cors');
 var app = express();
 
+// var React = require('react-native');
+// var Parse = require('parse/react-native');
+// var ParseReact = require('parse-react/react-native');
+
+//Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+
+
 // var Parse = require('parse').Parse;
 // var React = require('react/addons');
 // var ParseReact = require('parse-react');
@@ -67,7 +74,7 @@ function twitterSearch(req, res) {
         //console.log(statuses);
 
 
-        //	Tweets data structure
+        //  Tweets data structure
         var tweets = [];
 
         for (var i = 0; i < statuses.length; i++) {
@@ -80,7 +87,19 @@ function twitterSearch(req, res) {
                 "userScreenName": statuses[i]['user']['screen_name'],
                 "userProfileImageUrl": statuses[i]['user']['profile_image_url']
             });
+
+            // var parseCreate = ParseReact.Mutation.Create("Tweet", {
+            //     text: statuses[i]['text'],
+            //     tweetId: statuses[i]['id'],
+            //     userId: statuses[i]['user']['id'],
+            //     userScreenName: statuses[i]['user']['screen_name'],
+            //     userProfileImageUrl: statuses[i]['user']['profile_image_url']
+            // });
+
+
         };
+
+        // parseCreate.dispatch();
 
         res.json({
             twitterResponse: tweets
@@ -89,7 +108,7 @@ function twitterSearch(req, res) {
     }
 
     var query = req.params.query;
-    var count = (req.params.count == null || req.params.count > 500 ? 1 : req.params.count);
+    var count = (req.params.count == null || req.params.count > 3000 ? 1 : req.params.count);
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
