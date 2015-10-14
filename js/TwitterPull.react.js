@@ -33,7 +33,7 @@ var TwitterPull = React.createClass({
         var self = this;
 
         var xmlhttp = new XMLHttpRequest();
-        var host = "https://tagmatic.herokuapp.com"; 
+        var host = "https://tagmatic.herokuapp.com";
         var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
         xmlhttp.onreadystatechange = function() {
@@ -104,14 +104,7 @@ var TwitterPull = React.createClass({
                 step: undefined,
                 complete: function(results) {
 
-                    //just for debugging
-                    //var data = results;
-                    //console.log(results['meta']['fields']); //this should show the headers in the csv
-                    // end of debugging
-                    // self.setState({parsedData: results });
-
-
-                    //write the parsed data object back to the app
+               
                     self.props.data.requestChange(results);
 
                     var formattingHeader = results['meta']['fields'];
@@ -119,24 +112,21 @@ var TwitterPull = React.createClass({
                     //console.log(formattingHeader);
 
 
+                    var positionHolder = formattingHeader[0];
+                    var entryHolder = [positionHolder, [], false];
+                    builtHeader.push(entryHolder);
 
-                    for (var i = 0; i < formattingHeader.length; i++) {
+
+                    for (var i = 1; i < formattingHeader.length; i++) {
                         //text += cars[i] + "<br>";
 
                         var positionHolder = formattingHeader[i];
                         //console.log(positionHolder);
 
-                        var entryHolder = [positionHolder, [], true];
+                        var entryHolder = [positionHolder, [], false];
                         builtHeader.push(entryHolder);
                     }
 
-
-                    // console.log("builtHeader");
-                    //console.log(builtHeader[0][0]);
-
-                    //builtHeader[0][1].push("cat");
-                    // console.log(builtHeader);
-                    //debug(builtHeader);
 
                     for (var i = 0; i < tempSuggestedClassifier.length; i++) {
                         //text += cars[i] + "<br>";
@@ -144,7 +134,6 @@ var TwitterPull = React.createClass({
                         var positionHolder = tempSuggestedClassifier[i];
                         //console.log(positionHolder);
                         //console.log("positionHolder");
-
                         var entryHolder = [positionHolder[0], positionHolder[1], true];
                         builtHeader.push(entryHolder);
                     }
@@ -154,9 +143,12 @@ var TwitterPull = React.createClass({
                     var stage = self.props.stage.value;
                     stage['fileUploaded'] = true;
 
-                    // console.log("the stage is to follow");
-                    // console.log(stage);
                     self.props.stage.requestChange(stage);
+
+                    var holderStage = self.props.stage.value;
+                    holderStage.tweet = builtHeader[0][0];
+                    holderStage.tweetCounter = 0;
+                    self.props.stage.requestChange(holderStage);
 
 
                 },
@@ -170,7 +162,7 @@ var TwitterPull = React.createClass({
             };
 
 
-            console.log(self.props.header.value);
+            //console.log(self.props.header.value);
 
             for (var i = 0; i < builtHeader; i++) {
                 var headerValue = builtHeader[i];
@@ -185,8 +177,9 @@ var TwitterPull = React.createClass({
             //data.push(builtHeader);
             //console.log(data);
 
+
             data = Papa.unparse(data);
-            console.log(data);
+            //console.log(data);
             ////////////////// beginning of parsing function
             Papa.parse(data, confiVariables);
 
