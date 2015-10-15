@@ -1728,7 +1728,7 @@ var StatusUpdates = React.createClass({
         React.createElement(
           'h1',
           { style: statusText },
-          'Welcome! Start by uploading your data...'
+          'Welcome! Start by pulling your data...'
         ),
         React.createElement('img', { style: bgImport, src: '../images/bg-import.png' })
       );
