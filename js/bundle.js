@@ -1739,7 +1739,7 @@ var StatusUpdates = React.createClass({
         React.createElement(
           'h1',
           { style: statusText },
-          'Select the headers and tags you want'
+          'Select the classifiers and tags you want'
         ),
         React.createElement('img', { style: bgSelect, src: '../images/bg-select.png' })
       );
@@ -2483,7 +2483,7 @@ var TwitterPull = React.createClass({
             return React.createElement(
                 'div',
                 { id: 'twitterform', style: fileFormContainer },
-                React.createElement('input', { style: formFormat, placeholder: 'Value to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
+                React.createElement('input', { style: formFormat, placeholder: 'Words to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
                 React.createElement('input', { style: formFormat, placeholder: '#Tweets to Pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'div',
