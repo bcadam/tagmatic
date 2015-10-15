@@ -4,6 +4,17 @@ var ParseReact = require('parse-react');
 var React = require('react');
 var Twitter = require('twitter-node-client').Twitter;
 
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+
+
 var TwitterPull = React.createClass({
 
     getInitialState: function() {
@@ -104,9 +115,6 @@ var TwitterPull = React.createClass({
                 step: undefined,
                 complete: function(results) {
 
-               
-                    self.props.data.requestChange(results);
-
                     var formattingHeader = results['meta']['fields'];
                     //console.log("firing from fileform");
                     //console.log(formattingHeader);
@@ -134,19 +142,59 @@ var TwitterPull = React.createClass({
                         //console.log("positionHolder");
                         var entryHolder = [positionHolder[0], positionHolder[1], true];
                         builtHeader.push(entryHolder);
+
                     }
+
+
                     self.props.header.requestChange(builtHeader);
 
                     //create a temporary stage object which will be used to change the field we want
                     var stage = self.props.stage.value;
                     stage['fileUploaded'] = true;
 
-                    self.props.stage.requestChange(stage);
+                    //self.props.stage.requestChange(stage);
 
-                    var holderStage = self.props.stage.value;
-                    holderStage.tweet = builtHeader[0][0];
-                    holderStage.tweetCounter = 0;
-                    self.props.stage.requestChange(holderStage);
+
+                    // console.log("builtHeader");
+                    // console.log(builtHeader);
+
+                    //var holderStage = self.props.stage.value;
+                    stage.tweet = builtHeader[0][0];
+
+                    stage.tweetCounter = 0;
+
+                    //console.log(self.props.stage);
+
+                    self.props.stage.requestChange(stage);
+                    //console.log(stage);
+
+
+
+                    for (var i = 0; i < results.data.length; i++) {
+
+                        var size = Object.size(results.data[i]);
+
+                        //console.log(size);
+
+                        for (var y = 0; y < tempSuggestedClassifier.length; y++) {
+                            //console.log("tempSuggestedClassifier");
+
+                            if (tempSuggestedClassifier[y][2]) {
+                                //console.log(tempSuggestedClassifier[y][0]);
+                                results.data[i][tempSuggestedClassifier[y][0]] = '';
+                            }
+
+                        }
+
+                    }
+
+                    console.log("results");
+                    console.log(results);
+
+                    console.log("tempSuggestedClassifier");
+                    console.log(tempSuggestedClassifier);
+
+                    self.props.data.requestChange(results);
 
 
                 },
@@ -159,21 +207,26 @@ var TwitterPull = React.createClass({
                 withCredentials: undefined
             };
 
+            //console.log(data);
+
+
 
             //console.log(self.props.header.value);
 
-            for (var i = 0; i < builtHeader; i++) {
-                var headerValue = builtHeader[i];
+            // for (var i = 0; i < builtHeader; i++) {
+            //     var headerValue = builtHeader[i];
 
-                for (var y = 0; y < data.length; y++) {
-                    data[data.length].push(headerValue);
-                }
+            //     for (var y = 0; y < data.length; y++) {
+            //         data[data.length].push(headerValue);
+            //     }
 
-            }
+            // }
+
 
 
             //data.push(builtHeader);
             //console.log(data);
+
 
 
             data = Papa.unparse(data);
@@ -228,7 +281,7 @@ var TwitterPull = React.createClass({
         var counter = 0;
         if (self.state.data == null) {
             return (<div id="twitterform" style={fileFormContainer}>
-                    <input style={formFormat} placeholder="Value to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="Amount" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
+                    <input style={formFormat} placeholder="Value to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="#Tweets to Pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
                     <div style={fileFormContainer}>
                     <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
                     </div>

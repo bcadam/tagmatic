@@ -19,6 +19,7 @@ var TagMachine = React.createClass({
         var counter = 0;
         var publishHeaders = self.state.publishHeaders;
 
+        //console.log(self.props.data.value);
         //default "text" @ 0 to Tweet and Twitter column
         //auto advance to next tag
         //on next tweet, go back to first header

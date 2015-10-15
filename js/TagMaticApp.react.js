@@ -101,9 +101,9 @@ var TagMaticApp = React.createClass({
             //  This serves up the second view which is the tag option view
             //////////////
         if (self.state.stage['fileUploaded'] && self.state.stage['headersUploaded']) {
-            console.log(self.linkState('data')); //raw data
-            console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
-            console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
+            // console.log(self.linkState('data')); //raw data
+            // console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
+            // console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
             return (
                 <TagMachine 
           onKeyDown={self._advancePosition}

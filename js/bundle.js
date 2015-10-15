@@ -1774,6 +1774,7 @@ var TagMachine = React.createClass({
         var counter = 0;
         var publishHeaders = self.state.publishHeaders;
 
+        //console.log(self.props.data.value);
         //default "text" @ 0 to Tweet and Twitter column
         //auto advance to next tag
         //on next tweet, go back to first header
@@ -2181,9 +2182,9 @@ var TagMaticApp = React.createClass({
         //  This serves up the second view which is the tag option view
         //////////////
         if (self.state.stage['fileUploaded'] && self.state.stage['headersUploaded']) {
-            console.log(self.linkState('data')); //raw data
-            console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
-            console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
+            // console.log(self.linkState('data')); //raw data
+            // console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
+            // console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
             return React.createElement(TagMachine, {
                 onKeyDown: self._advancePosition,
                 data: self.linkState('data'),
@@ -2237,6 +2238,15 @@ var Parse = require('parse').Parse;
 var ParseReact = require('parse-react');
 var React = require('react');
 var Twitter = require('twitter-node-client').Twitter;
+
+Object.size = function (obj) {
+    var size = 0,
+        key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 var TwitterPull = React.createClass({
     displayName: 'TwitterPull',
@@ -2329,8 +2339,6 @@ var TwitterPull = React.createClass({
                 step: undefined,
                 complete: function complete(results) {
 
-                    self.props.data.requestChange(results);
-
                     var formattingHeader = results['meta']['fields'];
                     //console.log("firing from fileform");
                     //console.log(formattingHeader);
@@ -2355,18 +2363,51 @@ var TwitterPull = React.createClass({
                         var entryHolder = [positionHolder[0], positionHolder[1], true];
                         builtHeader.push(entryHolder);
                     }
+
                     self.props.header.requestChange(builtHeader);
 
                     //create a temporary stage object which will be used to change the field we want
                     var stage = self.props.stage.value;
                     stage['fileUploaded'] = true;
 
-                    self.props.stage.requestChange(stage);
+                    //self.props.stage.requestChange(stage);
 
-                    var holderStage = self.props.stage.value;
-                    holderStage.tweet = builtHeader[0][0];
-                    holderStage.tweetCounter = 0;
-                    self.props.stage.requestChange(holderStage);
+                    // console.log("builtHeader");
+                    // console.log(builtHeader);
+
+                    //var holderStage = self.props.stage.value;
+                    stage.tweet = builtHeader[0][0];
+
+                    stage.tweetCounter = 0;
+
+                    //console.log(self.props.stage);
+
+                    self.props.stage.requestChange(stage);
+                    //console.log(stage);
+
+                    for (var i = 0; i < results.data.length; i++) {
+
+                        var size = Object.size(results.data[i]);
+
+                        //console.log(size);
+
+                        for (var y = 0; y < tempSuggestedClassifier.length; y++) {
+                            //console.log("tempSuggestedClassifier");
+
+                            if (tempSuggestedClassifier[y][2]) {
+                                //console.log(tempSuggestedClassifier[y][0]);
+                                results.data[i][tempSuggestedClassifier[y][0]] = '';
+                            }
+                        }
+                    }
+
+                    console.log("results");
+                    console.log(results);
+
+                    console.log("tempSuggestedClassifier");
+                    console.log(tempSuggestedClassifier);
+
+                    self.props.data.requestChange(results);
                 },
                 error: undefined,
                 download: false,
@@ -2377,15 +2418,18 @@ var TwitterPull = React.createClass({
                 withCredentials: undefined
             };
 
+            //console.log(data);
+
             //console.log(self.props.header.value);
 
-            for (var i = 0; i < builtHeader; i++) {
-                var headerValue = builtHeader[i];
+            // for (var i = 0; i < builtHeader; i++) {
+            //     var headerValue = builtHeader[i];
 
-                for (var y = 0; y < data.length; y++) {
-                    data[data.length].push(headerValue);
-                }
-            }
+            //     for (var y = 0; y < data.length; y++) {
+            //         data[data.length].push(headerValue);
+            //     }
+
+            // }
 
             //data.push(builtHeader);
             //console.log(data);
@@ -2440,7 +2484,7 @@ var TwitterPull = React.createClass({
                 'div',
                 { id: 'twitterform', style: fileFormContainer },
                 React.createElement('input', { style: formFormat, placeholder: 'Value to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
-                React.createElement('input', { style: formFormat, placeholder: 'Amount', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement('input', { style: formFormat, placeholder: '#Tweets to Pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'div',
                     { style: fileFormContainer },
