@@ -129,7 +129,7 @@ var TagMaticApp = React.createClass({
             }
             return (
                 <div>
-          <NavBar />
+          <NavBar user={self.linkState('user')} />
           <div style={appMain}>
             <StatusUpdates 
               data={self.linkState('data')} 
