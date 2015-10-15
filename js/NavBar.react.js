@@ -15,21 +15,30 @@ var NavBar = React.createClass({
     },
 
     componentWillMount: function() {
-      var self = this;
+        var self = this;
         var query = new Parse.Query("Project");
-        query.equalTo("user", this.props.user.value); // find all the women
-        query.find({
-            success: function(matchingProjects) {
-                // Do stuff
-                console.log(matchingProjects);
-                self.setState({projects:matchingProjects});
-            }
-        });
+
+        if (self.state.user) {
+
+            query.equalTo("user", self.state.user.value); // find all the women
+            query.find({
+                success: function(matchingProjects) {
+                    // Do stuff
+                    console.log(matchingProjects);
+                    self.setState({
+                        projects: matchingProjects
+                    });
+                }
+            });
+
+        }
+
         // console.log(this.props.user.value);
     },
     getInitialState: function() {
         return ({
             menu: false,
+            user: this.props.user,
             projects: []
         });
     },
@@ -125,11 +134,11 @@ var NavBar = React.createClass({
 
         var fullWidth = {
             width: "100%",
-            textAlign : 'center'
+            textAlign: 'center'
         }
 
         var button;
-        if (!this.props.user.value) {
+        if (!this.props.user) {
             button = (<div style={fullWidth}><input onChange={self._onChangeUsername} style={fullWidth} type="text" placeholder="Username"/><input onChange={self._onChangePassword} style={fullWidth} type="password" placeholder="Password"/><div className="btn btn-success" onClick={self._logIn} style={fullWidth}>LogIn</div></div>);
         } else {
             button = <div className="btn btn-info" style={fullWidth} onClick={self._logOut}>LogOut</div>;
@@ -148,7 +157,7 @@ var NavBar = React.createClass({
             {button}
             {self.state.projects.map(function(c) {
                 return (
-                  <div key={c} style={brandText} >{c.id}</div>
+                  <div key={c} style={brandText} >{c}</div>
                 );
               })}
             </nav>

@@ -1591,19 +1591,27 @@ var NavBar = React.createClass({
     componentWillMount: function componentWillMount() {
         var self = this;
         var query = new Parse.Query("Project");
-        query.equalTo("user", this.props.user.value); // find all the women
-        query.find({
-            success: function success(matchingProjects) {
-                // Do stuff
-                console.log(matchingProjects);
-                self.setState({ projects: matchingProjects });
-            }
-        });
+
+        if (self.state.user) {
+
+            query.equalTo("user", self.state.user.value); // find all the women
+            query.find({
+                success: function success(matchingProjects) {
+                    // Do stuff
+                    console.log(matchingProjects);
+                    self.setState({
+                        projects: matchingProjects
+                    });
+                }
+            });
+        }
+
         // console.log(this.props.user.value);
     },
     getInitialState: function getInitialState() {
         return {
             menu: false,
+            user: this.props.user,
             projects: []
         };
     },
@@ -1702,7 +1710,7 @@ var NavBar = React.createClass({
         };
 
         var button;
-        if (!this.props.user.value) {
+        if (!this.props.user) {
             button = React.createElement(
                 'div',
                 { style: fullWidth },
@@ -1754,7 +1762,7 @@ var NavBar = React.createClass({
                             return React.createElement(
                                 'div',
                                 { key: c, style: brandText },
-                                c.id
+                                c
                             );
                         })
                     )
