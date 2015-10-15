@@ -281,7 +281,7 @@ var TwitterPull = React.createClass({
         var counter = 0;
         if (self.state.data == null) {
             return (<div id="twitterform" style={fileFormContainer}>
-                    <input style={formFormat} placeholder="Value to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="#Tweets to Pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
+                    <input style={formFormat} placeholder="Words to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="#Tweets to Pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
                     <div style={fileFormContainer}>
                     <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
                     </div>
