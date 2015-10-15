@@ -1579,40 +1579,40 @@ var NavBar = React.createClass({
     displayName: 'NavBar',
 
     mixins: [React.addons.LinkedStateMixin, ParseReact.Mixin],
-
     observe: function observe() {
         // Subscribe to all Comment objects, ordered by creation date
-        // The results will be available at this.data.projects
+        // The results will be available at this.data.comments
         return {
-            projects: new Parse.Query('Projects').ascending('createdAt')
+            projects: new Parse.Query('Project').ascending('createdAt')
         };
     },
 
-    componentWillMount: function componentWillMount() {
-        var self = this;
-        var query = new Parse.Query("Project");
+    // componentWillMount: function() {
+    //     var self = this;
+    //     var query = new Parse.Query("Project");
 
-        if (self.state.user) {
+    //     if (self.props.user) {
 
-            query.equalTo("user", self.state.user.value); // find all the women
-            query.find({
-                success: function success(matchingProjects) {
-                    // Do stuff
-                    console.log(matchingProjects);
-                    self.setState({
-                        projects: matchingProjects
-                    });
-                }
-            });
-        }
+    //         query.equalTo("user", self.props.user.value); // find all the projects
+    //         query.find({
+    //             success: function(matchingProjects) {
+    //                 // Do stuff
+    //                 console.log(matchingProjects);
+    //                 self.setState({
+    //                     projects: matchingProjects
+    //                 });
+    //             }
+    //         });
 
-        // console.log(this.props.user.value);
-    },
+    //     }
+
+    //     // console.log(this.props.user.value);
+    // },
     getInitialState: function getInitialState() {
         return {
             menu: false,
-            user: this.props.user,
-            projects: []
+            projects: [],
+            user: Parse.User.current()
         };
     },
     _onChangeUsername: function _onChangeUsername(e) {
@@ -1631,8 +1631,10 @@ var NavBar = React.createClass({
         Parse.User.logIn(self.state.username, self.state.password, {
             success: function success(user) {
                 // Do stuff after successful login.
-
                 self.props.user.requestChange(user);
+                self.setState({
+                    user: user
+                });
             },
             error: function error(user, _error) {
                 // The login failed. Check error to see why.
@@ -1641,9 +1643,10 @@ var NavBar = React.createClass({
     },
     _logOut: function _logOut() {
         var self = this;
-
-        Parse.User.logOut().then(function () {
-            self.props.user.requestChange(null);
+        Parse.User.logOut();
+        self.props.user.requestChange(null);
+        self.setState({
+            user: null
         });
     },
     render: function render() {
@@ -1710,7 +1713,9 @@ var NavBar = React.createClass({
         };
 
         var button;
-        if (!this.props.user) {
+        // console.log(self.props.user.value);
+        // console.log("self.state.user.value");
+        if (self.state.user == null) {
             button = React.createElement(
                 'div',
                 { style: fullWidth },
@@ -1758,11 +1763,11 @@ var NavBar = React.createClass({
                         { className: 'nav_menu', style: closeMenu, role: 'navigation' },
                         React.createElement('i', { className: 'fa fa-times fa-2x', onClick: this._toggleMenu }),
                         button,
-                        self.state.projects.map(function (c) {
+                        self.data.projects.map(function (c) {
                             return React.createElement(
                                 'div',
                                 { key: c, style: brandText },
-                                c
+                                c.id
                             );
                         })
                     )

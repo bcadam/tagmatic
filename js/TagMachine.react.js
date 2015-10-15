@@ -67,7 +67,7 @@ var TagMachine = React.createClass({
         //the should update method
         return (
             <div>
-              <NavBar />
+              <NavBar user={self.linkState('user')} />
               <div style={appMain}>
                 <DataScroller key={self.state.positionInData} tweet={currentTweet} next={nextTweet} previous={previousTweet} headers={publishHeaders} />
                 <div style={counter}>{currentPosition + 1} of {numOfTweets}</div>
