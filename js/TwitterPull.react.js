@@ -117,15 +117,13 @@ var TwitterPull = React.createClass({
                     builtHeader.push(entryHolder);
 
 
-                    for (var i = 1; i < formattingHeader.length; i++) {
-                        //text += cars[i] + "<br>";
 
-                        var positionHolder = formattingHeader[i];
-                        //console.log(positionHolder);
-
-                        var entryHolder = [positionHolder, [], false];
-                        builtHeader.push(entryHolder);
-                    }
+                    // This is where the columns that come in from the twitter feed are added to the headers
+                    // for (var i = 1; i < formattingHeader.length; i++) {
+                    //     var positionHolder = formattingHeader[i];
+                    //     var entryHolder = [positionHolder, [], false];
+                    //     builtHeader.push(entryHolder);
+                    // }
 
 
                     for (var i = 0; i < tempSuggestedClassifier.length; i++) {
@@ -206,19 +204,31 @@ var TwitterPull = React.createClass({
             fontSize: '20px',
             fontWeight: '700',
             opacity: '1',
-            marginTop: '60px',
+            marginTop: '30px',
             paddingTop: '15px',
             paddingBottom: '15px',
             textAlign: 'center',
             width: '140px',
         }
 
+        var formFormat = {
+            color: '#ff763d',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            textAlign: 'center',
+            marginTop: '20px',
+            marginLeft: '20px',
+            marginRight: '20px'
+        }
+
         var self = this;
         //console.log(self.state.data);
         var counter = 0;
         if (self.state.data == null) {
-            return (<div>
-                    <input placeholder="Value to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input placeholder="Amount" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
+            return (<div id="twitterform" style={fileFormContainer}>
+                    <input style={formFormat} placeholder="Value to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="Amount" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
                     <div style={fileFormContainer}>
                     <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
                     </div>

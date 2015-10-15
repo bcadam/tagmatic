@@ -2339,15 +2339,12 @@ var TwitterPull = React.createClass({
                     var entryHolder = [positionHolder, [], false];
                     builtHeader.push(entryHolder);
 
-                    for (var i = 1; i < formattingHeader.length; i++) {
-                        //text += cars[i] + "<br>";
-
-                        var positionHolder = formattingHeader[i];
-                        //console.log(positionHolder);
-
-                        var entryHolder = [positionHolder, [], false];
-                        builtHeader.push(entryHolder);
-                    }
+                    // This is where the columns that come in from the twitter feed are added to the headers
+                    // for (var i = 1; i < formattingHeader.length; i++) {
+                    //     var positionHolder = formattingHeader[i];
+                    //     var entryHolder = [positionHolder, [], false];
+                    //     builtHeader.push(entryHolder);
+                    // }
 
                     for (var i = 0; i < tempSuggestedClassifier.length; i++) {
                         //text += cars[i] + "<br>";
@@ -2416,11 +2413,23 @@ var TwitterPull = React.createClass({
             fontSize: '20px',
             fontWeight: '700',
             opacity: '1',
-            marginTop: '60px',
+            marginTop: '30px',
             paddingTop: '15px',
             paddingBottom: '15px',
             textAlign: 'center',
             width: '140px'
+        };
+
+        var formFormat = {
+            color: '#ff763d',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            textAlign: 'center',
+            marginTop: '20px',
+            marginLeft: '20px',
+            marginRight: '20px'
         };
 
         var self = this;
@@ -2429,9 +2438,9 @@ var TwitterPull = React.createClass({
         if (self.state.data == null) {
             return React.createElement(
                 'div',
-                null,
-                React.createElement('input', { placeholder: 'Value to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
-                React.createElement('input', { placeholder: 'Amount', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                { id: 'twitterform', style: fileFormContainer },
+                React.createElement('input', { style: formFormat, placeholder: 'Value to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
+                React.createElement('input', { style: formFormat, placeholder: 'Amount', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'div',
                     { style: fileFormContainer },

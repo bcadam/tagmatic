@@ -102,7 +102,7 @@ function twitterSearch(req, res) {
         // parseCreate.dispatch();
 
         res.json({
-            twitterResponse: tweets
+            tweets
         });
 
     }
