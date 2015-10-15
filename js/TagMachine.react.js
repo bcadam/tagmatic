@@ -39,28 +39,51 @@ var TagMachine = React.createClass({
         var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
 
         var appMain = {
-          position: 'fixed',
-          left: '0px',
-          top: '0px',
-          right: '0px',
-          bottom: '200px',
-          textAlign: 'center'
+            position: 'fixed',
+            left: '0px',
+            top: '0px',
+            right: '0px',
+            bottom: '200px',
+            textAlign: 'center'
         }
         var appTags = {
-          position: 'absolute',
-          left: '0px',
-          right: '0px',
-          bottom: '0px',
-          overflowX: 'hidden',
-          overflowY: 'hidden',
-          height: '200px',
-          borderTop: '3px solid #ff763d',
-          backgroundColor: 'whitesmoke',
-          textAlign: 'center'
+            position: 'absolute',
+            left: '0px',
+            right: '0px',
+            bottom: '0px',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
+            height: '200px',
+            borderTop: '3px solid #ff763d',
+            backgroundColor: 'whitesmoke',
+            textAlign: 'center'
+        }
+
+        var buttonUpload = {
+            backgroundColor: 'white',
+            border: '3px solid #ff763d',
+            borderRadius: '20px',
+            color: '#ff763d',
+            cursor: 'pointer',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            marginTop: '30px',
+            textAlign: 'center',
+            width: '140px',
         }
 
         var counter = {
             paddingTop: '80px'
+        }
+
+        var saveStatus;
+
+        if (Parse.User.current()) {
+            saveStatus = <div className="btn btn-info" onClick={this._saveStatus} >Save Status</div>
+        } else {
+            saveStatus = <div></div>
         }
 
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
@@ -75,13 +98,42 @@ var TagMachine = React.createClass({
               <div style={appTags}>
                 <HeaderScroller key={self.state.positionInHeader - 100} tweet={currentTweet} positionInData={currentPosition} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
                 <div style={{textAlign:'center'}}>
-                    <div className="btn btn-warning" onClick={this._createCsv}>Create CSV</div>
+                    <div className="btn btn-warning" onClick={this._createCsv} >Create CSV</div>
+                    {saveStatus}
                 </div>
               </div>
             </div>
 
         );
 
+    },
+    _saveStatus: function() {
+
+        var self = this;
+
+        var acl = new Parse.ACL();
+        acl.setPublicReadAccess(false);
+        acl.setPublicWriteAccess(false);
+        acl.setRoleWriteAccess("admins", true);
+        acl.setRoleReadAccess("admins", true);
+        acl.setWriteAccess(Parse.User.current(), true);
+        acl.setReadAccess(Parse.User.current(), true);
+
+
+        var creator = ParseReact.Mutation.Create('Project', {
+            positionInData: self.state.positionInData,
+            positionInHeader: self.state.positionInHeader,
+            data: self.props.data.value,
+            header: self.props.header.value,
+            publishHeaders: self.state.publishHeaders,
+            user: Parse.User.current(),
+            ACL: acl
+        });
+
+
+
+        // ...and execute it
+        creator.dispatch();
     },
     componentDidMount: function() {
 

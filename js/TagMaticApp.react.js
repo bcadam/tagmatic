@@ -73,7 +73,8 @@ var TagMaticApp = React.createClass({
                 headersUploaded: false
             },
             data: null,
-            header: {}
+            header: {},
+            twitterQuery: null
         });
     },
     render: function() {
@@ -120,6 +121,7 @@ var TagMaticApp = React.createClass({
               data={self.linkState('data')} 
               stage={self.linkState('stage')} 
               header={self.linkState('header')}
+              twitterQuery={self.linkState('twitterQuery')}
             />;
             } else {
                 postionHolder = <HeaderSlider 

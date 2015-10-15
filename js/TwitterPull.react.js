@@ -47,6 +47,9 @@ var TwitterPull = React.createClass({
         var host = "https://tagmatic.herokuapp.com";
         var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
+
+        self.props.twitterQuery.requestChange(self.state.searchValue);
+
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);

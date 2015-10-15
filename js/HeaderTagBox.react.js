@@ -12,29 +12,24 @@ var HeaderTagBox = React.createClass({
     render: function() {
         var self = this;
 
-        //console.log(this.state.data.value.data);
-        // console.log(self.state.header.value);
-        // console.log("done logging");
         var counter = 0;
         var positionInHeader = self.props.positionInHeader.value;
 
-        //console.log(positionInData);
-        //console.log(self.state.header.value);
-
-        //console.log(self.state.header.value[positionInHeader][2]);
-        //console.log("^^^^^^^^is for publishing");
 
         return (
             <div className="col-xs-12">
             <div className="col-xs-12">{self.state.header.value[positionInHeader][0]}</div>
+                
+                <ul className="list-group">
 
                 {self.state.header.value[positionInHeader][1].map(function(c) {
 
                 counter = counter+1;
                 return (
-                  <div key={c} className="col-xs-12" counter={counter} key={c.id} bolt={c}>{c} Key : {counter}</div>
+                  <div key={c} className="list-group-item" counter={counter} key={c.id} bolt={c}>{c} Key : {counter}</div>
                   );
               })}
+                </ul>
             </div>
 
         );
@@ -47,20 +42,7 @@ var HeaderTagBox = React.createClass({
         var positionInHeader = self.props.positionInHeader.value;
         console.log(positionInHeader);
 
-        //console.log(self.props.header.value);
-        //console.log("^^^^ true/false should publish");
-        // console.log("component dad mount");
-        // console.log(self.props.header.value[positionInHeader][2]);
-        // console.log("Position in header: " + self.props.positionInHeader);
-        // console.log(self.props.header.value.length);
-        // if (self.props.positionInHeader.value >= self.props.header.value.length)
-        // {
-        //     positionInHeader = positionInHeader + 1;
-        //     self.props.positionInHeader.requestChange(positionInHeader);
-        // }
-    },
-    componentWillMount: function() {
-        
+ 
     },
     componentWillUnmount: function() {
         $(document.body).off('keydown', this._advancePosition);
@@ -73,7 +55,7 @@ var HeaderTagBox = React.createClass({
         //console.log("the full tag array is");
         //console.log(self.state.header.value[positionInHeader]);
 
-        switch(e.keyCode){
+        switch (e.keyCode) {
             case 49:
                 //console.log(self.state.header.value[positionInHeader][1][0]);
                 //console.log("You pressed 1");
@@ -112,11 +94,3 @@ var HeaderTagBox = React.createClass({
 });
 
 module.exports = HeaderTagBox;
-
-
-//{self.state.data.value.data.map(function(c) {
-//   counter = counter+1;
-//   return (
-//     <div>{c}</div>
-//     );
-// })}

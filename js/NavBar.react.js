@@ -8,32 +8,19 @@ var NavBar = React.createClass({
     observe: function() {
         // Subscribe to all Comment objects, ordered by creation date
         // The results will be available at this.data.comments
+        var query;
+        var user = Parse.User.current();
+
+        if (user) {
+            var query = (new Parse.Query('Project')).ascending("createdAt");
+        } else {
+            var query = (new Parse.Query('Project')).equalTo('_User', user).ascending("createdAt");
+        }
+
         return {
-            projects: (new Parse.Query('Project')).ascending('createdAt')
+            projects: query
         };
     },
-
-    // componentWillMount: function() {
-    //     var self = this;
-    //     var query = new Parse.Query("Project");
-
-    //     if (self.props.user) {
-
-    //         query.equalTo("user", self.props.user.value); // find all the projects
-    //         query.find({
-    //             success: function(matchingProjects) {
-    //                 // Do stuff
-    //                 console.log(matchingProjects);
-    //                 self.setState({
-    //                     projects: matchingProjects
-    //                 });
-    //             }
-    //         });
-
-    //     }
-
-    //     // console.log(this.props.user.value);
-    // },
     getInitialState: function() {
         return ({
             menu: false,
@@ -64,6 +51,7 @@ var NavBar = React.createClass({
             },
             error: function(user, error) {
                 // The login failed. Check error to see why.
+                console.log(error);
             }
         });
 
@@ -75,6 +63,33 @@ var NavBar = React.createClass({
         self.setState({
             user: null
         });
+
+    },
+    _createAccount: function() {
+        var self = this;
+
+        var user = new Parse.User();
+        user.set("username", self.state.username);
+        user.set("password", self.state.password);
+        user.set("email", self.state.username);
+
+        // other fields can be set just like with Parse.Object
+        // user.set("phone", "415-392-0202");
+
+        user.signUp(null, {
+            success: function(user) {
+                // Hooray! Let them use the app now.
+                self.props.user.requestChange(user);
+                self.setState({
+                    user: user
+                });
+            },
+            error: function(user, error) {
+                // Show the error message somewhere and let the user try again.
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+
 
     },
     render: function() {
@@ -144,7 +159,23 @@ var NavBar = React.createClass({
         // console.log(self.props.user.value);
         // console.log("self.state.user.value");
         if (self.state.user == null) {
-            button = (<div style={fullWidth}><input onChange={self._onChangeUsername} style={fullWidth} type="text" placeholder="Username"/><input onChange={self._onChangePassword} style={fullWidth} type="password" placeholder="Password"/><div className="btn btn-success" onClick={self._logIn} style={fullWidth}>LogIn</div></div>);
+            button = (
+                <div>
+              <div className="form-group">
+              <input onChange={self._onChangeUsername} className="form-control" type="text" placeholder="Email"/>
+              </div>
+              <div className="form-group">
+              <input onChange={self._onChangePassword} className="form-control" type="password" placeholder="Password"/>
+              </div>
+              <div className="form-group">
+              <div className="btn btn-success" onClick={self._logIn} style={fullWidth}>Log In</div>
+              </div>
+              <div className="form-group">
+              <div className="btn btn-warning" onClick={self._createAccount} style={fullWidth}>Create Account</div>
+              </div>
+              </div>
+            );
+
         } else {
             button = <div className="btn btn-info" style={fullWidth} onClick={self._logOut}>LogOut</div>;
         }
@@ -160,11 +191,13 @@ var NavBar = React.createClass({
             <nav className="nav_menu"  style={closeMenu} role="navigation">
             <i className="fa fa-times fa-2x" onClick={this._toggleMenu}></i>
             {button}
+            <ul className="list-group">
             {self.data.projects.map(function(c) {
                 return (
-                  <div key={c} style={brandText} >{c.id}</div>
+                  <div className="list-group-item disabled" key={c.id} style={brandText}>{c.id}</div> 
                 );
               })}
+            </ul>
             </nav>
           </div>
         </div>
