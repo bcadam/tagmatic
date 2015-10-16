@@ -70,11 +70,14 @@ var TagMaticApp = React.createClass({
             user: Parse.User.current(),
             stage: {
                 fileUploaded: false,
-                headersUploaded: false
+                headersUploaded: false,
+                tweet: null,
+                tweetCounter: null
             },
             data: null,
             header: {},
-            twitterQuery: null
+            twitterQuery: null,
+            projectId: null
         });
     },
     render: function() {
@@ -102,15 +105,16 @@ var TagMaticApp = React.createClass({
             //  This serves up the second view which is the tag option view
             //////////////
         if (self.state.stage['fileUploaded'] && self.state.stage['headersUploaded']) {
-            // console.log(self.linkState('data')); //raw data
-            // console.log(self.linkState('stage')); //tracks file uploaded, header uploaded, tweet, and tweet counter (index?)
-            // console.log(self.linkState('header')); //tracks header, tags,  header visibility, tweet state
+
+
             return (
                 <TagMachine 
           onKeyDown={self._advancePosition}
           data ={self.linkState('data')} 
           stage={self.linkState('stage')} 
           header={self.linkState('header')}
+          twitterQuery={self.linkState('twitterQuery')}
+          projectId={self.linkState('projectId')} 
         />
             );
         } else {
@@ -131,7 +135,12 @@ var TagMaticApp = React.createClass({
             }
             return (
                 <div>
-          <NavBar user={self.linkState('user')} />
+          <NavBar user={self.linkState('user')} 
+              data={self.linkState('data')} 
+              stage={self.linkState('stage')} 
+              header={self.linkState('header')}
+              twitterQuery={self.linkState('twitterQuery')}
+              projectId={self.linkState('projectId')} />
           <div style={appMain}>
             <StatusUpdates 
               data={self.linkState('data')} 

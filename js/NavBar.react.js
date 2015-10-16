@@ -3,6 +3,9 @@ var ParseReact = require('parse-react');
 var React = require('react/addons');
 
 
+var Project = require('./Project.react.js');
+
+
 var NavBar = React.createClass({
     mixins: [React.addons.LinkedStateMixin, ParseReact.Mixin],
     observe: function() {
@@ -12,7 +15,7 @@ var NavBar = React.createClass({
         var user = Parse.User.current();
 
         if (user) {
-            var query = (new Parse.Query('Project')).ascending("createdAt");
+            var query = (new Parse.Query('Project')).descending("createdAt");
         } else {
             var query = (new Parse.Query('Project')).equalTo('_User', user).ascending("createdAt");
         }
@@ -25,7 +28,12 @@ var NavBar = React.createClass({
         return ({
             menu: false,
             projects: [],
-            user: Parse.User.current()
+            user: Parse.User.current(),
+            data: this.props.data,
+            stage: this.props.stage,
+            header: this.props.header,
+            twitterQuery: this.props.twitterQuery,
+            projectId : this.props.projectId
         });
     },
     _onChangeUsername: function(e) {
@@ -156,8 +164,7 @@ var NavBar = React.createClass({
         }
 
         var button;
-        // console.log(self.props.user.value);
-        // console.log("self.state.user.value");
+          // console.log("self.state.user.value");
         if (self.state.user == null) {
             button = (
                 <div>
@@ -175,7 +182,6 @@ var NavBar = React.createClass({
               </div>
               </div>
             );
-
         } else {
             button = <div className="btn btn-info" style={fullWidth} onClick={self._logOut}>LogOut</div>;
         }
@@ -194,7 +200,16 @@ var NavBar = React.createClass({
             <ul className="list-group">
             {self.data.projects.map(function(c) {
                 return (
-                  <div className="list-group-item disabled" key={c.id} style={brandText}>{c.id}</div> 
+                  <Project 
+                  object={c}     
+                  data={self.state.data} 
+                  stage={self.state.stage} 
+                  header={self.state.header}
+                  twitterQuery={self.state.twitterQuery}
+                  className="list-group-item" 
+                  key={c.id} 
+                  style={brandText}
+                  projectId={self.state.projectId} />
                 );
               })}
             </ul>

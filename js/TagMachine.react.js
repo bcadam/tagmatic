@@ -88,9 +88,18 @@ var TagMachine = React.createClass({
 
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
         //the should update method
+
+        //console.log(this.state.projectId);
+        //console.log("this.state.projectId");
+
         return (
             <div>
-              <NavBar user={self.linkState('user')} />
+              <NavBar user={self.linkState('user')} 
+              data={self.linkState('data')} 
+              stage={self.linkState('stage')} 
+              header={self.linkState('header')}
+              twitterQuery={self.linkState('twitterQuery')}
+              projectId={self.linkState('projectId')} />
               <div style={appMain}>
                 <DataScroller key={self.state.positionInData} tweet={currentTweet} next={nextTweet} previous={previousTweet} headers={publishHeaders} />
                 <div style={counter}>{currentPosition + 1} of {numOfTweets}</div>
@@ -111,29 +120,51 @@ var TagMachine = React.createClass({
 
         var self = this;
 
-        var acl = new Parse.ACL();
-        acl.setPublicReadAccess(false);
-        acl.setPublicWriteAccess(false);
-        acl.setRoleWriteAccess("admins", true);
-        acl.setRoleReadAccess("admins", true);
-        acl.setWriteAccess(Parse.User.current(), true);
-        acl.setReadAccess(Parse.User.current(), true);
-
-
-        var creator = ParseReact.Mutation.Create('Project', {
-            positionInData: self.state.positionInData,
-            positionInHeader: self.state.positionInHeader,
-            data: self.props.data.value,
-            header: self.props.header.value,
-            publishHeaders: self.state.publishHeaders,
-            user: Parse.User.current(),
-            ACL: acl
-        });
+        console.log(self.state.projectId);
+        console.log("self.state.projectId.value");
+        alert("true");
+        self.state.projectId.requestChange("10");
 
 
 
-        // ...and execute it
-        creator.dispatch();
+
+        if (self.state.projectId.value == null) {
+
+            var acl = new Parse.ACL();
+            acl.setPublicReadAccess(false);
+            acl.setPublicWriteAccess(false);
+            acl.setRoleWriteAccess("admins", true);
+            acl.setRoleReadAccess("admins", true);
+            acl.setWriteAccess(Parse.User.current(), true);
+            acl.setReadAccess(Parse.User.current(), true);
+
+
+            var creator = ParseReact.Mutation.Create('Project', {
+                positionInData: self.state.positionInData,
+                positionInHeader: self.state.positionInHeader,
+                data: self.props.data.value,
+                header: self.props.header.value,
+                publishHeaders: self.state.publishHeaders,
+                user: Parse.User.current(),
+                twitterQuery: self.props.twitterQuery.value,
+                stage: self.props.stage.value,
+                ACL: acl
+            });
+
+            creator.dispatch()
+                .then(function(results) {
+                    //alert(results.id);
+                    self.state.projectId.requestChange(results.id);
+                });
+        }
+
+
+
+
+
+
+
+
     },
     componentDidMount: function() {
 
@@ -349,7 +380,8 @@ var TagMachine = React.createClass({
             data: this.props.data,
             header: this.props.header,
             switcher: true,
-            publishHeaders: []
+            publishHeaders: [],
+            projectId: this.props.projectId
         };
     }
 });

@@ -191,11 +191,6 @@ var TwitterPull = React.createClass({
 
                     }
 
-                    console.log("results");
-                    console.log(results);
-
-                    console.log("tempSuggestedClassifier");
-                    console.log(tempSuggestedClassifier);
 
                     self.props.data.requestChange(results);
 
