@@ -6,7 +6,8 @@ var Parse = require('parse').Parse;
 
 // var React = require('react-native');
 // var Parse = require('parse/react-native');
-var ParseReact = require('parse-react/react-native');
+var ParseReact = require('parse-react');
+
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
