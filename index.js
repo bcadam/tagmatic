@@ -10,14 +10,6 @@ var ParseReact = require('parse-react');
 
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
-
-
-// var Parse = require('parse').Parse;
-// var React = require('react/addons');
-// var ParseReact = require('parse-react');
-// Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
-
-
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
 
@@ -80,11 +72,7 @@ function twitterSearch(req, res) {
         //  Tweets data structure
         var tweets = [];
 
-
-
         var batch = new ParseReact.Mutation.Batch();
-
-        
 
         for (var i = 0; i < statuses.length; i++) {
             //console.log(statuses[i]['text']);
@@ -97,24 +85,22 @@ function twitterSearch(req, res) {
                 "userProfileImageUrl": statuses[i]['user']['profile_image_url']
             });
 
-            var creator = ParseReact.Mutation.Create('Tweet', {
-                "text": statuses[i]['text'],
-                "tweetId": statuses[i]['id'],
-                "userId": statuses[i]['user']['id'],
-                "userScreenName": statuses[i]['user']['screen_name'],
-                "userProfileImageUrl": statuses[i]['user']['profile_image_url']
-            });
+            // var creator = ParseReact.Mutation.Create('Tweet', {
+            //     "text": statuses[i]['text'],
+            //     "tweetId": statuses[i]['id'],
+            //     "userId": statuses[i]['user']['id'],
+            //     "userScreenName": statuses[i]['user']['screen_name'],
+            //     "userProfileImageUrl": statuses[i]['user']['profile_image_url']
+            // });
 
-            creator.dispatch({
-                batch: batch
-            });
+            // creator.dispatch({
+            //     batch: batch
+            // });
 
 
         };
 
-        batch.dispatch();
-
-        // parseCreate.dispatch();
+        //batch.dispatch();
 
         res.json({
             twitterResponse: tweets
