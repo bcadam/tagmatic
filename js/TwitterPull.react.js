@@ -6,7 +6,8 @@ var Twitter = require('twitter-node-client').Twitter;
 
 
 Object.size = function(obj) {
-    var size = 0, key;
+    var size = 0,
+        key;
     for (key in obj) {
         if (obj.hasOwnProperty(key)) size++;
     }
@@ -56,11 +57,34 @@ var TwitterPull = React.createClass({
 
 
 
+
+
+                // var batch = new ParseReact.Mutation.Batch();
+                // console.log("test before writing loop");
+                // var size = Object.size(myArr['twitterResponse']);
+                // console.log(myArr);
+                // for (var i = 0; i < size; i++) {
+                //     var creator = ParseReact.Mutation.Create('Tweet', {
+                //         text: myArr['twitterResponse'][i]['text'],
+                //         tweetId: myArr['twitterResponse'][i]['tweetId'],
+                //         userId: myArr['twitterResponse'][i]['userId'],
+                //         userScreenName: myArr['twitterResponse'][i]['userScreenName'],
+                //         userProfileImageUrl: myArr['twitterResponse'][i]['userProfileImageUrl']
+                //     });
+                //     creator.dispatch({
+                //         batch: batch
+                //     });
+                // };
+                
+                // batch.dispatch();
+
+
+
+
+
+
                 self._moveStageAndDataAlong(myArr);
 
-                //myFunction(myArr);
-                //alert("cat");
-                //console.log(myArr);
             }
         }
         xmlhttp.open("GET", url, true);
@@ -130,13 +154,6 @@ var TwitterPull = React.createClass({
 
 
                     // This is where the columns that come in from the twitter feed are added to the headers
-                    // for (var i = 1; i < formattingHeader.length; i++) {
-                    //     var positionHolder = formattingHeader[i];
-                    //     var entryHolder = [positionHolder, [], false];
-                    //     builtHeader.push(entryHolder);
-                    // }
-
-
                     for (var i = 0; i < tempSuggestedClassifier.length; i++) {
                         //text += cars[i] + "<br>";
 

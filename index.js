@@ -1,7 +1,7 @@
 var express = require('express');
 var cors = require('cors');
 var app = express();
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 
 
 // var React = require('react-native');
@@ -60,19 +60,16 @@ function twitterSearch(req, res) {
     };
 
     var success = function(data) {
-        //console.log('Data [%s]', data);
-
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
 
         statuses = data['statuses'];
-        //console.log(statuses);
 
 
         //  Tweets data structure
         var tweets = [];
 
-        var batch = new ParseReact.Mutation.Batch();
+        //var batch = new ParseReact.Mutation.Batch();
 
         for (var i = 0; i < statuses.length; i++) {
             //console.log(statuses[i]['text']);
@@ -82,7 +79,8 @@ function twitterSearch(req, res) {
                 "tweetId": statuses[i]['id'],
                 "userId": statuses[i]['user']['id'],
                 "userScreenName": statuses[i]['user']['screen_name'],
-                "userProfileImageUrl": statuses[i]['user']['profile_image_url']
+                "userProfileImageUrl": statuses[i]['user']['profile_image_url'],
+                "userProfileImageUrl": statuses[i]['user']['profile_image_url']                
             });
 
             // var creator = ParseReact.Mutation.Create('Tweet', {
@@ -102,8 +100,12 @@ function twitterSearch(req, res) {
 
         //batch.dispatch();
 
+        // res.json({
+        //     twitterResponse: tweets
+        // });
+        
         res.json({
-            twitterResponse: tweets
+            twitterResponse: data
         });
 
     }
