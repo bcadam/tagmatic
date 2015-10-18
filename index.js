@@ -1,12 +1,14 @@
 var express = require('express');
 var cors = require('cors');
 var app = express();
+var Parse = require('parse').Parse;
+
 
 // var React = require('react-native');
 // var Parse = require('parse/react-native');
-// var ParseReact = require('parse-react/react-native');
+var ParseReact = require('parse-react/react-native');
+Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
-//Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
 // var Parse = require('parse').Parse;
@@ -77,6 +79,12 @@ function twitterSearch(req, res) {
         //  Tweets data structure
         var tweets = [];
 
+
+
+        var batch = new ParseReact.Mutation.Batch();
+
+        
+
         for (var i = 0; i < statuses.length; i++) {
             //console.log(statuses[i]['text']);
             //tweets.push([statuses[i]['id'],statuses[i]['text'],statuses[i]['user']['id']]);
@@ -88,16 +96,22 @@ function twitterSearch(req, res) {
                 "userProfileImageUrl": statuses[i]['user']['profile_image_url']
             });
 
-            // var parseCreate = ParseReact.Mutation.Create("Tweet", {
-            //     text: statuses[i]['text'],
-            //     tweetId: statuses[i]['id'],
-            //     userId: statuses[i]['user']['id'],
-            //     userScreenName: statuses[i]['user']['screen_name'],
-            //     userProfileImageUrl: statuses[i]['user']['profile_image_url']
-            // });
+            var creator = ParseReact.Mutation.Create('Tweet', {
+                "text": statuses[i]['text'],
+                "tweetId": statuses[i]['id'],
+                "userId": statuses[i]['user']['id'],
+                "userScreenName": statuses[i]['user']['screen_name'],
+                "userProfileImageUrl": statuses[i]['user']['profile_image_url']
+            });
+
+            creator.dispatch({
+                batch: batch
+            });
 
 
         };
+
+        batch.dispatch();
 
         // parseCreate.dispatch();
 
