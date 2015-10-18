@@ -2580,6 +2580,7 @@ var TwitterPull = React.createClass({
 
                 // batch.dispatch();
 
+                console.log(myArr);
                 self._moveStageAndDataAlong(myArr);
             }
         };

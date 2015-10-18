@@ -103,9 +103,9 @@ function twitterSearch(req, res) {
         // res.json({
         //     twitterResponse: tweets
         // });
-        
+
         res.json({
-            twitterResponse: data
+            twitterResponse: data['statuses']
         });
 
     }
