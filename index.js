@@ -149,25 +149,24 @@ function processTweets(data, query) {
         tweetArray.push(tweet);
     }
     //return tweetArray;
-    // Parse.Object.saveAll(tweetArray, {
-    //     success: function(objs) {
+    Parse.Object.saveAll(tweetArray, {
+        success: function(objs) {
 
-    //         var relation;
-            
-    //         for (var i = 0, i < objs.length; i++) {
+            var relation;
+            // for (var i = 0, i < objs.length; i++) {
 
-    //             //var user = Parse.User.current();
-    //             relation = query.relation("tweets");
-    //             relation.add(objs[i]);
+            //     //var user = Parse.User.current();
+            //     relation = query.relation("tweets");
+            //     relation.add(objs[i]);
 
-    //         }
+            // }
 
-    //         relation.save();
+            // relation.save();
 
 
-    //     },
-    //     error: function(error) {}
-    // });
+        },
+        error: function(error) {}
+    });
 
 
 }
