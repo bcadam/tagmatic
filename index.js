@@ -71,7 +71,11 @@ function twitterSearch(req, res) {
         query.equalTo("searchedFor", req.params.query);
         query.find({
             success: function(results) {
-                if (results > 0) {}
+                if (results > 0) {
+
+
+
+                }
                 if (results == 0) {
                     var Query = Parse.Object.extend("Query");
                     var query = new Query();
@@ -109,7 +113,7 @@ function twitterSearch(req, res) {
     }, error, success);
 }
 
-function processTweets(data, classifier) {
+function processTweets(data, query) {
     var Tweet = Parse.Object.extend("Tweet");
     var tweetArray = [];
     var size = Object.size(data);
@@ -146,7 +150,22 @@ function processTweets(data, classifier) {
     }
     //return tweetArray;
     Parse.Object.saveAll(tweetArray, {
-        success: function(objs) {},
+        success: function(objs) {
+
+            var relation;
+            
+            for (var i = 0, i < objs.length; i++) {
+
+                //var user = Parse.User.current();
+                relation = query.relation("tweets");
+                relation.add(objs[i]);
+
+            }
+
+            relation.save();
+
+
+        },
         error: function(error) {}
     });
 
