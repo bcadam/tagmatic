@@ -61,39 +61,32 @@ Object.size = function(obj) {
 
 function twitterSearch(req, res) {
 
-    var error = function(err, response, body) {
-        console.log('ERROR [%s]', err);
-    };
 
-    var success = function(data) {
+    var query = req.params.query;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    var Twitter = require('twitter-node-client').Twitter;
+    var twitter = new Twitter(app.locals.twitterConfig);
+
+    // twitter.getSearch({
+    //     'q': '#haiku',
+    //     'count': 2
+    // }, error, success);
+
+    twitter.getSearch({
+        'q': query,
+        'count': count
+    }, function(err, response, body) {
+        console.log('ERROR [%s]', err);
+    };, function(data) {
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
         data = data['statuses'];
 
 
-        //Saves all of the tweets to database.
-        //var batch = new ParseReact.Mutation.Batch();
-        //var size = Object.size(data);
-
-
-        // for (var i = 0; i < size; i++) {
-
-        //     var currentTweet = data[i];
-        //     var creator = ParseReact.Mutation.Create('Tweet', currentTweet);
-        //     creator.dispatch({
-        //         batch: batch
-        //     });
-
-        // };
-        // batch.dispatch();
-
-        
-
-
         res.json({
             twitterResponse: data
         });
-
 
 
         var Tweet = Parse.Object.extend("Tweet");
@@ -139,21 +132,8 @@ function twitterSearch(req, res) {
             error: function(error) {}
         });
 
-    }
+    });
 
-    var query = req.params.query;
-    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
 
-    var Twitter = require('twitter-node-client').Twitter;
-    var twitter = new Twitter(app.locals.twitterConfig);
 
-    // twitter.getSearch({
-    //     'q': '#haiku',
-    //     'count': 2
-    // }, error, success);
-
-    twitter.getSearch({
-        'q': query,
-        'count': count
-    }, error, success);
 }
