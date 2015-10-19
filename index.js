@@ -65,6 +65,7 @@ function twitterSearch(req, res) {
         res.json({
             twitterResponse: data
         });
+        
         var Query = Parse.Object.extend("Query");
         var query = new Parse.Query(Query);
         query.equalTo("searchedFor", req.params.query);
@@ -93,11 +94,13 @@ function twitterSearch(req, res) {
                 alert("Error: " + error.code + " " + error.message);
             }
         });
+
         var tweetArray = processTweets(data,"CqmgDLLZOo");
         Parse.Object.saveAll(tweetArray, {
             success: function(objs) {},
             error: function(error) {}
         });
+
     }
 
     var query = req.params.query;
