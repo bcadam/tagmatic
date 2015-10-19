@@ -93,8 +93,23 @@ function twitterSearch(req, res) {
 
                     }
                 }
-                if (results == 0){
-                    
+                if (results == 0) {
+                    var Query = Parse.Object.extend("Query");
+                    var query = new Query();
+
+                    query.set("searchedFor", req.params.query);
+
+                    query.save(null, {
+                        success: function(gameScore) {
+                            // Execute any logic that should take place after the object is saved.
+                            //alert('New object created with objectId: ' + gameScore.id);
+                        },
+                        error: function(gameScore, error) {
+                            // Execute any logic that should take place if the save fails.
+                            // error is a Parse.Error with an error code and message.
+                            //alert('Failed to create new object, with error code: ' + error.message);
+                        }
+                    });
                 }
 
 
