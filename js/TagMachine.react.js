@@ -34,6 +34,7 @@ var TagMachine = React.createClass({
         var nextPosition = ((currentPosition + 1 == numOfTweets) ? 0 : (currentPosition + 1));
 
         //console.log(currentPosition, previousPosition, nextPosition);
+        //console.log(self.props.data.value.data[currentPosition]);
         var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
         var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
         var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
@@ -120,13 +121,9 @@ var TagMachine = React.createClass({
 
         var self = this;
 
-        console.log(self.state.projectId);
-        console.log("self.state.projectId.value");
-        alert("true");
+        //console.log(self.state.projectId);
+        //console.log("self.state.projectId.value");
         self.state.projectId.requestChange("10");
-
-
-
 
         if (self.state.projectId.value == null) {
 
@@ -157,12 +154,6 @@ var TagMachine = React.createClass({
                     self.state.projectId.requestChange(results.id);
                 });
         }
-
-
-
-
-
-
 
 
     },
@@ -329,49 +320,7 @@ var TagMachine = React.createClass({
         }
     },
     _enterTags: function(key) {
-        // var self = this;
-        // var headerTextPointer = self.state.publishHeaders[self.state.positionInHeader][0];
-        // var button = key; //button should be set to number - 1
-        // button = button - 1;
-        // var valueOfTag = self.state.publishHeaders[self.state.positionInHeader][1][button];
-        // var positionInData = self.state.positionInData;
-        // var positionInHeader = self.state.positionInHeader;
-        // var headerBeingUsed = self.state.publishHeaders[self.state.positionInHeader];
-        // var originalDataAtPoint = self.state.data.value.data[self.state.positionInData];
-        // var originalData = self.state.data.value;
-        // var originalDataAtHeader = self.state.data.value.data[self.state.positionInData];
 
-
-        // // console.log(valueOfTag);
-        // // console.log("^^^^^^^^VALUE OF TAG^^^^^^^^^^^^^^^^^^^^^^")
-        // // console.log("Position in Data: " + positionInData);
-        // // console.log("Position in Header: " + positionInHeader);
-        // // console.log(headerBeingUsed);
-        // // console.log("^^^^^^^^^^^HEADER BEING USED^^^^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalData);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalDataAtHeader);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA AT HEADER^^^^^^^^^^^^^^^");
-
-        // //console.log(originalData);
-        // //console.log(originalDataAtHeader);
-
-        // //console.log("Position in data: " + positionInData);
-        // positionInData = parseInt(positionInData);
-
-        // originalDataAtHeader[headerTextPointer] = valueOfTag;
-
-        // var originalData = React.addons.update(originalData, {
-        //     'data': {
-        //         positionInData: {
-        //             $set: originalDataAtHeader
-        //         }
-        //     }
-        // });
-
-        // this.state.data.requestChange(originalData);
-
-        // //console.log(this.state.data.value);
     },
     getInitialState: function() {
         return {
@@ -387,11 +336,3 @@ var TagMachine = React.createClass({
 });
 
 module.exports = TagMachine;
-
-
-//{self.state.data.value.data.map(function(c) {
-//   counter = counter+1;
-//   return (
-//     <div>{c}</div>
-//     );
-// })}

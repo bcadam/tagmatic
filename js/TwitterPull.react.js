@@ -56,9 +56,6 @@ var TwitterPull = React.createClass({
                 myArr = JSON.parse(xmlhttp.responseText);
 
 
-
-
-
                 // var batch = new ParseReact.Mutation.Batch();
                 // console.log("test before writing loop");
                 // var size = Object.size(myArr['twitterResponse']);
@@ -139,23 +136,16 @@ var TwitterPull = React.createClass({
                 complete: function(results) {
 
                     var formattingHeader = results['meta']['fields'];
-                    //console.log("firing from fileform");
-                    //console.log(formattingHeader);
 
-
-                    var positionHolder = formattingHeader[0];
+                    var positionHolder = formattingHeader[4];
                     var entryHolder = [positionHolder, [], false];
                     builtHeader.push(entryHolder);
-
-
 
                     // This is where the columns that come in from the twitter feed are added to the headers
                     for (var i = 0; i < tempSuggestedClassifier.length; i++) {
                         //text += cars[i] + "<br>";
 
                         var positionHolder = tempSuggestedClassifier[i];
-                        //console.log(positionHolder);
-                        //console.log("positionHolder");
                         var entryHolder = [positionHolder[0], positionHolder[1], true];
                         builtHeader.push(entryHolder);
 
@@ -168,45 +158,22 @@ var TwitterPull = React.createClass({
                     var stage = self.props.stage.value;
                     stage['fileUploaded'] = true;
 
-                    //self.props.stage.requestChange(stage);
-
-
-                    // console.log("builtHeader");
-                    // console.log(builtHeader);
-
                     //var holderStage = self.props.stage.value;
                     stage.tweet = builtHeader[0][0];
-
                     stage.tweetCounter = 0;
-
-                    //console.log(self.props.stage);
-
                     self.props.stage.requestChange(stage);
-                    //console.log(stage);
 
-
-
+                    //add headers to actual data
                     for (var i = 0; i < results.data.length; i++) {
-
                         var size = Object.size(results.data[i]);
-
-                        //console.log(size);
-
                         for (var y = 0; y < tempSuggestedClassifier.length; y++) {
-                            //console.log("tempSuggestedClassifier");
-
                             if (tempSuggestedClassifier[y][2]) {
-                                //console.log(tempSuggestedClassifier[y][0]);
                                 results.data[i][tempSuggestedClassifier[y][0]] = '';
                             }
-
                         }
-
                     }
 
-
                     self.props.data.requestChange(results);
-
 
                 },
                 error: undefined,

@@ -14,12 +14,6 @@ var HeaderScroller = React.createClass({
             headerClassifier: null
         };
     },
-    componentWillMount: function() {
-        //console.log("going to mount HeaderScroller");
-
-
-
-    },
     render: function() {
         var self = this;
         var counter = 0;
@@ -160,20 +154,9 @@ var HeaderScroller = React.createClass({
             }
         }).then(function() {
 
-            
-            //console.log("mount");
-
-
             var raw = self.state.headerClassifier.get('classifier');
-
-            //console.log(raw);
-
             var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-            //console.log(restoredClassifier);
             var tweet = self.props.tweet;
-
-
-            //console.log(restoredClassifier.getClassifications(tweet));
 
         });
         
@@ -231,7 +214,7 @@ var HeaderScroller = React.createClass({
         }
     },
     _enterTags: function(key) {
-        console.log("button pressed");
+        //console.log("button pressed");
 
         var self = this;
         var headerTextPointer = self.props.header[0];
@@ -269,16 +252,16 @@ var HeaderScroller = React.createClass({
 
         var raw = this.state.headerClassifier.get('classifier');
 
-        console.log(raw);
+        //console.log(raw);
 
 
 
         var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-        console.log(restoredClassifier);
+        //console.log(restoredClassifier);
         restoredClassifier.addDocument(tweet, valueOfTag);
         restoredClassifier.train();
 
-        console.log(restoredClassifier.getClassifications(tweet));
+        //console.log(restoredClassifier.getClassifications(tweet));
         //console.log("^^^ classifications");
 
         var raw = JSON.stringify(restoredClassifier);

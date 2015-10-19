@@ -858,10 +858,6 @@ var HeaderScroller = React.createClass({
             headerClassifier: null
         };
     },
-    componentWillMount: function componentWillMount() {
-        //console.log("going to mount HeaderScroller");
-
-    },
     render: function render() {
         var self = this;
         var counter = 0;
@@ -1013,17 +1009,9 @@ var HeaderScroller = React.createClass({
             }
         }).then(function () {
 
-            //console.log("mount");
-
             var raw = self.state.headerClassifier.get('classifier');
-
-            //console.log(raw);
-
             var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-            //console.log(restoredClassifier);
             var tweet = self.props.tweet;
-
-            //console.log(restoredClassifier.getClassifications(tweet));
         });
     },
     _receiveButton: function _receiveButton(e) {
@@ -1079,7 +1067,7 @@ var HeaderScroller = React.createClass({
         }
     },
     _enterTags: function _enterTags(key) {
-        console.log("button pressed");
+        //console.log("button pressed");
 
         var self = this;
         var headerTextPointer = self.props.header[0];
@@ -1116,14 +1104,14 @@ var HeaderScroller = React.createClass({
 
         var raw = this.state.headerClassifier.get('classifier');
 
-        console.log(raw);
+        //console.log(raw);
 
         var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-        console.log(restoredClassifier);
+        //console.log(restoredClassifier);
         restoredClassifier.addDocument(tweet, valueOfTag);
         restoredClassifier.train();
 
-        console.log(restoredClassifier.getClassifications(tweet));
+        //console.log(restoredClassifier.getClassifications(tweet));
         //console.log("^^^ classifications");
 
         var raw = JSON.stringify(restoredClassifier);
@@ -1978,6 +1966,7 @@ var TagMachine = React.createClass({
         var nextPosition = currentPosition + 1 == numOfTweets ? 0 : currentPosition + 1;
 
         //console.log(currentPosition, previousPosition, nextPosition);
+        //console.log(self.props.data.value.data[currentPosition]);
         var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
         var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
         var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
@@ -2082,9 +2071,8 @@ var TagMachine = React.createClass({
 
         var self = this;
 
-        console.log(self.state.projectId);
-        console.log("self.state.projectId.value");
-        alert("true");
+        //console.log(self.state.projectId);
+        //console.log("self.state.projectId.value");
         self.state.projectId.requestChange("10");
 
         if (self.state.projectId.value == null) {
@@ -2272,50 +2260,7 @@ var TagMachine = React.createClass({
                 break;
         }
     },
-    _enterTags: function _enterTags(key) {
-        // var self = this;
-        // var headerTextPointer = self.state.publishHeaders[self.state.positionInHeader][0];
-        // var button = key; //button should be set to number - 1
-        // button = button - 1;
-        // var valueOfTag = self.state.publishHeaders[self.state.positionInHeader][1][button];
-        // var positionInData = self.state.positionInData;
-        // var positionInHeader = self.state.positionInHeader;
-        // var headerBeingUsed = self.state.publishHeaders[self.state.positionInHeader];
-        // var originalDataAtPoint = self.state.data.value.data[self.state.positionInData];
-        // var originalData = self.state.data.value;
-        // var originalDataAtHeader = self.state.data.value.data[self.state.positionInData];
-
-        // // console.log(valueOfTag);
-        // // console.log("^^^^^^^^VALUE OF TAG^^^^^^^^^^^^^^^^^^^^^^")
-        // // console.log("Position in Data: " + positionInData);
-        // // console.log("Position in Header: " + positionInHeader);
-        // // console.log(headerBeingUsed);
-        // // console.log("^^^^^^^^^^^HEADER BEING USED^^^^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalData);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA^^^^^^^^^^^^^^^^^^^^^");
-        // // console.log(originalDataAtHeader);
-        // // console.log("^^^^^^^^^^^^^ORIGINAL DATA AT HEADER^^^^^^^^^^^^^^^");
-
-        // //console.log(originalData);
-        // //console.log(originalDataAtHeader);
-
-        // //console.log("Position in data: " + positionInData);
-        // positionInData = parseInt(positionInData);
-
-        // originalDataAtHeader[headerTextPointer] = valueOfTag;
-
-        // var originalData = React.addons.update(originalData, {
-        //     'data': {
-        //         positionInData: {
-        //             $set: originalDataAtHeader
-        //         }
-        //     }
-        // });
-
-        // this.state.data.requestChange(originalData);
-
-        // //console.log(this.state.data.value);
-    },
+    _enterTags: function _enterTags(key) {},
     getInitialState: function getInitialState() {
         return {
             positionInData: 0,
@@ -2330,13 +2275,6 @@ var TagMachine = React.createClass({
 });
 
 module.exports = TagMachine;
-
-//{self.state.data.value.data.map(function(c) {
-//   counter = counter+1;
-//   return (
-//     <div>{c}</div>
-//     );
-// })}
 
 },{"./DataScroller.react.js":1,"./HeaderScroller.react.js":7,"./HeaderTagBox.react.js":9,"./NavBar.react.js":12,"parse":293,"parse-react":273,"react/addons":346}],16:[function(require,module,exports){
 /**
@@ -2632,10 +2570,8 @@ var TwitterPull = React.createClass({
                 complete: function complete(results) {
 
                     var formattingHeader = results['meta']['fields'];
-                    //console.log("firing from fileform");
-                    //console.log(formattingHeader);
 
-                    var positionHolder = formattingHeader[0];
+                    var positionHolder = formattingHeader[4];
                     var entryHolder = [positionHolder, [], false];
                     builtHeader.push(entryHolder);
 
@@ -2644,8 +2580,6 @@ var TwitterPull = React.createClass({
                         //text += cars[i] + "<br>";
 
                         var positionHolder = tempSuggestedClassifier[i];
-                        //console.log(positionHolder);
-                        //console.log("positionHolder");
                         var entryHolder = [positionHolder[0], positionHolder[1], true];
                         builtHeader.push(entryHolder);
                     }
@@ -2656,32 +2590,16 @@ var TwitterPull = React.createClass({
                     var stage = self.props.stage.value;
                     stage['fileUploaded'] = true;
 
-                    //self.props.stage.requestChange(stage);
-
-                    // console.log("builtHeader");
-                    // console.log(builtHeader);
-
                     //var holderStage = self.props.stage.value;
                     stage.tweet = builtHeader[0][0];
-
                     stage.tweetCounter = 0;
-
-                    //console.log(self.props.stage);
-
                     self.props.stage.requestChange(stage);
-                    //console.log(stage);
 
+                    //add headers to actual data
                     for (var i = 0; i < results.data.length; i++) {
-
                         var size = Object.size(results.data[i]);
-
-                        //console.log(size);
-
                         for (var y = 0; y < tempSuggestedClassifier.length; y++) {
-                            //console.log("tempSuggestedClassifier");
-
                             if (tempSuggestedClassifier[y][2]) {
-                                //console.log(tempSuggestedClassifier[y][0]);
                                 results.data[i][tempSuggestedClassifier[y][0]] = '';
                             }
                         }
