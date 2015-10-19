@@ -149,44 +149,62 @@ var TwitterPull = React.createClass({
 
 
             // //Saves all of the tweets to database.
-            var batch = new ParseReact.Mutation.Batch();
-            var size = Object.size(data);
-            for (var i = 0; i < size; i++) {
+            // var batch = new ParseReact.Mutation.Batch();
+            // var size = Object.size(data);
+            // for (var i = 0; i < size; i++) {
 
-                var currentTweet = data[i];
-                var creator = ParseReact.Mutation.Create('Tweet', currentTweet);
-                creator.dispatch({
-                    batch: batch
-                });
+            //     var currentTweet = data[i];
+            //     var creator = ParseReact.Mutation.Create('Tweet', currentTweet);
+            //     creator.dispatch({
+            //         batch: batch
+            //     });
 
-            };
-            batch.dispatch();
-            
+            // };
+            // batch.dispatch();
             //end of saving tweets to database
 
 
             // var Tweet = Parse.Object.extend("Tweet");
-            // // this will store the rows for use with Parse.Object.saveAll
             // var tweetArray = [];
             // var size = Object.size(data);
-            // // create a few objects, with a random state 0 or 1.
             // for (var i = 0; i <= size - 1; i++) {
-            //     console.log(data[i]);
-            //     var newTweet = new Tweet(data[i]);
-            //     //newTweet = data[i];
-            //     //console.log(newTweet);
+            //     var Tweet = Parse.Object.extend("Tweet");
+            //     var tweet = new Tweet();
 
-            //     tweetArray.push(newTweet);
+            //     tweet.set("contributors", data[i]['contributors']);
+            //     tweet.set("coordinates", data[i]['coordinates']);
+            //     tweet.set("created_at", data[i]['created_at']);
+            //     tweet.set("entities", data[i]['entities']);
+            //     tweet.set("favorite_count", data[i]['favorite_count']);
+            //     tweet.set("favorited", data[i]['favorited']);
+            //     tweet.set("geo", data[i]['geo']);
+            //     //tweet.set("id", data[i]['id']);
+            //     tweet.set("id_str", data[i]['id_str']);
+            //     tweet.set("in_reply_to_screen_name", data[i]['in_reply_to_screen_name']);
+            //     tweet.set("in_reply_to_status_id", data[i]['in_reply_to_status_id']);
+            //     tweet.set("in_reply_to_status_id_str", data[i]['in_reply_to_status_id_str']);
+            //     tweet.set("in_reply_to_user_id", data[i]['in_reply_to_user_id']);
+            //     tweet.set("in_reply_to_user_id_str", data[i]['in_reply_to_user_id_str']);
+            //     tweet.set("is_quote_status", data[i]['is_quote_status']);
+            //     tweet.set("lang", data[i]['lang']);
+            //     tweet.set("metadata", data[i]['metadata']);
+            //     tweet.set("place", data[i]['place']);
+            //     tweet.set("possibly_sensitive", data[i]['possibly_sensitive']);
+            //     tweet.set("retweet_count", data[i]['retweet_count']);
+            //     tweet.set("retweeted", data[i]['retweeted']);
+            //     tweet.set("retweeted_status", data[i]['retweeted_status']);
+            //     tweet.set("source", data[i]['source']);
+            //     tweet.set("text", data[i]['text']);
+            //     tweet.set("truncated", data[i]['truncated']);
+            //     tweet.set("user", data[i]['user']);
+            //     tweetArray.push(tweet);
             // }
 
-            // // save all the newly created objects
+            
+
             // Parse.Object.saveAll(tweetArray, {
-            //     success: function(objs) {
-            //         // objects have been saved...
-            //     },
-            //     error: function(error) {
-            //         // an error occurred...
-            //     }
+            //     success: function(objs) {},
+            //     error: function(error) {}
             // });
 
 
