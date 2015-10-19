@@ -129,7 +129,8 @@ var TagMaticApp = React.createClass({
             />;
             } else {
                 postionHolder = <HeaderSlider 
-              stage={self.linkState('stage')} 
+              stage={self.linkState('stage')}
+              data ={self.linkState('data')}
               header={self.linkState('header')}
             />;
             }
