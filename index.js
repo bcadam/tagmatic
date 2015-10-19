@@ -21,7 +21,6 @@ app.locals.twitterConfig = {
     "callBackUrl": "https://tagmatic.herokuapp.com/"
 };
 
-
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
@@ -32,18 +31,15 @@ app.use('/images', express.static('images'));
 app.use('/css', express.static('css'));
 //app.use('/bootstrap', express.static('bootstrap'));
 
-
 app.get('/api/twitter', cors(), function(req, res) {
     res.json({
         message: 'Try these routes from here twitter/user/:username'
     });
 });
 
-
 app.get('/api/twitter/search/:query/:count?', cors(), function(req, res) {
     twitterSearch(req, res);
 });
-
 
 app.listen(app.get('port'), function() {
     console.log('TagMatic is running on port', app.get('port'));
@@ -58,120 +54,69 @@ Object.size = function(obj) {
     return size;
 };
 
-
 function twitterSearch(req, res) {
-
     var error = function(err, response, body) {
         console.log('ERROR [%s]', err);
     };
-
     var success = function(data) {
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
         data = data['statuses'];
-
-
         res.json({
             twitterResponse: data
         });
-
-
-
         var Query = Parse.Object.extend("Query");
         var query = new Parse.Query(Query);
-
         query.equalTo("searchedFor", req.params.query);
         query.find({
             success: function(results) {
-
-
                 if (results > 0) {
-                    for (var i = 0; i < results.length; i++) {
-
-
-
-
-                    }
                 }
                 if (results == 0) {
                     var Query = Parse.Object.extend("Query");
                     var query = new Query();
-
                     query.set("searchedFor", req.params.query);
-
                     query.save(null, {
-                        success: function(gameScore) {
+                        success: function(query) {
                             // Execute any logic that should take place after the object is saved.
                             //alert('New object created with objectId: ' + gameScore.id);
-
-
-
-
-
-
-
-
-
-
-
                         },
-                        error: function(gameScore, error) {
+                        error: function(query, error) {
                             // Execute any logic that should take place if the save fails.
                             // error is a Parse.Error with an error code and message.
                             //alert('Failed to create new object, with error code: ' + error.message);
                         }
                     });
                 }
-
-
-
-
             },
             error: function(error) {
                 alert("Error: " + error.code + " " + error.message);
             }
         });
-
-
-
-
-        var tweetArray = processTweets(data);
-
-
-
+        var tweetArray = processTweets(data,"CqmgDLLZOo");
         Parse.Object.saveAll(tweetArray, {
             success: function(objs) {},
             error: function(error) {}
         });
-
     }
 
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
-
-    // twitter.getSearch({
-    //     'q': '#haiku',
-    //     'count': 2
-    // }, error, success);
-
     twitter.getSearch({
         'q': query,
         'count': count
     }, error, success);
 }
 
-function processTweets(data) {
-
+function processTweets(data,classifier) {
     var Tweet = Parse.Object.extend("Tweet");
     var tweetArray = [];
     var size = Object.size(data);
     for (var i = 0; i <= size - 1; i++) {
         var Tweet = Parse.Object.extend("Tweet");
         var tweet = new Tweet();
-
         tweet.set("contributors", data[i]['contributors']);
         tweet.set("coordinates", data[i]['coordinates']);
         tweet.set("created_at", data[i]['created_at']);
@@ -200,6 +145,5 @@ function processTweets(data) {
         tweet.set("user", data[i]['user']);
         tweetArray.push(tweet);
     }
-
     return tweetArray;
 }
