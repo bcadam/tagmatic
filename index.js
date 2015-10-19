@@ -77,34 +77,7 @@ function twitterSearch(req, res) {
 
 
 
-        var Query = Parse.Object.extend("Query");
-        var query = new Parse.Query(Report);
-
-        query.equalTo("searchedFor", req.params.query);
-        query.find({
-            success: function(results) {
-
-
-                if (results > 0) {
-                    for (var i = 0; i < results.length; i++) {
-
-
-
-
-                    }
-                }
-                if (results == 0){
-                    
-                }
-
-
-
-
-            },
-            error: function(error) {
-                alert("Error: " + error.code + " " + error.message);
-            }
-        });
+        
 
 
 
