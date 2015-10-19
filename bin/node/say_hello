@@ -1,6 +1,6 @@
 #! /tagmatic/bin/node
-function sayHello() {
+function say_hello() {
   console.log('Hello');
 }
-sayHello();
+say_hello();
 exit();
