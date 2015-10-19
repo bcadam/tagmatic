@@ -43,7 +43,7 @@ function searchTwitter() {
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
 
-                sleep(1000);
+                sleep(2000);
 
 
             }
