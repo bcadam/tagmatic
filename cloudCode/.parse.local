@@ -1,10 +1,10 @@
 {
   "applications": {
-    "EmailBolt": {
-      "applicationId": "Jq3E7ktrtc4o7sEVp5zgAebVFUFhN6qjLt8phTYi"
+    "TagMatic": {
+      "applicationId": "8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO"
     },
     "_default": {
-      "link": "EmailBolt"
+      "link": "TagMatic"
     }
   }
 }

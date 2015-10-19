@@ -2,5 +2,6 @@
   "project_type": 1,
   "parse": {
     "jssdk": "latest"
-  }
+  },
+  "email": "adam.cragg@gmail.com"
 }

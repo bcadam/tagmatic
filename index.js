@@ -60,46 +60,20 @@ function twitterSearch(req, res) {
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
 
-        statuses = data['statuses'];
+        //Saves all of the tweets to database.
+        // var batch = new ParseReact.Mutation.Batch();
+        // var size = Object.size(data);
+        // for (var i = 0; i < size; i++) {
 
+        //     var currentTweet = data[i];
+        //     var creator = ParseReact.Mutation.Create('Tweet', currentTweet);
+        //     creator.dispatch({
+        //         batch: batch
+        //     });
 
-        //  Tweets data structure
-        var tweets = [];
+        // };
+        // batch.dispatch();
 
-        //var batch = new ParseReact.Mutation.Batch();
-
-        for (var i = 0; i < statuses.length; i++) {
-            //console.log(statuses[i]['text']);
-            //tweets.push([statuses[i]['id'],statuses[i]['text'],statuses[i]['user']['id']]);
-            tweets.push({
-                "text": statuses[i]['text'],
-                "tweetId": statuses[i]['id'],
-                "userId": statuses[i]['user']['id'],
-                "userScreenName": statuses[i]['user']['screen_name'],
-                "userProfileImageUrl": statuses[i]['user']['profile_image_url'],
-                "userProfileImageUrl": statuses[i]['user']['profile_image_url']                
-            });
-
-            // var creator = ParseReact.Mutation.Create('Tweet', {
-            //     "text": statuses[i]['text'],
-            //     "tweetId": statuses[i]['id'],
-            //     "userId": statuses[i]['user']['id'],
-            //     "userScreenName": statuses[i]['user']['screen_name'],
-            //     "userProfileImageUrl": statuses[i]['user']['profile_image_url']
-            // });
-
-            // creator.dispatch({
-            //     batch: batch
-            // });
-
-
-        };
-
-        //batch.dispatch();
-
-        // res.json({
-        //     twitterResponse: tweets
-        // });
 
         res.json({
             twitterResponse: data['statuses']
