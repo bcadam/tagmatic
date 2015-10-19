@@ -103,6 +103,17 @@ function twitterSearch(req, res) {
                         success: function(gameScore) {
                             // Execute any logic that should take place after the object is saved.
                             //alert('New object created with objectId: ' + gameScore.id);
+
+
+
+
+
+
+
+
+
+
+
                         },
                         error: function(gameScore, error) {
                             // Execute any logic that should take place if the save fails.
@@ -124,41 +135,7 @@ function twitterSearch(req, res) {
 
 
 
-        var Tweet = Parse.Object.extend("Tweet");
-        var tweetArray = [];
-        var size = Object.size(data);
-        for (var i = 0; i <= size - 1; i++) {
-            var Tweet = Parse.Object.extend("Tweet");
-            var tweet = new Tweet();
-
-            tweet.set("contributors", data[i]['contributors']);
-            tweet.set("coordinates", data[i]['coordinates']);
-            tweet.set("created_at", data[i]['created_at']);
-            tweet.set("entities", data[i]['entities']);
-            tweet.set("favorite_count", data[i]['favorite_count']);
-            tweet.set("favorited", data[i]['favorited']);
-            tweet.set("geo", data[i]['geo']);
-            //tweet.set("id", data[i]['id']);
-            tweet.set("id_str", data[i]['id_str']);
-            tweet.set("in_reply_to_screen_name", data[i]['in_reply_to_screen_name']);
-            tweet.set("in_reply_to_status_id", data[i]['in_reply_to_status_id']);
-            tweet.set("in_reply_to_status_id_str", data[i]['in_reply_to_status_id_str']);
-            tweet.set("in_reply_to_user_id", data[i]['in_reply_to_user_id']);
-            tweet.set("in_reply_to_user_id_str", data[i]['in_reply_to_user_id_str']);
-            tweet.set("is_quote_status", data[i]['is_quote_status']);
-            tweet.set("lang", data[i]['lang']);
-            tweet.set("metadata", data[i]['metadata']);
-            tweet.set("place", data[i]['place']);
-            tweet.set("possibly_sensitive", data[i]['possibly_sensitive']);
-            tweet.set("retweet_count", data[i]['retweet_count']);
-            tweet.set("retweeted", data[i]['retweeted']);
-            tweet.set("retweeted_status", data[i]['retweeted_status']);
-            tweet.set("source", data[i]['source']);
-            tweet.set("text", data[i]['text']);
-            tweet.set("truncated", data[i]['truncated']);
-            tweet.set("user", data[i]['user']);
-            tweetArray.push(tweet);
-        }
+        var tweetArray = processTweets(data);
 
 
 
@@ -184,4 +161,45 @@ function twitterSearch(req, res) {
         'q': query,
         'count': count
     }, error, success);
+}
+
+function processTweets(data) {
+
+    var Tweet = Parse.Object.extend("Tweet");
+    var tweetArray = [];
+    var size = Object.size(data);
+    for (var i = 0; i <= size - 1; i++) {
+        var Tweet = Parse.Object.extend("Tweet");
+        var tweet = new Tweet();
+
+        tweet.set("contributors", data[i]['contributors']);
+        tweet.set("coordinates", data[i]['coordinates']);
+        tweet.set("created_at", data[i]['created_at']);
+        tweet.set("entities", data[i]['entities']);
+        tweet.set("favorite_count", data[i]['favorite_count']);
+        tweet.set("favorited", data[i]['favorited']);
+        tweet.set("geo", data[i]['geo']);
+        //tweet.set("id", data[i]['id']);
+        tweet.set("id_str", data[i]['id_str']);
+        tweet.set("in_reply_to_screen_name", data[i]['in_reply_to_screen_name']);
+        tweet.set("in_reply_to_status_id", data[i]['in_reply_to_status_id']);
+        tweet.set("in_reply_to_status_id_str", data[i]['in_reply_to_status_id_str']);
+        tweet.set("in_reply_to_user_id", data[i]['in_reply_to_user_id']);
+        tweet.set("in_reply_to_user_id_str", data[i]['in_reply_to_user_id_str']);
+        tweet.set("is_quote_status", data[i]['is_quote_status']);
+        tweet.set("lang", data[i]['lang']);
+        tweet.set("metadata", data[i]['metadata']);
+        tweet.set("place", data[i]['place']);
+        tweet.set("possibly_sensitive", data[i]['possibly_sensitive']);
+        tweet.set("retweet_count", data[i]['retweet_count']);
+        tweet.set("retweeted", data[i]['retweeted']);
+        tweet.set("retweeted_status", data[i]['retweeted_status']);
+        tweet.set("source", data[i]['source']);
+        tweet.set("text", data[i]['text']);
+        tweet.set("truncated", data[i]['truncated']);
+        tweet.set("user", data[i]['user']);
+        tweetArray.push(tweet);
+    }
+
+    return tweetArray;
 }
