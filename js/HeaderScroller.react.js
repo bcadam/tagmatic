@@ -112,6 +112,7 @@ var HeaderScroller = React.createClass({
         var query = new Parse.Query(Classifier);
 
         query.equalTo("nameOfHeader", headerName).containsAll("tagsInHeader", headerTags);
+        query.equalTo("published", true);
 
         query.find({
             success: function(results) {
@@ -123,6 +124,7 @@ var HeaderScroller = React.createClass({
                     var classifierObject = new Classifier();
                     classifierObject.set("nameOfHeader", headerName);
                     classifierObject.set("tagsInHeader", headerTags);
+                    classifierObject.set("published", true);
 
                     var raw = JSON.stringify(classifierMachine);
 

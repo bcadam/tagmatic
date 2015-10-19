@@ -14,8 +14,6 @@ Object.size = function(obj) {
     return size;
 };
 
-
-
 var TwitterPull = React.createClass({
 
     getInitialState: function() {
@@ -25,21 +23,18 @@ var TwitterPull = React.createClass({
             searchCount: null
         };
     },
-
     _onChange: function(e) {
         this.setState({
             searchValue: e.target.value
         });
         //alert(this.state.searchValue);
     },
-
     _onChangeCount: function(e) {
         this.setState({
             searchCount: e.target.value
         });
         //alert(this.state.searchCount);
     },
-
     _getSearch: function() {
         var myArr = this.state.data;
         var self = this;
@@ -48,34 +43,12 @@ var TwitterPull = React.createClass({
         var host = "https://tagmatic.herokuapp.com";
         var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
-
         self.props.twitterQuery.requestChange(self.state.searchValue);
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
 
-
-                // var batch = new ParseReact.Mutation.Batch();
-                // console.log("test before writing loop");
-                // var size = Object.size(myArr['twitterResponse']);
-                // console.log(myArr);
-                // for (var i = 0; i < size; i++) {
-                //     var creator = ParseReact.Mutation.Create('Tweet', {
-                //         text: myArr['twitterResponse'][i]['text'],
-                //         tweetId: myArr['twitterResponse'][i]['tweetId'],
-                //         userId: myArr['twitterResponse'][i]['userId'],
-                //         userScreenName: myArr['twitterResponse'][i]['userScreenName'],
-                //         userProfileImageUrl: myArr['twitterResponse'][i]['userProfileImageUrl']
-                //     });
-                //     creator.dispatch({
-                //         batch: batch
-                //     });
-                // };
-                
-                // batch.dispatch();
-
-                console.log(myArr);
                 self._moveStageAndDataAlong(myArr);
 
             }
@@ -87,17 +60,9 @@ var TwitterPull = React.createClass({
     _moveStageAndDataAlong: function(data) {
 
         var self = this;
-
-
         var data = data['twitterResponse'];
 
-        // self.setState({
-        //     data: myArr
-        // });
-
-        //console.log(data);
         var tempSuggestedClassifier = [];
-
 
         var SuggestedClassifier = Parse.Object.extend("SuggestedClassifier");
         var query = new Parse.Query(SuggestedClassifier);
@@ -106,13 +71,10 @@ var TwitterPull = React.createClass({
             success: function(results) {
                 for (var i = 0; i < results.length; i++) {
 
-
                     var object = results[i];
                     //alert(object.id);
                     tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
                 }
-
-
 
             },
             error: function(error) {
@@ -185,40 +147,31 @@ var TwitterPull = React.createClass({
                 withCredentials: undefined
             };
 
-            //console.log(data);
+
+            //Saves all of the tweets to database.
+            var batch = new ParseReact.Mutation.Batch();
+            var size = Object.size(data);
+            for (var i = 0; i < size; i++) {
+
+                var currentTweet = data[i];
+                var creator = ParseReact.Mutation.Create('Tweet', currentTweet);
+                creator.dispatch({
+                    batch: batch
+                });
+
+            };
+            batch.dispatch();
+            //end of saving tweets to database
 
 
 
-            //console.log(self.props.header.value);
-
-            // for (var i = 0; i < builtHeader; i++) {
-            //     var headerValue = builtHeader[i];
-
-            //     for (var y = 0; y < data.length; y++) {
-            //         data[data.length].push(headerValue);
-            //     }
-
-            // }
-
-
-
-            //data.push(builtHeader);
-            //console.log(data);
-
-
+            
 
             data = Papa.unparse(data);
-            //console.log(data);
-            ////////////////// beginning of parsing function
             Papa.parse(data, confiVariables);
-
-
         });
 
-
     },
-
-
     render: function() {
 
         var fileFormContainer = {

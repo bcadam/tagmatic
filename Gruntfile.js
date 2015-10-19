@@ -1,25 +1,22 @@
 module.exports = function(grunt) {
     grunt.initConfig({
-        browserify: {
+        pkg: grunt.file.readJSON('package.json'),
+        uglify: {
             dist: {
-                // options: {
-                //     transform: [
-                //         ["uglify", {
-                //             loose: "all"
-                //         }]
-                //     ]
-                // },
                 files: {
-                    // if the source file has an extension of es6 then
-                    // we change the name of the source file accordingly.
-                    // The result file's extension is always .js
-                    "js/bundle.js": ["js/app.js"]
+                    'public/bundle.min.js': ['public/bundle.js']
                 }
+            }
+        },
+        browserify: {
+            build: {
+                src: 'js/app.js',
+                dest: 'public/bundle.js'
             }
         },
         watch: {
             scripts: {
-                files: ["js/*.js"],
+                files: ["js/*.js", "Gruntfile.js"],
                 tasks: ["browserify"]
             }
         },
@@ -45,20 +42,9 @@ module.exports = function(grunt) {
             }
         }
 
-        // ,
-        // uglify: {
-        //     options: {
-        //         mangleProperties: true,
-        //         reserveDOMCache: true
-        //     },
-        //     my_target: {
-        //         files: {
-        //             'js/mangle.min.js': ['js/bundle.js']
-        //         }
-        //     }
-        // }
 
-        
+
+
     });
 
     grunt.loadNpmTasks("grunt-browserify");
@@ -71,5 +57,8 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['express:dev', 'watch']);
     grunt.registerTask('serve', ['express:dev', 'watch']);
     grunt.registerTask("build", ["browserify"]);
+
+    // grunt.registerTask('default', ['uglify']);
+
 
 };

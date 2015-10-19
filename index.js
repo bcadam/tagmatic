@@ -26,11 +26,8 @@ app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
 
-// views is directory for all template files
-//app.set('/views', __dirname + '/views');
-
 app.use('/', express.static('public'));
-app.use('/js', express.static('js'));
+//app.use('/js', express.static('js'));
 app.use('/images', express.static('images'));
 app.use('/css', express.static('css'));
 //app.use('/bootstrap', express.static('bootstrap'));
@@ -111,7 +108,7 @@ function twitterSearch(req, res) {
     }
 
     var query = req.params.query;
-    var count = (req.params.count == null || req.params.count > 3000 ? 1 : req.params.count);
+    var count = (req.params.count == null || req.params.count > 50 ? 1 : req.params.count);
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);

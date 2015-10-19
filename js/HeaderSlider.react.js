@@ -89,26 +89,9 @@ var HeaderSlider = React.createClass({
     }
   },
   _addHeader: function () {
-    console.log(this.props.data.value);
-    console.log(this.props.header.value);
-
     var placeHolder = this.props.header.value;
     placeHolder.push(["New Header",[],true]);
     this.props.header.requestChange(placeHolder);
-    console.log(placeHolder);
-
-    //x = structured scaffold: state.editing, props.header, state.data, state.stage
-    //this.props.header.push(x)
-
-    // for (var i = 0; i < results.data.length; i++) {
-    //     var size = Object.size(results.data[i]);
-    //     for (var y = 0; y < tempSuggestedClassifier.length; y++) {
-    //         if (tempSuggestedClassifier[y][2]) {
-    //             results.data[i][tempSuggestedClassifier[y][0]] = '';
-    //         }
-    //     }
-    // }
-
 
   },
   // Hides the add tag creator field on the HeaderBoxes
