@@ -1,13 +1,5 @@
 module.exports = function(grunt) {
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        uglify: {
-            dist: {
-                files: {
-                    'public/bundle.min.js': ['public/bundle.js']
-                }
-            }
-        },
         browserify: {
             build: {
                 src: 'js/app.js',

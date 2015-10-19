@@ -6,7 +6,7 @@ var Parse = require('parse/node').Parse;
 
 // var React = require('react-native');
 // var Parse = require('parse/react-native');
-var ParseReact = require('parse-react');
+//var ParseReact = require('parse-react');
 
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
@@ -49,6 +49,15 @@ app.listen(app.get('port'), function() {
     console.log('TagMatic is running on port', app.get('port'));
 });
 
+Object.size = function(obj) {
+    var size = 0,
+        key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
 
 function twitterSearch(req, res) {
 
@@ -59,10 +68,14 @@ function twitterSearch(req, res) {
     var success = function(data) {
         //this line makes sure that everything goes into the json response all purty
         data = JSON.parse(data);
+        data = data['statuses'];
+
 
         //Saves all of the tweets to database.
-        // var batch = new ParseReact.Mutation.Batch();
-        // var size = Object.size(data);
+        //var batch = new ParseReact.Mutation.Batch();
+        //var size = Object.size(data);
+
+
         // for (var i = 0; i < size; i++) {
 
         //     var currentTweet = data[i];
@@ -76,7 +89,7 @@ function twitterSearch(req, res) {
 
 
         res.json({
-            twitterResponse: data['statuses']
+            twitterResponse: data
         });
 
     }

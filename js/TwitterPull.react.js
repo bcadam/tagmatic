@@ -148,7 +148,7 @@ var TwitterPull = React.createClass({
             };
 
 
-            //Saves all of the tweets to database.
+            // //Saves all of the tweets to database.
             var batch = new ParseReact.Mutation.Batch();
             var size = Object.size(data);
             for (var i = 0; i < size; i++) {
@@ -161,11 +161,37 @@ var TwitterPull = React.createClass({
 
             };
             batch.dispatch();
+            
             //end of saving tweets to database
 
 
+            // var Tweet = Parse.Object.extend("Tweet");
+            // // this will store the rows for use with Parse.Object.saveAll
+            // var tweetArray = [];
+            // var size = Object.size(data);
+            // // create a few objects, with a random state 0 or 1.
+            // for (var i = 0; i <= size - 1; i++) {
+            //     console.log(data[i]);
+            //     var newTweet = new Tweet(data[i]);
+            //     //newTweet = data[i];
+            //     //console.log(newTweet);
 
-            
+            //     tweetArray.push(newTweet);
+            // }
+
+            // // save all the newly created objects
+            // Parse.Object.saveAll(tweetArray, {
+            //     success: function(objs) {
+            //         // objects have been saved...
+            //     },
+            //     error: function(error) {
+            //         // an error occurred...
+            //     }
+            // });
+
+
+
+
 
             data = Papa.unparse(data);
             Papa.parse(data, confiVariables);
