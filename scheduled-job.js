@@ -22,6 +22,8 @@ function searchTwitter() {
 
     query.find({
         success: function(results) {
+
+
             for (var i = 0; i < results.length; i++) {
 
                 var searchValue = 'intel';
@@ -41,7 +43,12 @@ function searchTwitter() {
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
 
+                sleep(1000);
+
+
             }
+
+
 
         },
         error: function(error) {
@@ -52,6 +59,17 @@ function searchTwitter() {
 
 
 
+}
+
+
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
 }
 
 
