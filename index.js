@@ -65,14 +65,13 @@ function twitterSearch(req, res) {
         res.json({
             twitterResponse: data
         });
-        
+
         var Query = Parse.Object.extend("Query");
         var query = new Parse.Query(Query);
         query.equalTo("searchedFor", req.params.query);
         query.find({
             success: function(results) {
-                if (results > 0) {
-                }
+                if (results > 0) {}
                 if (results == 0) {
                     var Query = Parse.Object.extend("Query");
                     var query = new Query();
@@ -95,11 +94,8 @@ function twitterSearch(req, res) {
             }
         });
 
-        var tweetArray = processTweets(data,"CqmgDLLZOo");
-        Parse.Object.saveAll(tweetArray, {
-            success: function(objs) {},
-            error: function(error) {}
-        });
+        processTweets(data, "CqmgDLLZOo");
+
 
     }
 
@@ -113,7 +109,7 @@ function twitterSearch(req, res) {
     }, error, success);
 }
 
-function processTweets(data,classifier) {
+function processTweets(data, classifier) {
     var Tweet = Parse.Object.extend("Tweet");
     var tweetArray = [];
     var size = Object.size(data);
@@ -148,5 +144,11 @@ function processTweets(data,classifier) {
         tweet.set("user", data[i]['user']);
         tweetArray.push(tweet);
     }
-    return tweetArray;
+    //return tweetArray;
+    Parse.Object.saveAll(tweetArray, {
+        success: function(objs) {},
+        error: function(error) {}
+    });
+
+
 }
