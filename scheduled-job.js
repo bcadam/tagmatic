@@ -11,21 +11,36 @@ function searchTwitter() {
     var searchValue = 'intel';
     var searchCount = 100;
 
-    var xmlhttp = new XMLHttpRequest();
-    var host = "https://tagmatic.herokuapp.com";
-    var url = host + "/api/twitter/search/" + searchValue + "/" + searchCount;
 
 
-    var SuggestedClassifier = Parse.Object.extend("SuggestedClassifier");
-    var query = new Parse.Query(SuggestedClassifier);
+
+    var Report = Parse.Object.extend("Report");
+    var query = new Parse.Query(Report);
+
     query.equalTo("published", true);
+
+
     query.find({
         success: function(results) {
             for (var i = 0; i < results.length; i++) {
 
-                var object = results[i];
-                //alert(object.id);
-                tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
+                var searchValue = 'intel';
+                var searchCount = 100;
+
+                var searchValue = results[i].get('query');
+                console.log("searching for: " + searchValue);
+                var searchCount = 100;
+
+                var xmlhttp = new XMLHttpRequest();
+                var host = "https://tagmatic.herokuapp.com";
+                var url = host + "/api/twitter/search/" + searchValue + "/" + searchCount;
+
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
             }
 
         },
@@ -34,15 +49,6 @@ function searchTwitter() {
         }
     });
 
-
-
-
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
 
 
 
