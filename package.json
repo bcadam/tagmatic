@@ -14,7 +14,8 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
     "twitter-node-client": "0.0.6",
     "nodemon" : "1.7.1",
-    "cors" : "2.7.1"
+    "cors" : "2.7.1",
+    "xmlhttprequest" : "1.8.0"
   },
   "devDependencies": {
     "babelify": "^6.1.0",
