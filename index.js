@@ -87,6 +87,15 @@ function twitterSearch(req, res) {
         // };
         // batch.dispatch();
 
+        
+
+
+        res.json({
+            twitterResponse: data
+        });
+
+
+
         var Tweet = Parse.Object.extend("Tweet");
         var tweetArray = [];
         var size = Object.size(data);
@@ -128,11 +137,6 @@ function twitterSearch(req, res) {
         Parse.Object.saveAll(tweetArray, {
             success: function(objs) {},
             error: function(error) {}
-        });
-
-
-        res.json({
-            twitterResponse: data
         });
 
     }
