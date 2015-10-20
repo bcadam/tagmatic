@@ -72,8 +72,8 @@ function twitterSearch(req, res) {
         query.find({
             success: function(results) {
                 if (results > 0) {
-                    console.log("results[0]");
-                    console.log(results[0]);
+                    // console.log("results[0]");
+                    // console.log(results[0]);
                     processTweets(data, results[0]);
 
                 }
@@ -83,8 +83,8 @@ function twitterSearch(req, res) {
                     query.set("searchedFor", req.params.query);
                     query.save(null, {
                         success: function(query) {
-                            console.log("query");
-                            console.log(query);
+                            // console.log("query");
+                            // console.log(query);
 
                             processTweets(data, query);
                         },
@@ -116,6 +116,8 @@ function twitterSearch(req, res) {
 }
 
 function processTweets(data, query) {
+    console.log(query);
+    
     var Tweet = Parse.Object.extend("Tweet");
     var tweetArray = [];
     var size = Object.size(data);
