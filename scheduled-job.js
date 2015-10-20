@@ -38,7 +38,7 @@ function searchTwitter() {
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
 
-                sleep(2000);
+                sleep(300);
 
             }
 
