@@ -153,15 +153,17 @@ function processTweets(data, query) {
         success: function(objs) {
 
             var relation;
-            // for (var i = 0, i < objs.length; i++) {
+            var size = Object.size(objs);
 
-            //     //var user = Parse.User.current();
-            //     relation = query.relation("tweets");
-            //     relation.add(objs[i]);
+            for (var i = 0, i < size - 1; i++) {
 
-            // }
+                //var user = Parse.User.current();
+                relation = query.relation("tweets");
+                relation.add(objs[i]);
 
-            // relation.save();
+            }
+
+            relation.save();
 
 
         },
