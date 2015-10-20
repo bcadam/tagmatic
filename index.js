@@ -153,7 +153,7 @@ function processTweets(data, query) {
             var relation;
             var size = Object.size(objs);
 
-            for (var i = 0, i < size - 1; i++) {
+            for (var i = 0; i < size - 1; i++) {
 
                 //var user = Parse.User.current();
                 relation = query.relation("tweets");
