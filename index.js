@@ -117,7 +117,7 @@ function twitterSearch(req, res) {
 
 function processTweets(data, query) {
     console.log(query);
-    
+
     var Tweet = Parse.Object.extend("Tweet");
     var tweetArray = [];
     var size = Object.size(data);
@@ -155,7 +155,7 @@ function processTweets(data, query) {
     //return tweetArray;
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
-
+            console.log(objs);
             var relation;
             var size = Object.size(objs);
 
