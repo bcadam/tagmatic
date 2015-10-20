@@ -72,12 +72,11 @@ function twitterSearch(req, res) {
         query.find({
             success: function(results) {
                 if (results > 0) {
-                    // console.log("results[0]");
-                    // console.log(results[0]);
+                    console.log("fire and found query");
                     processTweets(data, results[0]);
-
                 }
                 if (results == 0) {
+
                     var Query = Parse.Object.extend("Query");
                     var query = new Query();
                     query.set("searchedFor", req.params.query);
@@ -85,6 +84,7 @@ function twitterSearch(req, res) {
                         success: function(query) {
                             // console.log("query");
                             // console.log(query);
+                    console.log("fire and did not find query");
 
                             processTweets(data, query);
                         },
@@ -102,7 +102,7 @@ function twitterSearch(req, res) {
         });
 
 
-        processTweets(data, "results[0]");
+        //processTweets(data, "results[0]");
 
     }
 
