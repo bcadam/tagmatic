@@ -68,7 +68,7 @@ function twitterSearch(req, res) {
 
         var Query = Parse.Object.extend("Query");
         var query = new Parse.Query(Query);
-        query.equalTo("searchedFor", req.params.query);
+        query.equalTo("searchedFor", req.params.query.toLowerCase());
         query.find({
             success: function(results) {
                 var size = Object.size(results);
