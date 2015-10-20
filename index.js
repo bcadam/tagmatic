@@ -153,6 +153,9 @@ function processTweets(data, query) {
         tweetArray.push(tweet);
     }
     //return tweetArray;
+
+    console.log("about to enter the save all");
+
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
             
