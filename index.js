@@ -164,6 +164,7 @@ function processTweets(data, query) {
                 //var user = Parse.User.current();
                 relation = query.relation("tweets");
                 relation.add(objs[i]);
+                console.log(objs[i]);
 
             }
 
