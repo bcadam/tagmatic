@@ -121,8 +121,8 @@ function twitterSearch(req, res) {
 }
 
 function processTweets(data, query) {
-    console.log("query");
-    console.log(query);
+    // console.log("query");
+    // console.log(query);
 
     var Tweet = Parse.Object.extend("Tweet");
 
@@ -162,7 +162,7 @@ function processTweets(data, query) {
     }
     //return tweetArray;
 
-    console.log("about to enter the save all");
+    //console.log("about to enter the save all");
 
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
@@ -177,12 +177,12 @@ function processTweets(data, query) {
             var relation = query.relation("tweets");
 
             for (var i = 0; i < size; i++) {
-                console.log(objs[i]);
+                //console.log(objs[i]);
                 relation.add(objs[i]);
             }
 
-            console.log("query");
-            console.log(query);
+            // console.log("query");
+            // console.log(query);
             query.save();
 
 
