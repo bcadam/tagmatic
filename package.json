@@ -17,7 +17,10 @@
     "cors" : "2.7.1",
     "xmlhttprequest" : "1.8.0",
     "papaparse" : "4.1.2",
-    "rollbar" : "*"
+    "rollbar" : "*",
+    "mongodb" : "2.0.46",
+    "mongoose" : "*",
+    "kerberos" : "*"
   },
   "devDependencies": {
     "babelify": "^6.1.0",

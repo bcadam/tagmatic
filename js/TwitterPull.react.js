@@ -5,6 +5,7 @@ var React = require('react');
 var Twitter = require('twitter-node-client').Twitter;
 
 
+
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -63,6 +64,9 @@ var TwitterPull = React.createClass({
         var data = data['twitterResponse'];
 
         var tempSuggestedClassifier = [];
+
+        //myDb.collection('SuggestedClassifier');
+
 
         var SuggestedClassifier = Parse.Object.extend("SuggestedClassifier");
         var query = new Parse.Query(SuggestedClassifier);
@@ -210,7 +214,7 @@ var TwitterPull = React.createClass({
 
 
 
-
+            
             data = Papa.unparse(data);
             Papa.parse(data, confiVariables);
         });

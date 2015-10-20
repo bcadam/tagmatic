@@ -6,6 +6,18 @@ var rollbar = require('rollbar');
 var Parse = require('parse/node').Parse;
 
 
+// Connection URL
+var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongolab.com:41934/heroku_fmnvd22w';
+var MongoClient = require('mongodb').MongoClient,
+    assert = require('assert');
+var myDb;
+MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    myDb = db;
+});
+
+
 // var React = require('react-native');
 // var Parse = require('parse/react-native');
 //var ParseReact = require('parse-react');
@@ -54,10 +66,6 @@ app.listen(app.get('port'), function() {
 
 
 
-
-
-
-
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -68,6 +76,14 @@ Object.size = function(obj) {
 };
 
 function twitterSearch(req, res) {
+
+    // myDb.collection('users').insert({
+    //     name: "sue",
+    //     age: 26,
+    //     status: "A"
+    // })
+
+
     var error = function(err, response, body) {
         console.log('ERROR [%s]', err);
     };
@@ -111,6 +127,11 @@ function twitterSearch(req, res) {
                     });
                 }
 
+                // myDb.collection('query').insert({
+                //     _id: req.params.query.toLowerCase(),
+                //     query: req.params.query.toLowerCase()
+                // });
+
 
             },
             error: function(error) {
@@ -135,7 +156,9 @@ function twitterSearch(req, res) {
 
 function processTweets(data, query) {
     // console.log("query");
-    // console.log(query);
+    //console.log(query);
+
+    var queryString = query.get('searchedFor');
 
     var Tweet = Parse.Object.extend("Tweet");
 
@@ -172,6 +195,26 @@ function processTweets(data, query) {
         tweet.set("truncated", data[i]['truncated']);
         tweet.set("user", data[i]['user']);
         tweetArray.push(tweet);
+
+        myDb.collection('Tweet').insert({
+            _id: data[i]['id_str'],
+            data: data[i]
+        });
+
+        myDb.collection('Query').update({
+                _id: queryString
+            }, {
+                $push: {
+                    tweet: data[i]['id_str']
+                } // end of $set
+            }, // end of update document
+            {
+                upsert: true
+            }
+        );
+
+
+
     }
     //return tweetArray;
 
