@@ -56,7 +56,8 @@ function sendReports() {
                         console.log("did not find tweets");
                     }
                 });
-                //sleep(2000);
+                
+                sleep(2000);
             }
 
         },
