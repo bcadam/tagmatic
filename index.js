@@ -99,12 +99,9 @@ function twitterSearch(req, res) {
                 }
 
 
-
-
-
             },
             error: function(error) {
-                alert("Error: " + error.code + " " + error.message);
+                //alert("Error: " + error.code + " " + error.message);
             }
         });
 
@@ -124,6 +121,7 @@ function twitterSearch(req, res) {
 }
 
 function processTweets(data, query) {
+    console.log("query");
     console.log(query);
 
     var Tweet = Parse.Object.extend("Tweet");
