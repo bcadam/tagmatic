@@ -125,7 +125,9 @@ function processTweets(data, query) {
     console.log(query);
 
     var Tweet = Parse.Object.extend("Tweet");
+
     var tweetArray = [];
+
     var size = Object.size(data);
     for (var i = 0; i <= size - 1; i++) {
         var Tweet = Parse.Object.extend("Tweet");
@@ -165,18 +167,20 @@ function processTweets(data, query) {
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
 
-    console.log("about to get size");
+            console.log("about to get size");
             var size = Object.size(objs);
             console.log(size);
-            // var relation = query.relation("tweets");
 
-            // for (var i = 0; i < size - 1; i++) {
+            var relation = query.relation("tweets");
 
-            //     relation.add(objs[i]);
+            for (var i = 0; i < size - 1; i++) {
+                console.log(objs[i]);
+                relation.add(objs[i]);
+            }
 
-            // }
-
-            // query.save();
+            console.log("query");
+            console.log(query);
+            query.save();
 
 
         },
