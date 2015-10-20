@@ -74,6 +74,7 @@ function twitterSearch(req, res) {
                 var size = Object.size(results);
                 if (size > 0) {
                     console.log("fire and found query");
+                    console.log(results[0]);
                     processTweets(data, results[0]);
                 }
                 if (size == 0) {
@@ -85,7 +86,8 @@ function twitterSearch(req, res) {
                         success: function(query) {
                             // console.log("query");
                             // console.log(query);
-                    console.log("fire and did not find query");
+                            console.log("fire and did not find query");
+                            console.log(query);
 
                             processTweets(data, query);
                         },
