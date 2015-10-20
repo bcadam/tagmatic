@@ -3,24 +3,25 @@
   "version": "0.1.4",
   "main": "index.js",
   "dependencies": {
-    "react": "^0.13.0",
-    "parse": "^1.6.5",
-    "parse-react": "^0.5.0",
+    "WNdb": "3.1.1",
+    "cors": "2.7.1",
     "ejs": "^2.3.3",
     "express": "~4.13.x",
-    "natural": "0.2.1",
-    "WNdb" : "3.1.1",
+    "kerberos": "*",
     "lapack": "0.1.0",
-    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
+    "mongodb": "2.0.46",
+    "mongoose": "^4.1.12",
+    "natural": "0.2.1",
+    "nodemon": "1.7.1",
+    "papaparse": "4.1.2",
+    "parse": "^1.6.5",
+    "parse-react": "^0.5.0",
+    "react": "^0.13.0",
+    "rollbar": "*",
     "twitter-node-client": "0.0.6",
-    "nodemon" : "1.7.1",
-    "cors" : "2.7.1",
-    "xmlhttprequest" : "1.8.0",
-    "papaparse" : "4.1.2",
-    "rollbar" : "*",
-    "mongodb" : "2.0.46",
-    "mongoose" : "*",
-    "kerberos" : "*"
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
+    "xmlhttprequest": "1.8.0",
+    "mongolab-provider" : "1.1.1"
   },
   "devDependencies": {
     "babelify": "^6.1.0",
@@ -33,7 +34,7 @@
     "grunt-contrib-uglify": "^0.9.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express-server": "^0.5.1",
-    "uglify" :"0.1.5"
+    "uglify": "0.1.5"
   },
   "scripts": {
     "start": "watchify -o public/bundle.js -v -d js/app.js"

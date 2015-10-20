@@ -8,21 +8,10 @@ var TwitterPull = require('./TwitterPull.react.js');
 
 
 
-
-// Connection URL
+// Connection URL 
 var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongolab.com:41934/heroku_fmnvd22w';
 
-var MongoClient = require('mongoose').MongoClient
-  , assert = require('assert');
-// Connection URL 
-// Use connect method to connect to the Server
-var myDb;
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
-  //db.close();
-  myDb = db;
-});
+//var myDb = require('mongolab-provider').init('heroku_fmnvd22w', 'Vy94bRY1c4WizezbKV65B8OtWqc=');
 
 
 

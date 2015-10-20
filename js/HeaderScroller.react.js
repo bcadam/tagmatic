@@ -31,41 +31,41 @@ var HeaderScroller = React.createClass({
         // console.log(restoredClassifier.getClassifications(tweet));
 
         var cardContainer = {
-          display: 'inline-block',
-          width: '230px',
-          height: '150px',
-          padding: '15px 2px 10px 2px',
-          opacity: '1', //toggle this between 0.4 and 1 depending on whether its active or not when tagging
-          verticalAlign: 'top'
+            display: 'inline-block',
+            width: '230px',
+            height: '150px',
+            padding: '15px 2px 10px 2px',
+            opacity: '1', //toggle this between 0.4 and 1 depending on whether its active or not when tagging
+            verticalAlign: 'top'
         }
         var card = {
-          borderStyle: 'solid',
-          borderWidth: '1px',
-          borderColor: '#efefef #eaeaea #eaeaea',
-          backgroundColor: 'white',
-          margin: '0px',
-          opacity: '1',
-          overflow: 'hidden'
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            borderColor: '#efefef #eaeaea #eaeaea',
+            backgroundColor: 'white',
+            margin: '0px',
+            opacity: '1',
+            overflow: 'hidden'
         }
         var cardHeader = {
-          backgroundColor: '#f2f2f2',
-          borderBottom: '1px solid #efefef',
-          fontWeight: 'bold',
-          height: '30px',
-          width: '100%',
-          overflow: 'hidden',
-          paddingLeft: '5px',
-          paddingRight: '5px',
-          textAlign: 'center'
+            backgroundColor: '#f2f2f2',
+            borderBottom: '1px solid #efefef',
+            fontWeight: 'bold',
+            height: '30px',
+            width: '100%',
+            overflow: 'hidden',
+            paddingLeft: '5px',
+            paddingRight: '5px',
+            textAlign: 'center'
         }
         var cardIcon = {
-          opacity: '0.25'
+            opacity: '0.25'
         }
         var scrollWindow = {
-          borderBottom: '1px solid #efefef',
-          height: '120px',
-          overflowX: 'hidden',
-          overflowY: 'auto'
+            borderBottom: '1px solid #efefef',
+            height: '120px',
+            overflowX: 'hidden',
+            overflowY: 'auto'
         }
         var hotKey = {
             backgroundColor: 'green',
@@ -79,7 +79,7 @@ var HeaderScroller = React.createClass({
         }
 
         return (
-              <div style={cardContainer}>
+            <div style={cardContainer}>
                 <div style={card}>
                   <div style={cardHeader}>{tweet}</div>
                   <div style={scrollWindow}>
@@ -131,6 +131,30 @@ var HeaderScroller = React.createClass({
                     classifierObject.set("classifier", raw);
                     classifierObject.save();
 
+
+                    myDb.collection('Classifier').update({
+                            _id: {
+                                headerName, headerTags
+                            },
+                            Name: headerName,
+                            Tags,
+                            headerTags
+                        }, {
+                            $set: {
+                                _id: {
+                                    headerName, headerTags
+                                },
+                                Name: headerName,
+                                Tags,
+                                headerTags
+                            } // end of $set
+                        }, // end of update document
+                        {
+                            upsert: true
+                        }
+                    );
+
+
                     self.setState({
                         headerClassifier: classifierObject
                     });
@@ -161,7 +185,7 @@ var HeaderScroller = React.createClass({
             var tweet = self.props.tweet;
 
         });
-        
+
     },
     _receiveButton: function(e) {
         //console.log(e.keyCode);
