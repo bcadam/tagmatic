@@ -169,7 +169,10 @@ function processTweets(data, query) {
 
             console.log("about to get size");
             var size = Object.size(objs);
+            console.log("size");
             console.log(size);
+            console.log("objs");
+            console.log(objs);
 
             var relation = query.relation("tweets");
 
