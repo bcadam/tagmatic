@@ -73,7 +73,7 @@ function twitterSearch(req, res) {
             success: function(results) {
                 if (results > 0) {
 
-
+                    processTweets(data, results[0]);
 
                 }
                 if (results == 0) {
@@ -82,8 +82,7 @@ function twitterSearch(req, res) {
                     query.set("searchedFor", req.params.query);
                     query.save(null, {
                         success: function(query) {
-                            // Execute any logic that should take place after the object is saved.
-                            //alert('New object created with objectId: ' + gameScore.id);
+                            processTweets(data, query);
                         },
                         error: function(query, error) {
                             // Execute any logic that should take place if the save fails.
@@ -98,7 +97,6 @@ function twitterSearch(req, res) {
             }
         });
 
-        processTweets(data, "CqmgDLLZOo");
 
 
     }
@@ -163,7 +161,7 @@ function processTweets(data, query) {
 
             }
 
-            relation.save();
+            query.save();
 
 
         },
