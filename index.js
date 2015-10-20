@@ -1,6 +1,8 @@
 var express = require('express');
 var cors = require('cors');
 var app = express();
+var rollbar = require('rollbar');
+
 var Parse = require('parse/node').Parse;
 
 
@@ -41,9 +43,20 @@ app.get('/api/twitter/search/:query/:count?', cors(), function(req, res) {
     twitterSearch(req, res);
 });
 
+
+
+//registers rollbar instance
+app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
+
 app.listen(app.get('port'), function() {
     console.log('TagMatic is running on port', app.get('port'));
 });
+
+
+
+
+
+
 
 Object.size = function(obj) {
     var size = 0,
