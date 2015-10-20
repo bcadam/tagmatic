@@ -159,17 +159,17 @@ function processTweets(data, query) {
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
 
-            var size = Object.size(objs);
+            // var size = Object.size(objs);
 
-            var relation = query.relation("tweets");
+            // var relation = query.relation("tweets");
 
-            for (var i = 0; i < size - 1; i++) {
+            // for (var i = 0; i < size - 1; i++) {
 
-                relation.add(objs[i]);
+            //     relation.add(objs[i]);
 
-            }
+            // }
 
-            query.save();
+            // query.save();
 
 
         },
