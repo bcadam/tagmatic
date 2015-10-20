@@ -71,11 +71,12 @@ function twitterSearch(req, res) {
         query.equalTo("searchedFor", req.params.query);
         query.find({
             success: function(results) {
-                if (results > 0) {
+                var size = Object.size(results);
+                if (size > 0) {
                     console.log("fire and found query");
                     processTweets(data, results[0]);
                 }
-                if (results == 0) {
+                if (size == 0) {
 
                     var Query = Parse.Object.extend("Query");
                     var query = new Query();
@@ -95,6 +96,11 @@ function twitterSearch(req, res) {
                         }
                     });
                 }
+
+
+
+
+
             },
             error: function(error) {
                 alert("Error: " + error.code + " " + error.message);
