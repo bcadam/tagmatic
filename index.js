@@ -167,12 +167,12 @@ function processTweets(data, query) {
     Parse.Object.saveAll(tweetArray, {
         success: function(objs) {
 
-            console.log("about to get size");
+            // console.log("about to get size");
             var size = Object.size(objs);
-            console.log("size");
-            console.log(size);
-            console.log("objs");
-            console.log(objs);
+            // console.log("size");
+            // console.log(size);
+            // console.log("objs");
+            // console.log(objs);
 
             var relation = query.relation("tweets");
 
