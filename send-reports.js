@@ -4,63 +4,66 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
-function searchTwitter() {
-    //console.log('Hello');
-    //http://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial
-
-    var searchValue = 'intel';
-    var searchCount = 100;
-
-
-
+function sendReports() {
 
     var Report = Parse.Object.extend("Report");
-    var query = new Parse.Query(Report);
+    var queryReport = new Parse.Query(Report);
 
-    query.equalTo("published", true);
-    query.include('user');
-    query.include('classifier');
+    queryReport.equalTo("published", true);
+    queryReport.include('user.classifier');
+    //query.include('classifier');
 
 
-    query.find({
+    queryReport.find({
         success: function(results) {
 
 
             for (var i = 0; i < results.length; i++) {
 
-                var searchValue = 'intel';
-                var searchCount = 100;
-
-                var searchValue = results[i].get('query');
-                console.log("searching for: " + searchValue);
-                
                 var userEmail = results[i].get('user').get('email');
-                var classifier = results[i].get('classifier').get('classifier');
-                var searchCount = 100;
+                console.log(userEmail);
+                var classifier = results[i].get('classifier');
+                console.log(classifier);
 
-                var xmlhttp = new XMLHttpRequest();
-                var host = "https://tagmatic.herokuapp.com";
-                var url = host + "/api/twitter/search/" + searchValue + "/" + searchCount;
+                var query = results[i].get('query');
+                console.log(query);
 
-                xmlhttp.onreadystatechange = function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
+                var holdQuery = query;
 
-                sleep(2000);
+                var Query = Parse.Object.extend("Query");
+                var queryQuery = new Parse.Query(Query);
+                queryQuery.equalTo("searchedFor", holdQuery);
+                console.log('holdQuery: ' + holdQuery);
+                queryQuery.include(["user.tweets"]);
+                queryQuery.limit(5);
+                queryQuery.find({
+                    success: function(results) {
+                        //console.log("found tweets");
+                        //console.log(results[0].get('tweets'));
+
+                        var queryTweets = results[0].get('tweets').query();
+                        //console.log(query);
+                        queryTweets.limit(1000);
+                        queryTweets.find({success:function(results){
+                            console.log(results.length);
+
+                        },error:function(error){}});
+                        //query.f
+
+
+                    },
+                    error: function(error) {
+                        console.log("did not find tweets");
+                    }
+                });
+                //sleep(2000);
             }
-
 
         },
         error: function(error) {
             alert("Error: " + error.code + " " + error.message);
         }
     });
-
-
-
-
 }
 
 
@@ -75,4 +78,4 @@ function sleep(milliseconds) {
 }
 
 
-searchTwitter();
+sendReports();

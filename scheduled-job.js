@@ -11,18 +11,13 @@ function searchTwitter() {
     var searchValue = 'intel';
     var searchCount = 100;
 
-
-
-
     var Report = Parse.Object.extend("Report");
     var query = new Parse.Query(Report);
 
     query.equalTo("published", true);
 
-
     query.find({
         success: function(results) {
-
 
             for (var i = 0; i < results.length; i++) {
 
@@ -45,10 +40,7 @@ function searchTwitter() {
 
                 sleep(2000);
 
-
             }
-
-
 
         },
         error: function(error) {
