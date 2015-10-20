@@ -102,6 +102,7 @@ function twitterSearch(req, res) {
         });
 
 
+        processTweets(data, "results[0]");
 
     }
 
