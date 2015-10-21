@@ -270,10 +270,14 @@ function processTweets(data, query) {
 
     //var queryString = query.get('searchedFor');
     var queryString = query;
-    
+
     // var Tweet = Parse.Object.extend("Tweet");
 
     // var tweetArray = [];
+
+    var bulkTweet = db.collection('Tweet').initializeUnorderedBulkOp();
+    var bulkQuery = db.collection('Query').initializeUnorderedBulkOp();
+
 
     var size = Object.size(data);
     for (var i = 0; i <= size - 1; i++) {
@@ -307,12 +311,12 @@ function processTweets(data, query) {
         // tweet.set("user", data[i]['user']);
         // tweetArray.push(tweet);
 
-        myDb.collection('Tweet').insert({
+        bulkTweet.insert({
             _id: data[i]['id_str'],
             data: data[i]
         });
 
-        myDb.collection('Query').update({
+        bulkQuery.update({
                 _id: queryString
             }, {
                 $push: {
@@ -324,9 +328,40 @@ function processTweets(data, query) {
             }
         );
 
+        // myDb.collection('Tweet').insert({
+        //     _id: data[i]['id_str'],
+        //     data: data[i]
+        // });
+
+        // myDb.collection('Query').update({
+        //         _id: queryString
+        //     }, {
+        //         $push: {
+        //             tweet: data[i]['id_str']
+        //         } // end of $set
+        //     }, // end of update document
+        //     {
+        //         upsert: true
+        //     }
+        // );
+
 
 
     }
+
+
+    bulkTweet.execute();
+    bulkQuery.execute();
+
+
+
+
+
+
+
+
+
+
     //return tweetArray;
 
     //console.log("about to enter the save all");
