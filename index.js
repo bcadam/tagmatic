@@ -218,7 +218,7 @@ function twitterSearch(req, res) {
                 if (size > 0) {
                     //console.log("fire and found query");
                     //console.log(results[0]);
-                    processTweets(data, results[0]);
+                    //processTweets(data, results[0]);
                 }
                 if (size == 0) {
 
@@ -231,7 +231,7 @@ function twitterSearch(req, res) {
                             // console.log(query);
                             //console.log("fire and did not find query");
                             //console.log(query);
-                            processTweets(data, query);
+                            //processTweets(data, query);
                         },
                         error: function(query, error) {
                             // Execute any logic that should take place if the save fails.
@@ -250,7 +250,7 @@ function twitterSearch(req, res) {
         });
 
 
-        //processTweets(data, "results[0]");
+        processTweets(data, req.params.query.toLowerCase());
 
     }
 
