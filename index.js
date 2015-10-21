@@ -10,7 +10,7 @@ app.use(cors());
 
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
-var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongolab.com:41934/heroku_fmnvd22w';
+var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
 var myDb;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
@@ -21,6 +21,9 @@ app.locals.twitterConfig = {
     "accessTokenSecret": "cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK",
     "callBackUrl": "https://tagmatic.herokuapp.com/"
 };
+
+
+
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
 
