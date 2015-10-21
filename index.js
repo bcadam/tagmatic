@@ -268,8 +268,9 @@ function processTweets(data, query) {
     // console.log("query");
     //console.log(query);
 
-    var queryString = query.get('searchedFor');
-
+    //var queryString = query.get('searchedFor');
+    var queryString = query;
+    
     var Tweet = Parse.Object.extend("Tweet");
 
     var tweetArray = [];
