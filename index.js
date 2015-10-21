@@ -316,9 +316,9 @@ function processTweets(data, query) {
             data: data[i]
         });
 
-        bulkQuery.update({
-                _id: queryString
-            }, {
+        bulkQuery.find({
+            _id: queryString
+        }).update({
                 $push: {
                     tweet: data[i]['id_str']
                 } // end of $set
