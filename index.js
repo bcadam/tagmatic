@@ -331,31 +331,31 @@ function processTweets(data, query) {
 
     //console.log("about to enter the save all");
 
-    Parse.Object.saveAll(tweetArray, {
-        success: function(objs) {
+    // Parse.Object.saveAll(tweetArray, {
+    //     success: function(objs) {
 
-            // console.log("about to get size");
-            var size = Object.size(objs);
-            // console.log("size");
-            // console.log(size);
-            // console.log("objs");
-            // console.log(objs);
+    //         // console.log("about to get size");
+    //         var size = Object.size(objs);
+    //         // console.log("size");
+    //         // console.log(size);
+    //         // console.log("objs");
+    //         // console.log(objs);
 
-            var relation = query.relation("tweets");
+    //         var relation = query.relation("tweets");
 
-            for (var i = 0; i < size; i++) {
-                //console.log(objs[i]);
-                relation.add(objs[i]);
-            }
+    //         for (var i = 0; i < size; i++) {
+    //             //console.log(objs[i]);
+    //             relation.add(objs[i]);
+    //         }
 
-            // console.log("query");
-            // console.log(query);
-            query.save();
+    //         // console.log("query");
+    //         // console.log(query);
+    //         query.save();
 
 
-        },
-        error: function(error) {}
-    });
+    //     },
+    //     error: function(error) {}
+    // });
 
 
 }
