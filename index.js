@@ -209,48 +209,45 @@ function twitterSearch(req, res) {
             twitterResponse: data
         });
 
-        processTweets(data, req.params.query.toLowerCase());
+        var Query = Parse.Object.extend("Query");
+        var query = new Parse.Query(Query);
+        query.equalTo("searchedFor", req.params.query.toLowerCase());
+        query.find({
+            success: function(results) {
+                var size = Object.size(results);
+                if (size > 0) {
+                    //console.log("fire and found query");
+                    //console.log(results[0]);
+                    processTweets(data, results[0]);
+                }
+                if (size == 0) {
 
-
-        // var Query = Parse.Object.extend("Query");
-        // var query = new Parse.Query(Query);
-        // query.equalTo("searchedFor", req.params.query.toLowerCase());
-        // query.find({
-        //     success: function(results) {
-        //         var size = Object.size(results);
-        //         if (size > 0) {
-        //             //console.log("fire and found query");
-        //             //console.log(results[0]);
-        //             processTweets(data, results[0]);
-        //         }
-        //         if (size == 0) {
-
-        //             var Query = Parse.Object.extend("Query");
-        //             var query = new Query();
-        //             query.set("searchedFor", req.params.query.toLowerCase());
-        //             query.save(null, {
-        //                 success: function(query) {
-        //                     // console.log("query");
-        //                     // console.log(query);
-        //                     //console.log("fire and did not find query");
-        //                     //console.log(query);
-        //                     processTweets(data, query);
-        //                 },
-        //                 error: function(query, error) {
-        //                     // Execute any logic that should take place if the save fails.
-        //                     // error is a Parse.Error with an error code and message.
-        //                     //alert('Failed to create new object, with error code: ' + error.message);
-        //                 }
-        //             });
-        //         }
+                    var Query = Parse.Object.extend("Query");
+                    var query = new Query();
+                    query.set("searchedFor", req.params.query.toLowerCase());
+                    query.save(null, {
+                        success: function(query) {
+                            // console.log("query");
+                            // console.log(query);
+                            //console.log("fire and did not find query");
+                            //console.log(query);
+                            processTweets(data, query);
+                        },
+                        error: function(query, error) {
+                            // Execute any logic that should take place if the save fails.
+                            // error is a Parse.Error with an error code and message.
+                            //alert('Failed to create new object, with error code: ' + error.message);
+                        }
+                    });
+                }
 
 
 
-        //     },
-        //     error: function(error) {
-        //         //alert("Error: " + error.code + " " + error.message);
-        //     }
-        // });
+            },
+            error: function(error) {
+                //alert("Error: " + error.code + " " + error.message);
+            }
+        });
 
 
         //processTweets(data, "results[0]");
@@ -270,59 +267,51 @@ function twitterSearch(req, res) {
 function processTweets(data, query) {
     // console.log("query");
     //console.log(query);
-    // var queryString = query.get('searchedFor');
-    //var Tweet = Parse.Object.extend("Tweet");
-    //var tweetArray = [];
+
+    var queryString = query.get('searchedFor');
+
+    var Tweet = Parse.Object.extend("Tweet");
+
+    var tweetArray = [];
 
     var size = Object.size(data);
-    var queryString = query;
-
-
-    var bulk = myDb.collection('Tweet').initializeUnorderedBulkOp();
-
     for (var i = 0; i <= size - 1; i++) {
-        // var Tweet = Parse.Object.extend("Tweet");
-        // var tweet = new Tweet();
-        // tweet.set("contributors", data[i]['contributors']);
-        // tweet.set("coordinates", data[i]['coordinates']);
-        // tweet.set("created_at", data[i]['created_at']);
-        // tweet.set("entities", data[i]['entities']);
-        // tweet.set("favorite_count", data[i]['favorite_count']);
-        // tweet.set("favorited", data[i]['favorited']);
-        // tweet.set("geo", data[i]['geo']);
-        // //tweet.set("id", data[i]['id']);
-        // tweet.set("id_str", data[i]['id_str']);
-        // tweet.set("in_reply_to_screen_name", data[i]['in_reply_to_screen_name']);
-        // tweet.set("in_reply_to_status_id", data[i]['in_reply_to_status_id']);
-        // tweet.set("in_reply_to_status_id_str", data[i]['in_reply_to_status_id_str']);
-        // tweet.set("in_reply_to_user_id", data[i]['in_reply_to_user_id']);
-        // tweet.set("in_reply_to_user_id_str", data[i]['in_reply_to_user_id_str']);
-        // tweet.set("is_quote_status", data[i]['is_quote_status']);
-        // tweet.set("lang", data[i]['lang']);
-        // tweet.set("metadata", data[i]['metadata']);
-        // tweet.set("place", data[i]['place']);
-        // tweet.set("possibly_sensitive", data[i]['possibly_sensitive']);
-        // tweet.set("retweet_count", data[i]['retweet_count']);
-        // tweet.set("retweeted", data[i]['retweeted']);
-        // tweet.set("retweeted_status", data[i]['retweeted_status']);
-        // tweet.set("source", data[i]['source']);
-        // tweet.set("text", data[i]['text']);
-        // tweet.set("truncated", data[i]['truncated']);
-        // tweet.set("user", data[i]['user']);
-        // tweetArray.push(tweet);
+        var Tweet = Parse.Object.extend("Tweet");
+        var tweet = new Tweet();
+        tweet.set("contributors", data[i]['contributors']);
+        tweet.set("coordinates", data[i]['coordinates']);
+        tweet.set("created_at", data[i]['created_at']);
+        tweet.set("entities", data[i]['entities']);
+        tweet.set("favorite_count", data[i]['favorite_count']);
+        tweet.set("favorited", data[i]['favorited']);
+        tweet.set("geo", data[i]['geo']);
+        //tweet.set("id", data[i]['id']);
+        tweet.set("id_str", data[i]['id_str']);
+        tweet.set("in_reply_to_screen_name", data[i]['in_reply_to_screen_name']);
+        tweet.set("in_reply_to_status_id", data[i]['in_reply_to_status_id']);
+        tweet.set("in_reply_to_status_id_str", data[i]['in_reply_to_status_id_str']);
+        tweet.set("in_reply_to_user_id", data[i]['in_reply_to_user_id']);
+        tweet.set("in_reply_to_user_id_str", data[i]['in_reply_to_user_id_str']);
+        tweet.set("is_quote_status", data[i]['is_quote_status']);
+        tweet.set("lang", data[i]['lang']);
+        tweet.set("metadata", data[i]['metadata']);
+        tweet.set("place", data[i]['place']);
+        tweet.set("possibly_sensitive", data[i]['possibly_sensitive']);
+        tweet.set("retweet_count", data[i]['retweet_count']);
+        tweet.set("retweeted", data[i]['retweeted']);
+        tweet.set("retweeted_status", data[i]['retweeted_status']);
+        tweet.set("source", data[i]['source']);
+        tweet.set("text", data[i]['text']);
+        tweet.set("truncated", data[i]['truncated']);
+        tweet.set("user", data[i]['user']);
+        tweetArray.push(tweet);
 
         myDb.collection('Tweet').insert({
             _id: data[i]['id_str'],
             data: data[i]
         });
 
-        
-
-
-
-    }
-
-    myDb.collection('Query').update({
+        myDb.collection('Query').update({
                 _id: queryString
             }, {
                 $push: {
@@ -334,36 +323,38 @@ function processTweets(data, query) {
             }
         );
 
-    
+
+
+    }
     //return tweetArray;
 
     //console.log("about to enter the save all");
 
-    // Parse.Object.saveAll(tweetArray, {
-    //     success: function(objs) {
+    Parse.Object.saveAll(tweetArray, {
+        success: function(objs) {
 
-    //         // console.log("about to get size");
-    //         var size = Object.size(objs);
-    //         // console.log("size");
-    //         // console.log(size);
-    //         // console.log("objs");
-    //         // console.log(objs);
+            // console.log("about to get size");
+            var size = Object.size(objs);
+            // console.log("size");
+            // console.log(size);
+            // console.log("objs");
+            // console.log(objs);
 
-    //         var relation = query.relation("tweets");
+            var relation = query.relation("tweets");
 
-    //         for (var i = 0; i < size; i++) {
-    //             //console.log(objs[i]);
-    //             relation.add(objs[i]);
-    //         }
+            for (var i = 0; i < size; i++) {
+                //console.log(objs[i]);
+                relation.add(objs[i]);
+            }
 
-    //         // console.log("query");
-    //         // console.log(query);
-    //         query.save();
+            // console.log("query");
+            // console.log(query);
+            query.save();
 
 
-    //     },
-    //     error: function(error) {}
-    // });
+        },
+        error: function(error) {}
+    });
 
 
 }
