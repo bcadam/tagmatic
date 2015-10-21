@@ -23,6 +23,7 @@ app.locals.twitterConfig = {
 };
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
+
 MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
@@ -316,17 +317,14 @@ function processTweets(data, query) {
             data: data[i]
         });
 
-        bulkQuery.find({
-            _id: queryString
+        bulkQuery.find({_id: queryString
         }).update({
-                $push: {
-                    tweet: data[i]['id_str']
-                } // end of $set
-            }, // end of update document
-            {
-                upsert: true
+            $push: {
+                tweet: data[i]['id_str']
             }
-        );
+        }, {
+            upsert: true
+        });
 
         // myDb.collection('Tweet').insert({
         //     _id: data[i]['id_str'],
