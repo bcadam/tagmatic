@@ -213,46 +213,45 @@ function twitterSearch(req, res) {
             twitterResponse: data
         });
 
-        var Query = Parse.Object.extend("Query");
-        var query = new Parse.Query(Query);
-        query.equalTo("searchedFor", req.params.query.toLowerCase());
-        query.find({
-            success: function(results) {
-                var size = Object.size(results);
-                if (size > 0) {
-                    //console.log("fire and found query");
-                    //console.log(results[0]);
-                    //processTweets(data, results[0]);
-                }
-                if (size == 0) {
+        // var Query = Parse.Object.extend("Query");
+        // var query = new Parse.Query(Query);
+        // query.equalTo("searchedFor", req.params.query.toLowerCase());
+        // query.find({
+        //     success: function(results) {
+        //         var size = Object.size(results);
+        //         if (size > 0) {
+        //             //console.log("fire and found query");
+        //             //console.log(results[0]);
+        //             //processTweets(data, results[0]);
+        //         }
+        //         if (size == 0) {
 
-                    var Query = Parse.Object.extend("Query");
-                    var query = new Query();
-                    query.set("searchedFor", req.params.query.toLowerCase());
-                    query.save(null, {
-                        success: function(query) {
-                            // console.log("query");
-                            // console.log(query);
-                            //console.log("fire and did not find query");
-                            //console.log(query);
-                            //processTweets(data, query);
-                        },
-                        error: function(query, error) {
-                            // Execute any logic that should take place if the save fails.
-                            // error is a Parse.Error with an error code and message.
-                            //alert('Failed to create new object, with error code: ' + error.message);
-                        }
-                    });
-                }
+        //             var Query = Parse.Object.extend("Query");
+        //             var query = new Query();
+        //             query.set("searchedFor", req.params.query.toLowerCase());
+        //             query.save(null, {
+        //                 success: function(query) {
+        //                     // console.log("query");
+        //                     // console.log(query);
+        //                     //console.log("fire and did not find query");
+        //                     //console.log(query);
+        //                     //processTweets(data, query);
+        //                 },
+        //                 error: function(query, error) {
+        //                     // Execute any logic that should take place if the save fails.
+        //                     // error is a Parse.Error with an error code and message.
+        //                     //alert('Failed to create new object, with error code: ' + error.message);
+        //                 }
+        //             });
+        //         }
 
 
 
-            },
-            error: function(error) {
-                //alert("Error: " + error.code + " " + error.message);
-            }
-        });
-
+        //     },
+        //     error: function(error) {
+        //         //alert("Error: " + error.code + " " + error.message);
+        //     }
+        // });
 
         processTweets(data, req.params.query.toLowerCase());
 
