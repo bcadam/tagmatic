@@ -1,6 +1,5 @@
 Parse.Cloud.afterSave(Parse.User, function(request) {
 
-
     /////////////// send email tester
     Parse.Cloud.httpRequest({
         method: "POST",
@@ -20,11 +19,7 @@ Parse.Cloud.afterSave(Parse.User, function(request) {
     ///////// end of tester
 });
 
-
-
 var Tweet = Parse.Object.extend("Tweet");
-
-// // Check if stopId is set, and enforce uniqueness based on the stopId column.
 Parse.Cloud.beforeSave("Tweet", function(request, response) {
     if (!request.object.get("id_str")) {
         response.error('A Tweet must have a id_str.');

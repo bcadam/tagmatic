@@ -4,8 +4,6 @@ var ParseReact = require('parse-react');
 var React = require('react');
 var Twitter = require('twitter-node-client').Twitter;
 
-
-
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -78,6 +76,18 @@ var TwitterPull = React.createClass({
                     var object = results[i];
                     //alert(object.id);
                     tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
+
+
+                    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance 
+                    xmlhttp.open("POST", "/api/suggested");
+                    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xmlhttp.send(JSON.stringify({
+                        name: "John Rambo",
+                        time: "2pm"
+                    }));
+
+
+                    
                 }
 
             },
@@ -151,7 +161,7 @@ var TwitterPull = React.createClass({
                 withCredentials: undefined
             };
 
-            
+
             data = Papa.unparse(data);
             Papa.parse(data, confiVariables);
         });

@@ -18,17 +18,6 @@ var HeaderScroller = React.createClass({
         var self = this;
         var counter = 0;
         var tweet = self.props.header[0];
-        //console.log(self.props.header);
-        //console.log("done");
-        //console.log(this.props.header);
-        //console.log(this.data.comments);
-
-        //var raw = this.state.headerClassifier.get('classifier');
-
-        // var raw = self.state.headerClassifier.get('classifier');
-        //console.log(raw);
-        // var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-        // console.log(restoredClassifier.getClassifications(tweet));
 
         var cardContainer = {
             display: 'inline-block',

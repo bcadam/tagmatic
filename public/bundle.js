@@ -862,17 +862,6 @@ var HeaderScroller = React.createClass({
         var self = this;
         var counter = 0;
         var tweet = self.props.header[0];
-        //console.log(self.props.header);
-        //console.log("done");
-        //console.log(this.props.header);
-        //console.log(this.data.comments);
-
-        //var raw = this.state.headerClassifier.get('classifier');
-
-        // var raw = self.state.headerClassifier.get('classifier');
-        //console.log(raw);
-        // var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-        // console.log(restoredClassifier.getClassifications(tweet));
 
         var cardContainer = {
             display: 'inline-block',
@@ -2545,6 +2534,14 @@ var TwitterPull = React.createClass({
                     var object = results[i];
                     //alert(object.id);
                     tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
+
+                    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+                    xmlhttp.open("POST", "/api/suggested");
+                    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xmlhttp.send(JSON.stringify({
+                        name: "John Rambo",
+                        time: "2pm"
+                    }));
                 }
             },
             error: function error(_error) {
