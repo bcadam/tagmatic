@@ -261,7 +261,6 @@ function twitterSearch(req, res) {
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
-    
     twitter.getSearch({
         'q': query,
         'count': count
@@ -280,19 +279,6 @@ function processTweets(data, query) {
 
 
     var bulk = myDb.collection('Tweet').initializeUnorderedBulkOp();
-
-    myDb.collection('Query').update({
-            _id: queryString
-        }, {
-            $push: {
-                tweet: data[i]['id_str']
-            } // end of $set
-        }, // end of update document
-        {
-            upsert: true
-        }
-    );
-
 
     for (var i = 0; i <= size - 1; i++) {
         // var Tweet = Parse.Object.extend("Tweet");
@@ -325,19 +311,30 @@ function processTweets(data, query) {
         // tweet.set("user", data[i]['user']);
         // tweetArray.push(tweet);
 
-        bulk.insert({
+        myDb.collection('Tweet').insert({
             _id: data[i]['id_str'],
             data: data[i]
         });
+
+        
 
 
 
     }
 
+    myDb.collection('Query').update({
+                _id: queryString
+            }, {
+                $push: {
+                    tweet: data[i]['id_str']
+                } // end of $set
+            }, // end of update document
+            {
+                upsert: true
+            }
+        );
 
-    bulk.execute();
-
-
+    
     //return tweetArray;
 
     //console.log("about to enter the save all");
