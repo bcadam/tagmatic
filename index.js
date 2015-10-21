@@ -277,7 +277,7 @@ function processTweets(data, query) {
     // var tweetArray = [];
 
     var bulkTweet = myDb.collection('Tweet').initializeUnorderedBulkOp();
-    var bulkQuery = myDb.collection('Query').initializeUnorderedBulkOp();
+    // var bulkQuery = myDb.collection('Query').initializeUnorderedBulkOp();
 
 
     var size = Object.size(data);
@@ -317,31 +317,31 @@ function processTweets(data, query) {
             data: data[i]
         });
 
-        bulkQuery.find({_id: queryString
-        }).update({
-            $push: {
-                tweet: data[i]['id_str']
-            }
-        }, {
-            upsert: true
-        });
+        // bulkQuery.find({_id: queryString
+        // }).update({
+        //     $push: {
+        //         tweet: data[i]['id_str']
+        //     }
+        // }, {
+        //     upsert: true
+        // });
 
         // myDb.collection('Tweet').insert({
         //     _id: data[i]['id_str'],
         //     data: data[i]
         // });
 
-        // myDb.collection('Query').update({
-        //         _id: queryString
-        //     }, {
-        //         $push: {
-        //             tweet: data[i]['id_str']
-        //         } // end of $set
-        //     }, // end of update document
-        //     {
-        //         upsert: true
-        //     }
-        // );
+        myDb.collection('Query').update({
+                _id: queryString
+            }, {
+                $push: {
+                    tweet: data[i]['id_str']
+                } // end of $set
+            }, // end of update document
+            {
+                upsert: true
+            }
+        );
 
 
 
@@ -349,7 +349,7 @@ function processTweets(data, query) {
 
 
     bulkTweet.execute();
-    bulkQuery.execute();
+    // bulkQuery.execute();
 
 
 
