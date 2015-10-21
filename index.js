@@ -275,8 +275,8 @@ function processTweets(data, query) {
 
     // var tweetArray = [];
 
-    var bulkTweet = db.collection('Tweet').initializeUnorderedBulkOp();
-    var bulkQuery = db.collection('Query').initializeUnorderedBulkOp();
+    var bulkTweet = myDb.collection('Tweet').initializeUnorderedBulkOp();
+    var bulkQuery = myDb.collection('Query').initializeUnorderedBulkOp();
 
 
     var size = Object.size(data);
