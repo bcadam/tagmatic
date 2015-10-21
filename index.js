@@ -6,16 +6,16 @@ var rollbar = require('rollbar');
 var Parse = require('parse/node').Parse;
 
 
-// Connection URL
-// var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongolab.com:41934/heroku_fmnvd22w';
-// var MongoClient = require('mongodb').MongoClient,
-//     assert = require('assert');
-// var myDb;
-// MongoClient.connect(url, function(err, db) {
-//     assert.equal(null, err);
-//     console.log("Connected correctly to server");
-//     myDb = db;
-// });
+////////Connection URL
+var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongolab.com:41934/heroku_fmnvd22w';
+var MongoClient = require('mongodb').MongoClient,
+    assert = require('assert');
+var myDb;
+MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    console.log("Connected correctly to server");
+    myDb = db;
+});
 
 
 // var React = require('react-native');
@@ -196,22 +196,22 @@ function processTweets(data, query) {
         tweet.set("user", data[i]['user']);
         tweetArray.push(tweet);
 
-        // myDb.collection('Tweet').insert({
-        //     _id: data[i]['id_str'],
-        //     data: data[i]
-        // });
+        myDb.collection('Tweet').insert({
+            _id: data[i]['id_str'],
+            data: data[i]
+        });
 
-        // myDb.collection('Query').update({
-        //         _id: queryString
-        //     }, {
-        //         $push: {
-        //             tweet: data[i]['id_str']
-        //         } // end of $set
-        //     }, // end of update document
-        //     {
-        //         upsert: true
-        //     }
-        // );
+        myDb.collection('Query').update({
+                _id: queryString
+            }, {
+                $push: {
+                    tweet: data[i]['id_str']
+                } // end of $set
+            }, // end of update document
+            {
+                upsert: true
+            }
+        );
 
 
 
