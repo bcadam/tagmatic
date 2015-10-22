@@ -23,7 +23,7 @@
         "mongolab-provider": "1.1.1",
         "body-parser": "1.14.1",
         "twitter": "1.2.5",
-        "aws-sdk" "2.2.10"
+        "aws-sdk": "2.2.10"
     },
     "devDependencies": {
         "babelify": "^6.1.0",
