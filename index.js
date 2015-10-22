@@ -184,7 +184,9 @@ apiRouter.post('/suggested', function(req, res) {
     var tagsInHeader = req.body.tagsInHeader;
     var published = req.body.published;
 
-    if (!nameOfHeader) {
+    console.log(nameOfHeader);
+    
+    if (nameOfHeader) {
         myDb.collection('Suggested').update({
                 _id: {
                     nameOfHeader, tagsInHeader
