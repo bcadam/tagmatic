@@ -6,64 +6,55 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
+
+
+
 function sendReports() {
-
-    var Report = Parse.Object.extend("Report");
-    var queryReport = new Parse.Query(Report);
-
-    queryReport.equalTo("published", true);
-    queryReport.include('user.classifier');
-    //query.include('classifier');
+    var myDb;
+    var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
+    var MongoClient = require('mongodb').MongoClient,
+        assert = require('assert');
 
 
-    queryReport.find({
-        success: function(results) {
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        console.log("Connected correctly to server");
+        myDb = db;
 
+        var Report = Parse.Object.extend("Report");
+        var queryReport = new Parse.Query(Report);
 
-            for (var i = 0; i < results.length; i++) {
+        queryReport.equalTo("published", true);
+        queryReport.include('user.classifier');
 
-                var userEmail = results[i].get('user').get('email');
-                //console.log(userEmail);
-                var classifier = results[i].get('classifier');
-                //console.log(classifier);
+        queryReport.find({
+            success: function(results) {
+                for (var i = 0; i < results.length; i++) {
 
-                var query = results[i].get('query');
-                console.log(query);
+                    var userEmail = results[i].get('user').get('email');
+                    var classifier = results[i].get('classifier');
+                    var query = results[i].get('query');
 
-                var holdQuery = query;
-                var Query = Parse.Object.extend("Query");
-                var queryQuery = new Parse.Query(Query);
-                queryQuery.equalTo("searchedFor", holdQuery);
-                //console.log('holdQuery: ' + holdQuery);
-                queryQuery.include(["user.tweets"]);
-                queryQuery.limit(5);
-                queryQuery.find({
-                    success: function(results) {
-                        console.log("found tweets");
-                        //console.log(results[0].get('tweets'));
-
-                        var queryTweets = results[0].get('tweets').query();
-                        //console.log(query);
-                        queryTweets.limit(1000);
-                        queryTweets.find({success:function(results){
-                        console.log(results);
-
-                        },error:function(error){}});
-
-                    },
-                    error: function(error) {
-                        console.log("did not find tweets");
-                    }
-                });
-                
-                sleep(1000);
+                    myDb.collection('Query', function(err, collection) {
+                        collection.find({
+                            _id: query
+                        }).toArray(function(err, items) {
+                            console.log(query);
+                            console.log("cat");
+                            console.log(items);
+                        });
+                    });
+                    //sleep(1000);
+                }
+            },
+            error: function(error) {
+                alert("Error: " + error.code + " " + error.message);
             }
+        });
 
-        },
-        error: function(error) {
-            alert("Error: " + error.code + " " + error.message);
-        }
+
     });
+
 }
 
 

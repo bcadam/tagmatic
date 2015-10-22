@@ -2,7 +2,6 @@ var express = require('express');
 var apiRouter = express.Router();
 var cors = require('cors');
 var bodyParser = require('body-parser');
-
 var rollbar = require('rollbar');
 var Parse = require('parse/node').Parse;
 
@@ -11,7 +10,6 @@ app.use(cors());
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
-var myDb;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
 app.locals.twitterConfig = {
@@ -26,6 +24,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 })); // for parsing application/x-www-form-urlencoded
 
+var myDb;
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
 MongoClient.connect(url, function(err, db) {
@@ -52,16 +51,6 @@ var client = new Twitter({
 });
 
 
-// client.stream('statuses/filter', {track: 'twitter'},  function(stream){
-//   stream.on('data', function(tweet) {
-//     console.log(tweet.text);
-//   });
-
-//   stream.on('error', function(error) {
-//     console.log(error);
-//   });
-// });
-
 
 
 apiRouter.get('/', function(req, res) {
@@ -84,12 +73,12 @@ apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
     client.get('search/tweets', {
         q: query
     }, function(error, tweets, response) {
-        if(error) throw error;
-        tweets = tweets['statuses'] 
+        if (error) throw error;
+        tweets = tweets['statuses']
         res.json({
             twitterResponse: tweets
         });
-        processTweets(tweets,query);
+        processTweets(tweets, query);
     });
 
 });
