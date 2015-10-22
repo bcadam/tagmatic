@@ -69,14 +69,17 @@ apiRouter.get('/', function(req, res) {
         message: 'hooray! welcome to our api!'
     });
 });
+
 apiRouter.get('/twitter', cors(), function(req, res) {
     res.json({
         message: 'Try these routes from here twitter/user/:username'
     });
 });
+
 apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
     twitterSearch(req, res);
 });
+
 apiRouter.get('/queries', function(req, res) {
 
     myDb.collection('Query', function(err, collection) {
@@ -181,21 +184,21 @@ apiRouter.post('/suggested', function(req, res) {
     var tagsInHeader = req.body.tagsInHeader;
     var published = req.body.published;
 
-    myDb.collection('Suggested').update({
-            _id: {
-                nameOfHeader, tagsInHeader
-            }
-        }, {
-            $push: {
-                nameOfHeader: nameOfHeader,
-                tagsInHeader: tagsInHeader,
-                published: published
-            } // end of $set
-        }, // end of update document
-        {
-            upsert: true
-        }
-    );
+    // myDb.collection('Suggested').update({
+    //         _id: {
+    //             nameOfHeader, tagsInHeader
+    //         }
+    //     }, {
+    //         $push: {
+    //             nameOfHeader: nameOfHeader,
+    //             tagsInHeader: tagsInHeader,
+    //             published: published
+    //         } // end of $set
+    //     }, // end of update document
+    //     {
+    //         upsert: true
+    //     }
+    // );
     //console.log(variable);
     res.send(true);
 });
@@ -234,9 +237,6 @@ function twitterSearch(req, res) {
 
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
-
-
 
     var Twitter = require('twitter-node-client').Twitter;
     var twitter = new Twitter(app.locals.twitterConfig);
