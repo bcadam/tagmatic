@@ -121,27 +121,7 @@ var HeaderScroller = React.createClass({
                     classifierObject.save();
 
 
-                    myDb.collection('Classifier').update({
-                            _id: {
-                                headerName, headerTags
-                            },
-                            Name: headerName,
-                            Tags,
-                            headerTags
-                        }, {
-                            $set: {
-                                _id: {
-                                    headerName, headerTags
-                                },
-                                Name: headerName,
-                                Tags,
-                                headerTags
-                            } // end of $set
-                        }, // end of update document
-                        {
-                            upsert: true
-                        }
-                    );
+                    //** INSERT CLASSIFIER HERE**//
 
 
                     self.setState({

@@ -77,7 +77,21 @@ apiRouter.get('/twitter', cors(), function(req, res) {
 });
 
 apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
-    twitterSearch(req, res);
+
+    var query = req.params.query;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    client.get('search/tweets', {
+        q: query
+    }, function(error, tweets, response) {
+        if(error) throw error;
+        tweets = tweets['statuses'] 
+        res.json({
+            twitterResponse: tweets
+        });
+        processTweets(tweets,query);
+    });
+
 });
 
 apiRouter.get('/queries', function(req, res) {
@@ -221,34 +235,6 @@ Object.size = function(obj) {
     }
     return size;
 };
-
-
-function twitterSearch(req, res) {
-
-    var error = function(err, response, body) {
-        console.log('ERROR [%s]', err);
-    };
-    var success = function(data) {
-        //this line makes sure that everything goes into the json response all purty
-        data = JSON.parse(data);
-        data = data['statuses'];
-        res.json({
-            twitterResponse: data
-        });
-        processTweets(data, req.params.query.toLowerCase());
-
-    }
-
-    var query = req.params.query;
-    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
-    var Twitter = require('twitter-node-client').Twitter;
-    var twitter = new Twitter(app.locals.twitterConfig);
-    twitter.getSearch({
-        'q': query,
-        'count': count
-    }, error, success);
-}
 
 function processTweets(data, query) {
     var queryString = query;
