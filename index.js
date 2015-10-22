@@ -8,7 +8,6 @@ var Parse = require('parse/node').Parse;
 
 var app = express();
 app.use(cors());
-
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
@@ -76,24 +75,7 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
-    
-    var query = req.params.query.toLowerCase();
-
-    client.get('search/tweets', {
-        q: query
-    }, function(error, tweets, response) {
-        //console.log(tweets);
-
-        res.json({
-            twitterResponse: tweets
-        });
-
-
-        processTweets(tweets, query);
-    });
-
-
-    //twitterSearch(req, res);
+    twitterSearch(req, res);
 });
 apiRouter.get('/queries', function(req, res) {
 
@@ -199,21 +181,21 @@ apiRouter.post('/suggested', function(req, res) {
     var tagsInHeader = req.body.tagsInHeader;
     var published = req.body.published;
 
-    // myDb.collection('Suggested').update({
-    //         _id: {
-    //             nameOfHeader , tagsInHeader
-    //         }
-    //     }, {
-    //         $push: {
-    //             nameOfHeader: nameOfHeader,
-    //             tagsInHeader: tagsInHeader,
-    //             published: published
-    //         } // end of $set
-    //     }, // end of update document
-    //     {
-    //         upsert: true
-    //     }
-    // );
+    myDb.collection('Suggested').update({
+            _id: {
+                nameOfHeader, tagsInHeader
+            }
+        }, {
+            $push: {
+                nameOfHeader: nameOfHeader,
+                tagsInHeader: tagsInHeader,
+                published: published
+            } // end of $set
+        }, // end of update document
+        {
+            upsert: true
+        }
+    );
     //console.log(variable);
     res.send(true);
 });
@@ -232,6 +214,37 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+
+function twitterSearch(req, res) {
+
+    var error = function(err, response, body) {
+        console.log('ERROR [%s]', err);
+    };
+    var success = function(data) {
+        //this line makes sure that everything goes into the json response all purty
+        data = JSON.parse(data);
+        data = data['statuses'];
+        res.json({
+            twitterResponse: data
+        });
+        processTweets(data, req.params.query.toLowerCase());
+
+    }
+
+    var query = req.params.query;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+
+
+
+    var Twitter = require('twitter-node-client').Twitter;
+    var twitter = new Twitter(app.locals.twitterConfig);
+    twitter.getSearch({
+        'q': query,
+        'count': count
+    }, error, success);
+}
 
 function processTweets(data, query) {
     var queryString = query;
