@@ -7,10 +7,13 @@ var client = new Twitter({
 });
 
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
+var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
 
 var myDb;
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
+
+
 MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");

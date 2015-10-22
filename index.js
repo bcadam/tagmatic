@@ -9,7 +9,13 @@ var app = express();
 app.use(cors());
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
+
+
+
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
+var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
+
+
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
 app.locals.twitterConfig = {
