@@ -43,13 +43,13 @@ app.use('/', express.static('public'));
 app.use('/images', express.static('images'))
 app.use('/css', express.static('css'));
 
-var Twitter = require('twitter');
-var client = new Twitter({
-    consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-    consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-    access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-    access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-});
+// var Twitter = require('twitter');
+// var client = new Twitter({
+//     consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+//     consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+//     access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+//     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
+// });
 
 
 // client.stream('statuses/filter', {track: 'twitter'},  function(stream){
