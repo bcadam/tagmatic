@@ -199,21 +199,21 @@ apiRouter.post('/suggested', function(req, res) {
     var tagsInHeader = req.body.tagsInHeader;
     var published = req.body.published;
 
-    myDb.collection('Suggested').update({
-            _id: {
-                nameOfHeader, tagsInHeader
-            }
-        }, {
-            $push: {
-                nameOfHeader: nameOfHeader,
-                tagsInHeader: tagsInHeader,
-                published: published
-            } // end of $set
-        }, // end of update document
-        {
-            upsert: true
-        }
-    );
+    // myDb.collection('Suggested').update({
+    //         _id: {
+    //             nameOfHeader , tagsInHeader
+    //         }
+    //     }, {
+    //         $push: {
+    //             nameOfHeader: nameOfHeader,
+    //             tagsInHeader: tagsInHeader,
+    //             published: published
+    //         } // end of $set
+    //     }, // end of update document
+    //     {
+    //         upsert: true
+    //     }
+    // );
     //console.log(variable);
     res.send(true);
 });
