@@ -77,7 +77,8 @@ apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
 
     client.get('search/tweets', {
-        q: query
+        q: query,
+        count : count
     }, function(error, tweets, response) {
         if (error) throw error;
         tweets = tweets['statuses']
