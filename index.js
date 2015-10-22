@@ -13,7 +13,7 @@ app.locals.email = 'adam.cragg@gmail.com';
 
 
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
-var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
+// var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
 
 
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
