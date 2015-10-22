@@ -8,6 +8,7 @@ var Parse = require('parse/node').Parse;
 
 var app = express();
 app.use(cors());
+
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
