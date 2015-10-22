@@ -28,8 +28,24 @@ var _rollbarConfig = {
 </head>
 
 <body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+ $.ajax({
+    type: 'POST',
+    url: '/api/suggested',
+    data: {
+    nameOfHeader: "Sentiment",
+    tagsInHeader: ["Positive","Neutral","Negative"],
+    published: true
+  }
+  })
+
+
+
+</script>
     <div id="app"></div>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/filesaver.js/0.2/FileSaver.js"></script>
     <script type="text/javascript" src="bundle.js"></script>

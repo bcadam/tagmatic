@@ -77,23 +77,6 @@ var TwitterPull = React.createClass({
                     //alert(object.id);
                     tempSuggestedClassifier.push([object.get("nameOfHeader"), object.get("tagsInHeader"), true]);
 
-
-                    // $.ajax({
-                    //     url: '/api/suggested',
-                    //     dataType: 'json',
-                    //     type: 'POST',
-                    //     data: {"name": "New Wine", "year": "2009"},
-                    //     success: function(data) {
-                    //         // this.setState({
-                    //         //     data: data
-                    //         // });
-                    //     }.bind(this),
-                    //     error: function(xhr, status, err) {
-                    //         // console.error(this.props.url, status, err.toString());
-                    //     }.bind(this)
-                    // });
-
-                    
                 }
             },
             error: function(error) {

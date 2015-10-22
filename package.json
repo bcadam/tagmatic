@@ -21,7 +21,9 @@
     "twitter-node-client": "0.0.6",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
     "xmlhttprequest": "1.8.0",
-    "mongolab-provider" : "1.1.1"
+    "mongolab-provider" : "1.1.1",
+    "body-parser" : "1.14.1",
+    "twitter" : "1.2.5"
   },
   "devDependencies": {
     "babelify": "^6.1.0",
