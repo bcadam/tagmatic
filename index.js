@@ -134,7 +134,7 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 
-apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
+apiRouter.get('/twitter/search/:query/:language?', cors(), function(req, res) {
 
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);

@@ -44,10 +44,10 @@ var TwitterPull = React.createClass({
 
         if(self.state.language == "en")
         {
-        var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount + "/" + self.state.language;
+        var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.language;
         }
         else{
-        var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;  
+        var url = host + "/api/twitter/search/" + self.state.searchValue;  
         }
         self.props.twitterQuery.requestChange(self.state.searchValue);
 
