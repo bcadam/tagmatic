@@ -145,7 +145,8 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
     var twitterQueryParameters = {
         q: query,
         count : count,
-        language : language
+        language : language,
+        result_type : "popular"
     };
 
     client.get('search/tweets', twitterQueryParameters , function(error, tweets, response) {

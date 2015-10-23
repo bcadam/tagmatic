@@ -2657,7 +2657,7 @@ var TwitterPull = React.createClass({
                     React.createElement(
                         'div',
                         { style: buttonForm },
-                        'English only'
+                        'Request English only'
                     )
                 ),
                 React.createElement(
