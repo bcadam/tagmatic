@@ -81,7 +81,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 // var apiRouter = require('./apiRouter');
 
 app.use('/api', apiRouter);
-app.use('/admin',adminRouter);
+app.use('/admin', adminRouter);
 
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
@@ -144,12 +144,11 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
     console.log(count);
     var twitterQueryParameters = {
         q: query,
-        count : count,
-        language : language,
-        result_type : "popular"
+        count: count,
+        language: language
     };
 
-    client.get('search/tweets', twitterQueryParameters , function(error, tweets, response) {
+    client.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
         if (error) throw error;
         tweets = tweets['statuses']
         res.json({
