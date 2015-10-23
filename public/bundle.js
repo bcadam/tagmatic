@@ -2632,6 +2632,7 @@ var TwitterPull = React.createClass({
 
         var self = this;
         //console.log(self.state.data);
+        //<input style={formFormat} placeholder="English only" type="checkbox" value={self.state.language} onChange={self._onChangeLanguage}><div style={buttonForm}>English only</div></input>
         var counter = 0;
         if (self.state.data == null) {
             return React.createElement(
@@ -2639,15 +2640,6 @@ var TwitterPull = React.createClass({
                 { id: 'twitterform', style: fileFormContainer },
                 React.createElement('input', { style: formFormat, placeholder: 'Words to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
                 React.createElement('input', { style: formFormat, placeholder: 'Num of tweets to pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
-                React.createElement(
-                    'input',
-                    { style: formFormat, placeholder: 'English only', type: 'checkbox', value: self.state.language, onChange: self._onChangeLanguage },
-                    React.createElement(
-                        'div',
-                        { style: buttonForm },
-                        'English only'
-                    )
-                ),
                 React.createElement(
                     'div',
                     { style: fileFormContainer },
