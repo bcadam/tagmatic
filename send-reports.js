@@ -30,6 +30,8 @@ function sendReports() {
 
         queryReport.equalTo("published", true);
         queryReport.include('user.classifier');
+        queryReport.equalTo('query', "buying");
+        var favoriteCount = 0;
 
         queryReport.find({
             success: function(results) {
@@ -37,33 +39,41 @@ function sendReports() {
 
                     var userEmail = results[i].get('user').get('email');
                     var classifier = results[i].get('classifier');
-                    var query = results[i].get('query');
+                    var queryValue = results[i].get('query');
 
-                    myDb.collection('Query', function(err, collection) {
-                        collection.find({
-                            _id: query
-                        }).toArray(function(err, items) {
-                            //console.log(query);
-                            //console.log(items);
+                    myDb.collection('Query').find({
+                        _id: queryValue
+                    }).forEach(function(query) {
 
-
-                            myDb.collection('Tweet', function(err, collection) {
-                                collection.find({
-                                    _id: "657640300127625216"
-                                }).toArray(function(err, items) {
-                                    console.log(query);
-                                    console.log(items);
+                        //console.log(query.tweet);
 
 
-                                });
-                            });
-                            sleep(5000);
-
-
+                        //var a = ['1', '2', '3'];
+                        var result = query.tweet.map(function(x) {
+                            return parseInt(x, 10);
                         });
+
+                        myDb.collection('Tweet').find({
+                            _id: {
+                                $in: result
+                            }
+                        }).forEach(function(tweet) {
+                            //console.log(tweet.data.favorite_count);
+                            favoriteCount = favoriteCount + tweet.data.favorite_count;
+                            console.log("Query value : %s has this many favs %s", queryValue,favoriteCount);
+                        });
+
+
+
+
+
                     });
+
                     //sleep(1000);
                 }
+
+
+
             },
             error: function(error) {
                 alert("Error: " + error.code + " " + error.message);
@@ -71,11 +81,18 @@ function sendReports() {
         });
 
 
+
     });
 
 }
 
 
+// myDb.collection('Tweet').find({
+//     _id: 657648744591003650
+// }).toArray(function(err, items) {
+//     // console.log(query);
+//     // console.log(items);
+// });
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
