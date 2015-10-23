@@ -134,17 +134,17 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 
-apiRouter.get('/twitter/search/:query/:language?', cors(), function(req, res) {
+apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
 
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
     var language = (req.params.language == null ? null : req.params.language);
 
     console.log(language);
-
+    console.log(count);
     var twitterQueryParameters = {
         q: query,
-        count : "100",
+        count : count,
         language : language,
         result_type : "popular"
     };
