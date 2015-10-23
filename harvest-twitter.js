@@ -27,12 +27,26 @@ MongoClient.connect(url, function(err, db) {
         language: "en"
     };
 
+    // var twitterQueryParameters = {
+    //     q: query,
+    //     count : count,
+    //     language : language,
+    //     result_type : "popular"
+    // };
+
+    var params = {
+        track: "intel",
+        result_type : "popular",
+        language: "en"
+    };
+
+
 
     client.stream('statuses/filter', params, function(stream) {
         console.log("Open Stream");
         stream.on('data', function(tweet) {
             myDb.collection('Tweet').update({
-                    _id: tweet.id_str
+                    _id: tweet.id
                 }, {
                     $push: {
                         tweet: tweet
@@ -46,7 +60,7 @@ MongoClient.connect(url, function(err, db) {
                     _id: searchFor
                 }, {
                     $push: {
-                        tweet: tweet.id_str
+                        tweet: tweet.id
                     } // end of $set
                 }, // end of update document
                 {

@@ -12,7 +12,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 function sendReports() {
     var myDb;
     var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
-    
+
     // var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
     // var url = 'mongodb://adminuser:adminuseradminuser123@localhost:27017/tagmatic';
 
@@ -43,9 +43,23 @@ function sendReports() {
                         collection.find({
                             _id: query
                         }).toArray(function(err, items) {
-                            console.log(query);
-                            console.log("cat");
-                            console.log(items);
+                            //console.log(query);
+                            //console.log(items);
+
+
+                            myDb.collection('Tweet', function(err, collection) {
+                                collection.find({
+                                    _id: "657640300127625216"
+                                }).toArray(function(err, items) {
+                                    console.log(query);
+                                    console.log(items);
+
+
+                                });
+                            });
+                            sleep(5000);
+
+
                         });
                     });
                     //sleep(1000);

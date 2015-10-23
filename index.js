@@ -310,7 +310,7 @@ function processTweets(data, query) {
     for (var i = 0; i <= size - 1; i++) {
 
         bulkTweet.insert({
-            _id: data[i]['id_str'],
+            _id: data[i]['id'],
             data: data[i]
         });
 
