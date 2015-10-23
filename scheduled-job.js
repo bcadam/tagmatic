@@ -8,8 +8,7 @@ function searchTwitter() {
     //console.log('Hello');
     //http://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial
 
-    var searchValue = 'intel';
-    var searchCount = 100;
+    
 
     var Report = Parse.Object.extend("Report");
     var query = new Parse.Query(Report);
@@ -21,8 +20,6 @@ function searchTwitter() {
 
             for (var i = 0; i < results.length; i++) {
 
-                var searchValue = 'intel';
-                var searchCount = 100;
 
                 var searchValue = results[i].get('query');
                 console.log("searching for: " + searchValue);
@@ -34,6 +31,7 @@ function searchTwitter() {
 
                 xmlhttp.onreadystatechange = function() {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
+                        console.log();
                 }
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
