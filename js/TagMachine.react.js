@@ -232,7 +232,7 @@ var TagMachine = React.createClass({
         var lengthOfHeader = self.state.publishHeaders.length;
         if (positionInHeader == 0) {
             self.setState({
-                positionInHeader: lengthOfHeader
+                positionInHeader: lengthOfHeader - 1
             });
         } else {
             self.setState({
