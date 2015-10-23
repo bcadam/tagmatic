@@ -5,7 +5,7 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 
 
 function searchTwitter() {
-    //console.log('Hello');
+
     //http://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial
 
     var searchValue = 'intel';
@@ -21,22 +21,25 @@ function searchTwitter() {
 
             for (var i = 0; i < results.length; i++) {
 
-                var searchValue = 'intel';
+                //var searchValue = 'asdfasdf';
                 var searchCount = 100;
-
                 var searchValue = results[i].get('query');
-                console.log("searching for: " + searchValue);
-                var searchCount = 100;
+                console.log("searching for: %s %s", searchCount, searchValue);
 
                 var xmlhttp = new XMLHttpRequest();
-                var host = "https://tagmatic.herokuapp.com";
-                var url = host + "/api/twitter/search/" + searchValue + "/" + searchCount;
+                
+                var url = "/api/twitter/search/" + searchValue + "/" + searchCount;
 
                 xmlhttp.onreadystatechange = function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        console.log("done");
+                    }
                 }
+
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
+
+                
 
                 sleep(5000);
 

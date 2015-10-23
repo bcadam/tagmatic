@@ -1,23 +1,35 @@
+/** Where all the requires go **/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+
 var express = require('express');
 var apiRouter = express.Router();
+var adminRouter = express.Router();
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var rollbar = require('rollbar');
 var Parse = require('parse/node').Parse;
 
+
+/******Set up the basic app*****/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+
 var app = express();
 app.use(cors());
+app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
 app.locals.title = 'TagMatic';
 app.locals.email = 'adam.cragg@gmail.com';
-
-
-
-var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
-// var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
-
-
-Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
-app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
 app.locals.twitterConfig = {
     "consumerKey": "99U4wZ1wPFmuVE0qWmi7fTllB",
     "consumerSecret": "U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9",
@@ -30,6 +42,22 @@ app.use(bodyParser.urlencoded({
     extended: true
 })); // for parsing application/x-www-form-urlencoded
 
+
+
+/**Connect to Mongo/Twitter/Parse**/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+
+
+var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
+// var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
+// var url = 'mongodb://adminuser:adminuseradminuser123@localhost:27017/tagmatic';
+
 var myDb;
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
@@ -39,15 +67,6 @@ MongoClient.connect(url, function(err, db) {
     myDb = db;
 });
 
-
-
-app.use('/api', apiRouter);
-app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
-app.use('/', express.static('public'));
-app.use('/images', express.static('images'))
-app.use('/css', express.static('css'));
-
 var Twitter = require('twitter');
 var client = new Twitter({
     consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
@@ -55,6 +74,50 @@ var client = new Twitter({
     access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
 });
+
+Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+
+
+// var apiRouter = require('./apiRouter');
+
+app.use('/api', apiRouter);
+app.use('/admin',adminRouter);
+
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname + '/public'));
+app.use('/', express.static('public'));
+app.use('/images', express.static('images'))
+app.use('/css', express.static('css'));
+
+
+/******   ADMIN ROUTER HERE  *****/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+
+
+
+adminRouter.get('/', function(req, res) {
+    res.send('random.text');
+    next();
+});
+
+
+
+
+/******   API ROUTER HERE  *****/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+
 
 
 
@@ -99,7 +162,7 @@ apiRouter.get('/queries', function(req, res) {
     });
 });
 
-app.get('/api/queries/:id', function(req, res) {
+apiRouter.get('/queries/:id', function(req, res) {
     var id = req.params.id;
     console.log('Retrieving query: ' + id);
     myDb.collection('Query', function(err, collection) {
@@ -152,7 +215,7 @@ apiRouter.put('/queries/:id', function(req, res) {
     });
 });
 
-app.delete('/api/queries/:id', function(req, res) {
+apiRouter.delete('/queries/:id', function(req, res) {
     var id = req.params.id;
     console.log('Deleting query: ' + id);
     db.collection('Query', function(err, collection) {
@@ -173,7 +236,7 @@ app.delete('/api/queries/:id', function(req, res) {
     });
 });
 
-app.get('/api/tweets', function(req, res) {
+apiRouter.get('/tweets', function(req, res) {
     myDb.collection('Tweet', function(err, collection) {
         collection.find().limit(100).toArray(function(err, items) {
             res.send(items);

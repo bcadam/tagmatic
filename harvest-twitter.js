@@ -8,6 +8,7 @@ var client = new Twitter({
 
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
 // var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
+// var url = 'mongodb://adminuser:adminuseradminuser123@localhost:27017/tagmatic';
 
 var myDb;
 var MongoClient = require('mongodb').MongoClient,
@@ -19,14 +20,13 @@ MongoClient.connect(url, function(err, db) {
     console.log("Connected correctly to server");
     myDb = db;
 
-
-
-    var searchFor = "#intel";
+    var searchFor = "wearesocial";
     var params = {
         track: searchFor,
         locations: "103.570862,1.228658,104.095459,1.484018",
         language: "en"
     };
+
 
     client.stream('statuses/filter', params, function(stream) {
         console.log("Open Stream");
