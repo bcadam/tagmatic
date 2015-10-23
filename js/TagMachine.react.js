@@ -7,6 +7,7 @@ var NavBar = require('./NavBar.react.js');
 var HeaderTagBox = require('./HeaderTagBox.react.js');
 var DataScroller = require('./DataScroller.react.js');
 var HeaderScroller = require('./HeaderScroller.react.js');
+var HeaderScrollerNotActive = require('./HeaderScrollerNotActive.react.js');
 
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
@@ -92,7 +93,11 @@ var TagMachine = React.createClass({
 
         //console.log(this.state.projectId);
         //console.log("this.state.projectId");
-
+        //console.log(self.state.header.value);
+        //var oneDownFromLength = self.state.header.value.length - 1;
+        //console.log(oneDownFromLength);
+        var previousPositonInHeader = (self.state.positionInHeader == 0 ? self.state.publishHeaders.length - 1 : self.state.positionInHeader -1);
+        var nextPositionInHeader = (self.state.positionInHeader == self.state.publishHeaders.length -1 ? 0 : self.state.positionInHeader + 1);
         return (
             <div>
               <NavBar user={self.linkState('user')} 
@@ -106,7 +111,9 @@ var TagMachine = React.createClass({
                 <div style={counter}>{currentPosition + 1} of {numOfTweets}</div>
               </div>
               <div style={appTags}>
+                <HeaderScrollerNotActive header={publishHeaders[previousPositonInHeader]} />
                 <HeaderScroller key={self.state.positionInHeader - 100} tweet={currentTweet} positionInData={currentPosition} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
+                <HeaderScrollerNotActive header={publishHeaders[nextPositionInHeader]} />
                 <div style={{textAlign:'center'}}>
                     <div className="btn btn-warning" onClick={this._createCsv} >Create CSV</div>
                     {saveStatus}
