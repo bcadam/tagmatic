@@ -2486,9 +2486,9 @@ var TwitterPull = React.createClass({
         var host = "https://tagmatic.herokuapp.com";
 
         if (self.state.language == "en") {
-            var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.language;
+            var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount + "/" + self.state.language;
         } else {
-            var url = host + "/api/twitter/search/" + self.state.searchValue;
+            var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
         }
         self.props.twitterQuery.requestChange(self.state.searchValue);
 
@@ -2643,13 +2643,14 @@ var TwitterPull = React.createClass({
 
         var self = this;
         //console.log(self.state.data);
-        //<input style={formFormat} placeholder="Num of tweets to pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
+        //
         var counter = 0;
         if (self.state.data == null) {
             return React.createElement(
                 'div',
                 { id: 'twitterform', style: fileFormContainer },
                 React.createElement('input', { style: formFormat, placeholder: 'Words to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
+                React.createElement('input', { style: formFormat, placeholder: 'Num of tweets to pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
                 React.createElement(
                     'input',
                     { style: formFormat, placeholder: 'English only', type: 'checkbox', value: self.state.language, onChange: self._onChangeLanguage },
