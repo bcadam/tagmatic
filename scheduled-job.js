@@ -28,7 +28,7 @@ function searchTwitter() {
 
                 var xmlhttp = new XMLHttpRequest();
                 
-                var url = "/api/twitter/search/" + searchValue + "/" + searchCount;
+                var url = "http://tagmatic.herokuapp.com/api/twitter/search/" + searchValue + "/" + searchCount;
 
                 xmlhttp.onreadystatechange = function() {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
