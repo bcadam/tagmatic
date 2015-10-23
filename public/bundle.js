@@ -707,10 +707,11 @@ var HeaderIcons = React.createClass({
       paddingRight: '2px'
     };
     //        <i style={keyIcon} className="fa fa-key" onClick={this.props.key}></i>
+    //<i style={tweetIcon} className="fa fa-comments-o" onClick={this.props.tweet}></i>
+
     return React.createElement(
       'div',
       { style: cardIcons },
-      React.createElement('i', { style: tweetIcon, className: 'fa fa-comments-o', onClick: this.props.tweet }),
       React.createElement('i', { style: publishIcon, className: 'fa fa-check-square-o', onClick: this.props.publish })
     );
   }
