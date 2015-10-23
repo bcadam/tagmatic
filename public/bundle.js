@@ -2484,8 +2484,12 @@ var TwitterPull = React.createClass({
 
         var xmlhttp = new XMLHttpRequest();
         var host = "https://tagmatic.herokuapp.com";
-        var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
 
+        if (self.state.language != null) {
+            var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount + "/" + self.state.language;
+        } else {
+            var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount;
+        }
         self.props.twitterQuery.requestChange(self.state.searchValue);
 
         xmlhttp.onreadystatechange = function () {
@@ -2589,6 +2593,11 @@ var TwitterPull = React.createClass({
             Papa.parse(data, confiVariables);
         });
     },
+    _onChangeLanguage: function _onChangeLanguage() {
+        var language = this.state.language == null ? "en" : null;
+        this.setState({ language: language });
+        alert(this.state.language);
+    },
     render: function render() {
 
         var fileFormContainer = {
@@ -2627,12 +2636,14 @@ var TwitterPull = React.createClass({
         var buttonForm = {
             fontFamily: 'Lato, sans-serif',
             fontSize: '20px',
-            fontWeight: '700'
+            fontWeight: '700',
+            display: "inline",
+            color: '#ff763d'
         };
 
         var self = this;
         //console.log(self.state.data);
-        //<input style={formFormat} placeholder="English only" type="checkbox" value={self.state.language} onChange={self._onChangeLanguage}><div style={buttonForm}>English only</div></input>
+        //
         var counter = 0;
         if (self.state.data == null) {
             return React.createElement(
@@ -2640,6 +2651,15 @@ var TwitterPull = React.createClass({
                 { id: 'twitterform', style: fileFormContainer },
                 React.createElement('input', { style: formFormat, placeholder: 'Words to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
                 React.createElement('input', { style: formFormat, placeholder: 'Num of tweets to pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement(
+                    'input',
+                    { style: formFormat, placeholder: 'English only', type: 'checkbox', value: self.state.language, onChange: self._onChangeLanguage },
+                    React.createElement(
+                        'div',
+                        { style: buttonForm },
+                        'English only'
+                    )
+                ),
                 React.createElement(
                     'div',
                     { style: fileFormContainer },

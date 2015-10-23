@@ -134,15 +134,21 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 
-apiRouter.get('/twitter/search/:query/:count?', cors(), function(req, res) {
+apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
 
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+    var language = (req.params.language == null ? null : req.params.language);
 
-    client.get('search/tweets', {
+    console.log(language);
+
+    var twitterQueryParameters = {
         q: query,
-        count : count
-    }, function(error, tweets, response) {
+        count : count,
+        language : language
+    };
+
+    client.get('search/tweets', twitterQueryParameters , function(error, tweets, response) {
         if (error) throw error;
         tweets = tweets['statuses']
         res.json({
