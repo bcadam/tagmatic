@@ -42,7 +42,7 @@ var TwitterPull = React.createClass({
         var xmlhttp = new XMLHttpRequest();
         var host = "https://tagmatic.herokuapp.com";
 
-        if(self.state.language !=null)
+        if(self.state.language == "en")
         {
         var url = host + "/api/twitter/search/" + self.state.searchValue + "/" + self.state.searchCount + "/" + self.state.language;
         }
@@ -165,7 +165,7 @@ var TwitterPull = React.createClass({
     _onChangeLanguage: function(){
         var language = (this.state.language == null ? "en" : null);
         this.setState({language: language});
-        alert(this.state.language);
+        //alert(this.state.language);
     },
     render: function() {
 
