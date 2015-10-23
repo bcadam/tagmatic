@@ -2462,7 +2462,8 @@ var TwitterPull = React.createClass({
         return {
             data: null,
             searchValue: '',
-            searchCount: null
+            searchCount: null,
+            language: null
         };
     },
     _onChange: function _onChange(e) {
@@ -2623,6 +2624,12 @@ var TwitterPull = React.createClass({
             marginRight: '20px'
         };
 
+        var buttonForm = {
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700'
+        };
+
         var self = this;
         //console.log(self.state.data);
         var counter = 0;
@@ -2631,7 +2638,16 @@ var TwitterPull = React.createClass({
                 'div',
                 { id: 'twitterform', style: fileFormContainer },
                 React.createElement('input', { style: formFormat, placeholder: 'Words to search for', type: 'text', value: self.state.searchValue, onChange: self._onChange }),
-                React.createElement('input', { style: formFormat, placeholder: '#Tweets to Pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement('input', { style: formFormat, placeholder: 'Num of tweets to pull', type: 'number', value: self.state.searchCount, onChange: self._onChangeCount }),
+                React.createElement(
+                    'input',
+                    { style: formFormat, placeholder: 'English only', type: 'checkbox', value: self.state.language, onChange: self._onChangeLanguage },
+                    React.createElement(
+                        'div',
+                        { style: buttonForm },
+                        'English only'
+                    )
+                ),
                 React.createElement(
                     'div',
                     { style: fileFormContainer },
