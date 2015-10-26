@@ -140,9 +140,9 @@ var client = new Twitter({
     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
 });
 
-var params = {
-    track: "intel"
-};
+
+
+var query = 'intel';
 
 var server = app.listen(app.get('port'), function() {
     console.log('TagMatic is running on port', app.get('port'));
@@ -152,6 +152,11 @@ var io = require('socket.io').listen(server);
 io.on('connection', function(socket) {
 
     socket.on('subscribe data', function(data) {
+
+        var params = {
+            track: query
+        };
+
 
         client.stream('statuses/filter', params, function(stream) {
             stream.on('data', function(tweet) {
@@ -189,10 +194,42 @@ io.on('connection', function(socket) {
         var northEastLng = (firstPointLng < secondPointLng ? secondPointLng : firstPointLng);
 
         var location = "" + southWestLng + "," + southWestLat + "," + northEastLng + "," + northEastLat;
-        console.log(location);
+        //console.log(location);
+
+
+        var query = data[2];
+        console.log(query);
+        var twitterQueryParameters = {
+            q: query,
+            count: 100,
+            location: location
+        };
+
+        client.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
+            if (error) throw error;
+
+            tweets = tweets['statuses']
+
+
+            var size = Object.size(tweets);
+
+            for (var i = 0; i < size; i++) {
+                //console.log(tweets[i].coordinates);
+                if (tweets[i].coordinates != null) {
+                    console.log(tweets[i].text);
+                    socket.emit('tweets', {
+                        tweet: tweets[i]
+                    });
+                }
+
+
+            }
+
+        });
+
 
         var params = {
-            track: "intel",
+            track: query,
             location: location
         };
 
@@ -203,7 +240,6 @@ io.on('connection', function(socket) {
 
                 if (tweet.coordinates != null) {
                     console.log(tweet.text);
-
                     socket.emit('tweets', {
                         tweet: tweet
                     });
