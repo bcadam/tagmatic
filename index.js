@@ -10,11 +10,22 @@
 var express = require('express');
 var apiRouter = express.Router();
 var adminRouter = express.Router();
-var cors = require('cors');
+var mapRouter = express.Router();
+
+var cors = require('cors'); //Cross Orgigin Request Management
 var bodyParser = require('body-parser');
-var rollbar = require('rollbar');
+var rollbar = require('rollbar'); //Crash analytics for app
 var Parse = require('parse/node').Parse;
 
+
+
+// var io = require('socket.io')(express);
+// io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+// });
 
 /******Set up the basic app*****/
 /*******************************/
@@ -41,6 +52,12 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({
     extended: true
 })); // for parsing application/x-www-form-urlencoded
+
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+
 
 
 
@@ -82,13 +99,19 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 
 app.use('/api', apiRouter);
 app.use('/admin', adminRouter);
+app.use('/map', mapRouter);
 
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
+
+
 app.use('/', express.static('public'));
+
+
 app.use('/images', express.static('images'))
 app.use('/css', express.static('css'));
-
+app.get('/', function(req, res) {
+    res.sendfile('index.html');
+});
 
 /******   ADMIN ROUTER HERE  *****/
 /*******************************/
@@ -101,11 +124,136 @@ app.use('/css', express.static('css'));
 
 
 
-adminRouter.get('/', function(req, res) {
-    res.send('random.text');
-    next();
+mapRouter.use('/', express.static('public/map.html'));
+
+
+
+// app.listen(app.get('port'), function() {
+//     console.log('TagMatic is running on port', app.get('port'));
+// });
+
+var Twitter = require('twitter');
+var client = new Twitter({
+    consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+    consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+    access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+    access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
 });
 
+var params = {
+    track: "intel"
+};
+
+var server = app.listen(app.get('port'), function() {
+    console.log('TagMatic is running on port', app.get('port'));
+});
+
+var io = require('socket.io').listen(server);
+io.on('connection', function(socket) {
+
+    socket.on('subscribe data', function(data) {
+
+        client.stream('statuses/filter', params, function(stream) {
+            stream.on('data', function(tweet) {
+                //console.log(tweet.user.screen_name);
+                //console.log(tweet.text);
+
+                if (tweet.coordinates != null) {
+                    console.log(tweet.text);
+
+                    socket.emit('tweets', {
+                        tweet: tweet
+                    });
+
+
+                }
+            });
+            stream.on('error', function(error) {
+                console.log(error);
+            });
+        });
+    });
+
+    socket.on("longitudinal data", function(data) {
+        var firstPointLng = data[0].lng;
+        var firstPointLat = data[0].lat;
+
+        var secondPointLng = data[1].lng;
+        var secondPointLat = data[1].lat;
+
+        var southWestLat = (firstPointLat > secondPointLat ? secondPointLat : firstPointLat);
+        var southWestLng = (firstPointLng > secondPointLng ? secondPointLng : firstPointLng);
+
+
+        var northEastLat = (firstPointLat < secondPointLat ? secondPointLat : firstPointLat);
+        var northEastLng = (firstPointLng < secondPointLng ? secondPointLng : firstPointLng);
+
+        var location = "" + southWestLng + "," + southWestLat + "," + northEastLng + "," + northEastLat;
+        console.log(location);
+
+        var params = {
+            track: "intel",
+            location: location
+        };
+
+        client.stream('statuses/filter', params, function(stream) {
+            stream.on('data', function(tweet) {
+                //console.log(tweet.user.screen_name);
+                //console.log(tweet.text);
+
+                if (tweet.coordinates != null) {
+                    console.log(tweet.text);
+
+                    socket.emit('tweets', {
+                        tweet: tweet
+                    });
+
+
+                }
+            });
+            stream.on('error', function(error) {
+                console.log(error);
+            });
+        });
+
+
+
+
+    });
+
+
+});
+
+
+
+// var Twitter = require('twitter');
+// var client = new Twitter({
+//     consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+//     consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+//     access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+//     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
+// });
+
+// var params = {
+//     track: "twitter",
+//     result_type: "popular",
+//     language: "en"
+// };
+
+
+// client.stream('statuses/filter', params, function(stream) {
+//     console.log("Open Stream");
+//     stream.on('data', function(tweet) {
+//         console.log(tweet.user.screen_name);
+//         console.log(tweet.text);
+//         socket.emit('start stream', {
+//             hello: 'world'
+//         });
+//     });
+//     stream.on('error', function(error) {
+//         console.log(error);
+//     });
+// });
 
 
 
@@ -117,8 +265,6 @@ adminRouter.get('/', function(req, res) {
 /*******************************/
 /*******************************/
 /*******************************/
-
-
 
 
 
@@ -286,10 +432,9 @@ apiRouter.post('/suggested', function(req, res) {
     res.send(true);
 });
 
-app.listen(app.get('port'), function() {
-    console.log('TagMatic is running on port', app.get('port'));
-});
-
+// app.listen(app.get('port'), function() {
+//     console.log('TagMatic is running on port', app.get('port'));
+// });
 
 
 Object.size = function(obj) {

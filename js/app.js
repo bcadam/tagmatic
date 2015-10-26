@@ -18,14 +18,10 @@ var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongola
 // Insert your app's keys here:
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
-// Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
-//   success: function(ratings) {
-//     // ratings should be 4.5
-//     console.log(ratings);
-//   },
-//   error: function(error) {
-//   }
-// });
+var Alert = require('react-bootstrap').Alert;
+
+
+
 
 React.render(
     <TagMaticApp />,

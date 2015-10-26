@@ -2,7 +2,6 @@ var Parse = require('parse').Parse;
 var React = require('react/addons');
 var ParseReact = require('parse-react');
 
-
 var NavBar = require('./NavBar.react.js');
 var HeaderTagBox = require('./HeaderTagBox.react.js');
 var DataScroller = require('./DataScroller.react.js');
@@ -81,7 +80,6 @@ var TagMachine = React.createClass({
         }
 
         var saveStatus;
-
         if (Parse.User.current()) {
             saveStatus = <div className="btn btn-info" onClick={this._saveStatus} >Save Status</div>
         } else {
@@ -90,14 +88,8 @@ var TagMachine = React.createClass({
 
         //this is keyed in an ugly way to get it to minimize reloading. but,there is a better way to set
         //the should update method
-
-        //console.log(this.state.projectId);
-        //console.log("this.state.projectId");
-        //console.log(self.state.header.value);
-        //var oneDownFromLength = self.state.header.value.length - 1;
-        //console.log(oneDownFromLength);
-        var previousPositonInHeader = (self.state.positionInHeader == 0 ? self.state.publishHeaders.length - 1 : self.state.positionInHeader -1);
-        var nextPositionInHeader = (self.state.positionInHeader == self.state.publishHeaders.length -1 ? 0 : self.state.positionInHeader + 1);
+        var previousPositonInHeader = (self.state.positionInHeader == 0 ? self.state.publishHeaders.length - 1 : self.state.positionInHeader - 1);
+        var nextPositionInHeader = (self.state.positionInHeader == self.state.publishHeaders.length - 1 ? 0 : self.state.positionInHeader + 1);
         return (
             <div>
               <NavBar user={self.linkState('user')} 
@@ -123,6 +115,13 @@ var TagMachine = React.createClass({
 
         );
 
+    },
+    _handleButton: function() {
+        this.refs.button.loading();
+        //make asynchronious call
+        setTimeout(function() {
+            this.refs.button.success();
+        }.bind(this), 3000);
     },
     _saveStatus: function() {
 
