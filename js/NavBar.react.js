@@ -192,7 +192,7 @@ var NavBar = React.createClass({
           <i className="fa fa-bars"></i>
         </div>
         <div>
-          <a className="w-nav-brand brand" href="#"><h4 style={brandText}>tagmatic</h4></a>
+          <a className="w-nav-brand brand" href="#"><h4 style={brandText}>oneMonarch</h4></a>
           <div className={"menu-" + this.state.menu} style={navContainer}>
             <nav className="nav_menu"  style={closeMenu} role="navigation">
             <i className="fa fa-times fa-2x" onClick={this._toggleMenu}></i>

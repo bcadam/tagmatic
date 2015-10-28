@@ -37,7 +37,7 @@ var Parse = require('parse/node').Parse;
 var app = express();
 app.use(cors());
 app.use(rollbar.errorHandler('50d51cb147544aef986f527c5fc38a06'));
-app.locals.title = 'TagMatic';
+app.locals.title = 'oneMonarch';
 app.locals.email = 'adam.cragg@gmail.com';
 app.locals.twitterConfig = {
     "consumerKey": "99U4wZ1wPFmuVE0qWmi7fTllB",
@@ -51,13 +51,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 })); // for parsing application/x-www-form-urlencoded
 
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', function(req, res) {
+//     res.sendFile(__dirname + '/index.html');
+// });
 
-
-
-
+app.use('/', express.static('public'));
 
 /**Connect to Mongo/Twitter/Parse**/
 /*******************************/
@@ -101,14 +99,13 @@ app.use('/map', mapRouter);
 
 app.set('port', (process.env.PORT || 5000));
 
-
-app.use('/', express.static('public'));
-
-
 app.use('/images', express.static('images'))
 app.use('/css', express.static('css'));
 app.get('/', function(req, res) {
     res.sendfile('index.html');
+});
+app.get('/app', function(req, res) {
+    res.sendfile('app.html');
 });
 
 /******   ADMIN ROUTER HERE  *****/

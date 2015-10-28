@@ -1,7 +1,7 @@
 var React = require('react');
 var Parse = require('parse');
 
-var TagMaticApp = require('./TagMaticApp.react.js');
+var OneMonarch = require('./TagMaticApp.react.js');
 
 
 var TwitterPull = require('./TwitterPull.react.js');
@@ -24,6 +24,6 @@ var Alert = require('react-bootstrap').Alert;
 
 
 React.render(
-    <TagMaticApp />,
+    <OneMonarch />,
     document.getElementById('app')
 );
