@@ -17,10 +17,6 @@ var bodyParser = require('body-parser');
 var rollbar = require('rollbar'); //Crash analytics for app
 var Parse = require('parse/node').Parse;
 
-var server = app.listen(app.get('port'), function() {
-    console.log('TagMatic is running on port', app.get('port'));
-});
-
 // var io = require('socket.io')(express);
 // io.on('connection', function (socket) {
 //   socket.emit('news', { hello: 'world' });
@@ -138,7 +134,9 @@ mapRouter.use('/', express.static('public/map.html'));
 /*******************************/
 /*******************************/
 /*******************************/
-
+var server = app.listen(app.get('port'), function() {
+    console.log('TagMatic is running on port', app.get('port'));
+});
 
 var query = 'intel';
 
