@@ -25,7 +25,9 @@
     "rollbar": "*",
     "twitter": "1.2.5",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
-    "xmlhttprequest": "1.8.0"
+    "xmlhttprequest": "1.8.0",
+    "d3" : "3.5.6",
+    "jsdom" : "7.0.2"
   },
   "devDependencies": {
     "babelify": "^6.1.0",

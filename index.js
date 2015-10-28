@@ -107,6 +107,9 @@ app.get('/', function(req, res) {
 app.get('/app', function(req, res) {
     res.sendfile('app.html');
 });
+app.get('/data', function(req, res) {
+    res.sendfile('data.html');
+});
 
 /******   ADMIN ROUTER HERE  *****/
 /*******************************/
