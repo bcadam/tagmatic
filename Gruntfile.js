@@ -4,6 +4,10 @@ module.exports = function(grunt) {
             build: {
                 src: 'js/app.js',
                 dest: 'public/bundle.js'
+            },
+            build: {
+                src: 'js/dataviewapp.js',
+                dest: 'public/databundle.js'
             }
         },
         watch: {

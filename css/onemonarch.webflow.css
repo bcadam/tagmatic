@@ -1,0 +1,312 @@
+body {
+  font-family: Raleway, sans-serif;
+  color: #333;
+  font-size: 14px;
+  line-height: 20px;
+}
+h1 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 700;
+}
+h2 {
+  margin-top: 0px;
+  margin-bottom: 30px;
+  font-family: Raleway, sans-serif;
+  color: #ff4d3d;
+  font-size: 1.5em;
+  line-height: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+h3 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-family: Raleway, sans-serif;
+  color: white;
+  font-size: 1.5em;
+  line-height: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+h5 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 1.25em;
+  line-height: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+}
+p {
+  margin-bottom: 5px;
+  float: none;
+  color: white;
+  font-size: 1em;
+  line-height: 150%;
+  text-align: center;
+}
+a {
+  padding-right: 15px;
+  padding-left: 15px;
+  color: #b0b0b0;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+}
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+a:focus {
+  color: white;
+  text-decoration: underline;
+}
+.button {
+  display: block;
+  width: 180px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  border-radius: 250px;
+  background-color: #ff763d;
+  font-family: Raleway, sans-serif;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: none;
+}
+.button:hover {
+  background-color: #ff4d3d;
+}
+.hero {
+  width: 100%;
+  height: 650px;
+  background-color: white;
+  background-image: url('../images/hero-bg-light.jpg');
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px -2px 10px 5px;
+}
+.hero-container {
+  height: 100%;
+}
+.hero-heading {
+  padding-left: 36px;
+  background-image: url('../images/logo_1.png');
+  background-position: 0px 0px;
+  background-size: 33px;
+  background-repeat: no-repeat;
+  font-family: Raleway, sans-serif;
+  color: white;
+  font-size: 2em;
+  font-weight: 500;
+}
+.hero-caption {
+  margin-top: 0px;
+  padding-top: 100px;
+  font-family: Raleway, sans-serif;
+  color: white;
+  font-size: 3.25em;
+  font-weight: 700;
+  text-align: center;
+}
+.benefits-table {
+  margin-top: 250px;
+  padding-bottom: 100px;
+}
+.browser-window {
+  position: relative;
+  display: block;
+  width: 700px;
+  height: 450px;
+  margin-top: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 4px;
+}
+.browser-controls {
+  width: 100%;
+  height: 30px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #f3f3f3;
+  background-image: url('../images/browser-ctrls.png');
+  background-position: 2% 50%;
+  background-size: 44px;
+  background-repeat: no-repeat;
+}
+.browser-hero {
+  height: 420px;
+  border-top: 35px solid #e1e1e1;
+  background-color: white;
+  background-image: url('../images/browser.png');
+  background-position: 0px 0px;
+  background-size: cover;
+}
+.browser-body {
+  height: 5px;
+  background-color: lightgrey;
+}
+.browser-footer {
+  height: 110px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: #eee;
+  background-image: url('../images/browser-footer.png');
+  background-position: 50% 0px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.benefit-image {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.benefit-description {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 300;
+}
+.section-body {
+  padding-bottom: 100px;
+  background-image: url('../images/hero-bg-light.jpg');
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.section-header {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 100px;
+  padding-bottom: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+.section-body-header-description {
+  color: #ff4d3d;
+  font-size: 1.5em;
+  line-height: 26px;
+  font-weight: 600;
+}
+.benefits {
+  border-top: 10px solid #ff763d;
+  border-bottom: 10px solid #ff763d;
+  background-color: #ffc08f;
+  font-size: 15px;
+}
+.body-table {
+  padding-bottom: 100px;
+}
+.body-box {
+  margin-top: 50px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.09);
+}
+.body-box-icon {
+  float: left;
+}
+.body-box-text {
+  margin-left: 120px;
+}
+.body-box-description {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.1em;
+  font-weight: 300;
+  text-align: left;
+}
+.body-box-title {
+  margin-top: 0px;
+  color: white;
+}
+.table-column {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.repeatcta {
+  padding-bottom: 110px;
+  background-image: url('../images/home-hero.jpg');
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px -2px 10px 5px;
+}
+.footer-container {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+.footer-rights {
+  padding-bottom: 20px;
+  color: #cfcfcf;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+}
+@media (max-width: 991px) {
+}
+@media (max-width: 767px) {
+  .benefits-table {
+    margin-top: 220px;
+  }
+  .browser-window {
+    width: 550px;
+    height: 400px;
+    margin-top: 70px;
+  }
+  .browser-controls {
+    position: static;
+    width: 100%;
+    height: 24px;
+  }
+  .browser-hero {
+    height: 376px;
+  }
+  .benefit-image {
+    margin-top: 30px;
+  }
+}
+@media (max-width: 479px) {
+  .benefits-table {
+    margin-top: 170px;
+  }
+  .browser-window {
+    width: 300px;
+    height: 204px;
+    margin-top: 120px;
+  }
+  .browser-controls {
+    height: 22px;
+  }
+  .browser-hero {
+    height: 182px;
+    border-top-width: 15px;
+    border-top-color: #e1e1e1;
+    background-position: 50% 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
