@@ -17,7 +17,9 @@ var bodyParser = require('body-parser');
 var rollbar = require('rollbar'); //Crash analytics for app
 var Parse = require('parse/node').Parse;
 
-
+var server = app.listen(app.get('port'), function() {
+    console.log('TagMatic is running on port', app.get('port'));
+});
 
 // var io = require('socket.io')(express);
 // io.on('connection', function (socket) {
@@ -128,25 +130,17 @@ mapRouter.use('/', express.static('public/map.html'));
 
 
 
-// app.listen(app.get('port'), function() {
-//     console.log('TagMatic is running on port', app.get('port'));
-// });
-
-var Twitter = require('twitter');
-var client = new Twitter({
-    consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-    consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-    access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-    access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-});
-
+/******   Socket Connection  *****/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
 
 
 var query = 'intel';
-
-var server = app.listen(app.get('port'), function() {
-    console.log('TagMatic is running on port', app.get('port'));
-});
 
 var io = require('socket.io').listen(server);
 io.on('connection', function(socket) {
