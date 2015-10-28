@@ -44,7 +44,7 @@ app.locals.twitterConfig = {
     "consumerSecret": "U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9",
     "accessToken": "312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26",
     "accessTokenSecret": "cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK",
-    "callBackUrl": "https://tagmatic.herokuapp.com/"
+    "callBackUrl": "https://onemonarch.herokuapp.com/"
 };
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({
@@ -132,7 +132,7 @@ mapRouter.use('/', express.static('public/map.html'));
 /*******************************/
 /*******************************/
 var server = app.listen(app.get('port'), function() {
-    console.log('TagMatic is running on port', app.get('port'));
+    console.log('oneMonarch is running on port', app.get('port'));
 });
 
 var query = 'intel';
@@ -458,7 +458,7 @@ apiRouter.post('/suggested', function(req, res) {
 });
 
 // app.listen(app.get('port'), function() {
-//     console.log('TagMatic is running on port', app.get('port'));
+//     console.log('oneMonarch is running on port', app.get('port'));
 // });
 
 

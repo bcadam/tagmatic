@@ -40,7 +40,7 @@ var TwitterPull = React.createClass({
         var self = this;
 
         var xmlhttp = new XMLHttpRequest();
-        var host = "https://tagmatic.herokuapp.com";
+        var host = "https://onemonarch.herokuapp.com";
 
         if(self.state.language == "en")
         {
