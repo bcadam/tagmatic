@@ -1228,112 +1228,112 @@ var HeaderBox = require('./HeaderBox.react.js');
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 var HeaderSlider = React.createClass({
-  displayName: 'HeaderSlider',
+    displayName: 'HeaderSlider',
 
-  mixins: [React.addons.LinkedStateMixin],
-  render: function render() {
-    var self = this;
-    var counter = -1;
-    var appTagsContainer = {
-      overflowX: 'scroll',
-      overflowY: 'hidden',
-      whiteSpace: 'nowrap'
-    };
-    var buttonUpload = {
-      backgroundColor: 'transparent',
-      border: '3px solid #ff763d',
-      borderRadius: '20px',
-      color: '#ff763d',
-      fontFamily: 'Lato, sans-serif',
-      fontSize: '20px',
-      fontWeight: '700',
-      opacity: '1',
-      paddingTop: '15px',
-      paddingBottom: '15px',
-      textAlign: 'center',
-      width: '140px'
-    };
-    var addCardDone = {
-      cursor: 'pointer',
-      marginTop: '80px',
-      marginRight: '20px',
-      marginLeft: '20px',
-      opacity: '0.15'
-    };
-    var leftArrow = {
-      left: '10px',
-      marginTop: '75px',
-      opacity: '0.1',
-      position: 'fixed'
-    };
-    var rightArrow = {
-      right: '10px',
-      marginTop: '75px',
-      opacity: '0.1',
-      position: 'fixed'
-    };
-    if (self.state.stage.value['fileUploaded'] == false) {
-      return React.createElement('div', { className: 'container' });
-    } else if (self.state.stage.value['headersUploaded'] == true) {
-      var wording = "Done adding tags";
-      var doneEditingButtonColor = "btn btn-success col-xs-12";
-      return React.createElement('div', { className: 'container' });
-    } else {
-      var wording = "Add more tags";
-      var doneEditingButtonColor = "btn btn-info col-xs-12";
-      return React.createElement(
-        'div',
-        null,
-        React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x' }),
-        React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x' }),
-        React.createElement(
-          'div',
-          { className: 'container' },
-          React.createElement(
-            'div',
-            { style: appTagsContainer },
-            this.props.header.value.map(function (c) {
-              counter = counter + 1;
-              //console.log(c);
-              return React.createElement(HeaderBox, {
-                key: c,
-                editing: self.state.editing,
-                header: self.props.header,
-                data: self.state.data,
-                counter: counter,
-                stage: self.state.stage
-              });
-            }),
-            React.createElement('i', { style: addCardDone, className: 'fa fa-check-circle fa-4x', onClick: this._doneAddingTags }),
-            React.createElement('i', { style: addCardDone, className: 'fa fa-plus-circle fa-4x', onClick: this._addHeader })
-          )
-        )
-      );
+    mixins: [React.addons.LinkedStateMixin],
+    render: function render() {
+        var self = this;
+        var counter = -1;
+        var appTagsContainer = {
+            overflowX: 'scroll',
+            overflowY: 'hidden',
+            whiteSpace: 'nowrap'
+        };
+        var buttonUpload = {
+            backgroundColor: 'transparent',
+            border: '3px solid #ff763d',
+            borderRadius: '20px',
+            color: '#ff763d',
+            fontFamily: 'Lato, sans-serif',
+            fontSize: '20px',
+            fontWeight: '700',
+            opacity: '1',
+            paddingTop: '15px',
+            paddingBottom: '15px',
+            textAlign: 'center',
+            width: '140px'
+        };
+        var addCardDone = {
+            cursor: 'pointer',
+            marginTop: '80px',
+            marginRight: '20px',
+            marginLeft: '20px',
+            opacity: '0.15'
+        };
+        var leftArrow = {
+            left: '10px',
+            marginTop: '75px',
+            opacity: '0.1',
+            position: 'fixed'
+        };
+        var rightArrow = {
+            right: '10px',
+            marginTop: '75px',
+            opacity: '0.1',
+            position: 'fixed'
+        };
+        if (self.state.stage.value['fileUploaded'] == false) {
+            return React.createElement('div', { className: 'container' });
+        } else if (self.state.stage.value['headersUploaded'] == true) {
+            var wording = "Done adding tags";
+            var doneEditingButtonColor = "btn btn-success col-xs-12";
+            return React.createElement('div', { className: 'container' });
+        } else {
+            var wording = "Add more tags";
+            var doneEditingButtonColor = "btn btn-info col-xs-12";
+            return React.createElement(
+                'div',
+                null,
+                React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x' }),
+                React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x' }),
+                React.createElement(
+                    'div',
+                    { className: 'container' },
+                    React.createElement(
+                        'div',
+                        { style: appTagsContainer },
+                        this.props.header.value.map(function (c) {
+                            counter = counter + 1;
+                            //console.log(c);
+                            return React.createElement(HeaderBox, {
+                                key: c,
+                                editing: self.state.editing,
+                                header: self.props.header,
+                                data: self.state.data,
+                                counter: counter,
+                                stage: self.state.stage
+                            });
+                        }),
+                        React.createElement('i', { style: addCardDone, className: 'fa fa-plus-circle fa-4x', onClick: this._addHeader }),
+                        React.createElement('i', { style: addCardDone, className: 'fa fa-check-circle fa-4x', onClick: this._doneAddingTags })
+                    )
+                )
+            );
+        }
+    },
+    _addHeader: function _addHeader() {
+        var placeHolder = this.props.header.value;
+        placeHolder.push(["New Header", [], true]);
+        this.props.header.requestChange(placeHolder);
+    },
+    // Hides the add tag creator field on the HeaderBoxes
+    _doneAddingTags: function _doneAddingTags() {
+        var tempStage = this.state.stage.value;
+        tempStage['headersUploaded'] = true;
+
+        this.state.stage.requestChange(tempStage);
+        this.setState({
+            editing: !this.state.editing
+        });
+    },
+    getInitialState: function getInitialState() {
+        return {
+            stage: this.props.stage,
+            header: this.props.header,
+            editing: true,
+            data: this.props.data
+        };
     }
-  },
-  _addHeader: function _addHeader() {
-    var placeHolder = this.props.header.value;
-    placeHolder.push(["New Header", [], true]);
-    this.props.header.requestChange(placeHolder);
-  },
-  // Hides the add tag creator field on the HeaderBoxes
-  _doneAddingTags: function _doneAddingTags() {
-    var tempStage = this.state.stage.value;
-    tempStage['headersUploaded'] = true;
-
-    this.state.stage.requestChange(tempStage);
-    this.setState({
-      editing: !this.state.editing
-    });
-  },
-  getInitialState: function getInitialState() {
-    return {
-      stage: this.props.stage,
-      header: this.props.header,
-      editing: true,
-      data: this.props.data
-    };
-  }
 });
 module.exports = HeaderSlider;
 
