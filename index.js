@@ -106,6 +106,9 @@ app.get('/', function(req, res) {
 app.get('/app', function(req, res) {
     res.sendFile('app.html', { root: __dirname + '/public' });
 });
+app.get('/data', function(req, res) {
+    res.sendfile('data.html');
+});
 
 /******   ADMIN ROUTER HERE  *****/
 /*******************************/

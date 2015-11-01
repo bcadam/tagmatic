@@ -169,9 +169,7 @@ var TwitterPull = React.createClass({
     render: function() {
 
         var fileFormContainer = {
-            position: 'absolute',
             textAlign: 'center',
-            top: '60%',
             width: '100%'
         }
         var buttonUpload = {
@@ -216,7 +214,8 @@ var TwitterPull = React.createClass({
         //
         var counter = 0;
         if (self.state.data == null) {
-            return (<div id="twitterform" style={fileFormContainer}>
+            return (
+                <div id="twitterform" style={fileFormContainer}>
                     <input style={formFormat} placeholder="Words to search for" type="text" value={self.state.searchValue} onChange={self._onChange} />
                     <input style={formFormat} placeholder="Num of tweets to pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
                     <label>
@@ -224,9 +223,10 @@ var TwitterPull = React.createClass({
                       <div style={buttonForm}>Request English only</div>
                     </label>
                     <div style={fileFormContainer}>
-                    <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
+                      <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
                     </div>
-                    </div>);
+                </div>
+            );
         } else {
             console.log(self.state.data["twitterResponse"]);
 

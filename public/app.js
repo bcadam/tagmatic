@@ -22,38 +22,38 @@ var DataScroller = React.createClass({
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
-            marginTop: '-170px',
+            marginTop: '-150px',
             padding: '20px 10px',
             position: 'fixed',
-            height: '200px',
+            height: '150px',
             width: '400px'
         };
         var tweetBoxPre = {
-            border: '3px solid #efefef',
+            border: '3px solid #ddd',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
-            marginTop: '-390px',
+            marginTop: '-320px',
             opacity: '0.15',
             padding: '20px 10px',
             position: 'fixed',
-            height: '200px',
+            height: '150px',
             width: '400px'
         };
         var tweetBoxPost = {
-            border: '3px solid #efefef',
+            border: '3px solid #ddd',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
-            marginTop: '50px',
+            marginTop: '20px',
             opacity: '0.15',
             padding: '20px 10px',
             position: 'fixed',
-            height: '200px',
+            height: '150px',
             width: '400px'
         };
 
@@ -426,38 +426,42 @@ var HeaderBox = React.createClass({
       overflowY: 'auto'
     };
 
-    return React.createElement(
-      'div',
-      { style: cardContainer },
-      React.createElement(
+    if (holderTweet) {
+      return React.createElement('span', null);
+    } else {
+      return React.createElement(
         'div',
-        { style: card, className: resizePublishToggle },
+        { style: cardContainer },
         React.createElement(
           'div',
-          { style: cardHeader },
-          React.createElement(HeaderTitle, { header: holderHeader, submit: self._updateHeader }),
-          React.createElement(HeaderIcons, { keyColor: '#555', tweetColor: holderTweet ? "#009DFF" : "#555", publishColor: holderPublish ? "green" : "#555",
-            key: this._markKey, tweet: this._markTweet, publish: this._togglePublish
-          })
-        ),
-        React.createElement(
-          'div',
-          { style: scrollWindow },
-          holderTags.map(function (object, index) {
-            // Loop over the objects returned by the items query, rendering them
-            // with TodoItem components.
-            return React.createElement(HeaderItem, {
-              key: object,
-              index: index,
-              item: object,
-              update: this._updateItem,
-              'delete': this._destroyItem
-            });
-          }, this)
-        ),
-        React.createElement(HeaderCreator, { submit: self._createItem, published: holderPublish, disabled: holderTweet })
-      )
-    );
+          { style: card, className: resizePublishToggle },
+          React.createElement(
+            'div',
+            { style: cardHeader },
+            React.createElement(HeaderTitle, { header: holderHeader, submit: self._updateHeader }),
+            React.createElement(HeaderIcons, { keyColor: '#555', tweetColor: holderTweet ? "#009DFF" : "#555", publishColor: holderPublish ? "green" : "#555",
+              key: this._markKey, tweet: this._markTweet, publish: this._togglePublish
+            })
+          ),
+          React.createElement(
+            'div',
+            { style: scrollWindow },
+            holderTags.map(function (object, index) {
+              // Loop over the objects returned by the items query, rendering them
+              // with TodoItem components.
+              return React.createElement(HeaderItem, {
+                key: object,
+                index: index,
+                item: object,
+                update: this._updateItem,
+                'delete': this._destroyItem
+              });
+            }, this)
+          ),
+          React.createElement(HeaderCreator, { submit: self._createItem, published: holderPublish, disabled: holderTweet })
+        )
+      );
+    }
   },
   _markKey: function _markKey() {},
   _markTweet: function _markTweet() {
@@ -1268,14 +1272,6 @@ var HeaderSlider = React.createClass({
             marginLeft: '20px',
             opacity: '0.15'
         };
-        var leftArrow = {
-            marginTop: '75px',
-            opacity: '0.1'
-        };
-        var rightArrow = {
-            marginTop: '75px',
-            opacity: '0.1'
-        };
         if (self.state.stage.value['fileUploaded'] == false) {
             return React.createElement('div', { className: 'container' });
         } else if (self.state.stage.value['headersUploaded'] == true) {
@@ -1294,7 +1290,6 @@ var HeaderSlider = React.createClass({
                     React.createElement(
                         'div',
                         { style: appTagsContainer },
-                        React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x' }),
                         this.props.header.value.map(function (c) {
                             counter = counter + 1;
                             //console.log(c);
@@ -1308,8 +1303,7 @@ var HeaderSlider = React.createClass({
                             });
                         }),
                         React.createElement('i', { style: addCardDone, className: 'fa fa-plus-circle fa-4x', onClick: this._addHeader }),
-                        React.createElement('i', { style: addCardDone, className: 'fa fa-check-circle fa-4x', onClick: this._doneAddingTags }),
-                        React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x' })
+                        React.createElement('i', { style: addCardDone, className: 'fa fa-check-circle fa-4x', onClick: this._doneAddingTags })
                     )
                 )
             );
@@ -2044,38 +2038,38 @@ var StatusUpdates = React.createClass({
     // styling of file field to be customized based on Jerry's design
 
     var image = !this.props.stage.value['fileUploaded'] ? 'import' : 'select';
-    var text = !this.props.stage.value['fileUploaded'] ? 'Welcome! Start by pulling your data.' : 'Select the classifiers and tags you want.';
+    var header = !this.props.stage.value['fileUploaded'] ? 'Welcome! Start by pulling your data.' : 'Select the classifiers and tags you want.';
+    var text = !this.props.stage.value['fileUploaded'] ? 'Tell us what words or phrase you are interested in.' : 'Tell us what info you want pulled from the tweets and the choices are available';
 
     var statusContainer = {
       backgroundImage: 'url(../images/bg-' + image + '.png)',
       backgroundRepeat: 'no-repeat',
-      backgroundSize: '50%',
-      backgroundPosition: 'center center',
-      height: '100%'
+      backgroundSize: '450px',
+      backgroundPosition: 'top center',
+      paddingBottom: '70px'
     };
-    var bgImport = {
-      marginTop: '0px',
-      width: '350px'
-    };
-    var bgSelect = {
-      marginTop: '0px',
-      width: '300px',
-      opacity: '0.8'
-    };
-    var statusText = {
+    var statusHeader = {
       color: '#FF763D',
       fontFamily: 'Lato, sans-serif',
       fontWeight: '600',
-      marginBottom: '50px',
-      marginTop: '150px',
+      marginBottom: '20px',
+      marginTop: '100px',
+      paddingTop: '100px',
       textAlign: 'center'
     };
-
+    var statusText = {
+      fontSize: '16px'
+    };
     return React.createElement(
       'div',
       { style: statusContainer },
       React.createElement(
         'h1',
+        { style: statusHeader },
+        header
+      ),
+      React.createElement(
+        'div',
         { style: statusText },
         text
       )
@@ -2172,6 +2166,15 @@ var TagMachine = React.createClass({
             paddingTop: '80px'
         };
 
+        var leftArrow = {
+            marginTop: '75px',
+            opacity: '0.1'
+        };
+        var rightArrow = {
+            marginTop: '75px',
+            opacity: '0.1'
+        };
+
         var saveStatus;
         if (Parse.User.current()) {
             saveStatus = React.createElement(
@@ -2206,11 +2209,17 @@ var TagMachine = React.createClass({
                     currentPosition + 1,
                     ' of ',
                     numOfTweets
+                ),
+                React.createElement(
+                    'div',
+                    null,
+                    '(Press up or down to cycle through tweets)'
                 )
             ),
             React.createElement(
                 'div',
                 { style: appTags },
+                React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x' }),
                 React.createElement(HeaderScrollerNotActive, { header: publishHeaders[previousPositonInHeader] }),
                 React.createElement(HeaderScroller, { key: self.state.positionInHeader - 100, tweet: currentTweet, positionInData: currentPosition, data: self.props.data, header: publishHeaders[self.state.positionInHeader] }),
                 React.createElement(HeaderScrollerNotActive, { header: publishHeaders[nextPositionInHeader] }),
@@ -2223,7 +2232,8 @@ var TagMachine = React.createClass({
                         'Create CSV'
                     ),
                     saveStatus
-                )
+                ),
+                React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x' })
             )
         );
     },
@@ -2771,9 +2781,7 @@ var TwitterPull = React.createClass({
     render: function render() {
 
         var fileFormContainer = {
-            position: 'absolute',
             textAlign: 'center',
-            top: '60%',
             width: '100%'
         };
         var buttonUpload = {
