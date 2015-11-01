@@ -101,10 +101,14 @@ app.set('port', (process.env.PORT || 5000));
 app.use('/images', express.static('images'));
 app.use('/css', express.static('css'));
 app.get('/', function(req, res) {
-    res.sendFile('index.html', { root: __dirname });
+    res.sendFile('index.html', {
+        root: __dirname
+    });
 });
 app.get('/app', function(req, res) {
-    res.sendFile('app.html', { root: __dirname + '/public' });
+    res.sendFile('app.html', {
+        root: __dirname + '/public'
+    });
 });
 app.get('/data', function(req, res) {
     res.sendfile('data.html');
@@ -477,6 +481,13 @@ function processTweets(data, query) {
     var queryString = query;
     var bulkTweet = myDb.collection('Tweet').initializeUnorderedBulkOp();
     // var bulkQuery = myDb.collection('Query').initializeUnorderedBulkOp();
+
+    var Query = Parse.Object.extend("Query");
+    var queryvalue = new Query();
+
+    queryvalue.set("searchValue", query);
+    queryvalue.save();
+
 
     var size = Object.size(data);
     for (var i = 0; i <= size - 1; i++) {

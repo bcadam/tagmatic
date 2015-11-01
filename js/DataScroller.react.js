@@ -11,6 +11,7 @@ var DataScroller = React.createClass({
     render: function() {
         var self = this;
         var tweetBox = {
+            backgroundColor: 'white',
             border: '3px solid #efefef',
             borderRadius: '5px',
             fontSize:'16px',

@@ -65,6 +65,7 @@ var HeaderScroller = React.createClass({
             fontSize: '8px',
             fontWeight: 'bold',
             marginTop: '4px',
+            marginRight: '5px',
             padding: '1px 4px 1px 5px'
         }
 
