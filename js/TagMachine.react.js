@@ -80,6 +80,15 @@ var TagMachine = React.createClass({
             paddingTop: '80px'
         }
 
+        var leftArrow = {
+            marginTop: '75px',
+            opacity: '0.1'
+        }
+        var rightArrow = {
+            marginTop: '75px',
+            opacity: '0.1'
+        }
+
         var saveStatus;
         if (Parse.User.current()) {
             saveStatus = <div className="btn btn-info" onClick={this._saveStatus} >Save Status</div>
@@ -102,8 +111,10 @@ var TagMachine = React.createClass({
               <div style={appMain}>
                 <DataScroller key={self.state.positionInData} tweet={currentTweet} next={nextTweet} previous={previousTweet} headers={publishHeaders} />
                 <div style={counter}>{currentPosition + 1} of {numOfTweets}</div>
+                <div>(Press up or down to cycle through tweets)</div>
               </div>
               <div style={appTags}>
+                <i style={leftArrow} className="fa fa-angle-left fa-3x"></i>
                 <HeaderScrollerNotActive header={publishHeaders[previousPositonInHeader]} />
                 <HeaderScroller key={self.state.positionInHeader - 100} tweet={currentTweet} positionInData={currentPosition} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
                 <HeaderScrollerNotActive header={publishHeaders[nextPositionInHeader]} />
@@ -111,6 +122,7 @@ var TagMachine = React.createClass({
                     <div className="btn btn-warning" onClick={this._createCsv} >Create CSV</div>
                     {saveStatus}
                 </div>
+                <i style={rightArrow} className="fa fa-angle-right fa-3x"></i>
               </div>
             </div>
 

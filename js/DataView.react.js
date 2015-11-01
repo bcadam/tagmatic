@@ -1,3 +1,7 @@
+var d3 = require("d3");
+var jsdom = require("jsdom");
+
+
 var Parse = require('parse').Parse;
 var React = require('react');
 var ParseReact = require('parse-react');
@@ -6,13 +10,13 @@ var natural = require('natural');
 
 //https://github.com/NaturalNode/natural
 Object.size = function(obj) {
-            var size = 0,
-                key;
-            for (key in obj) {
-                if (obj.hasOwnProperty(key)) size++;
-            }
-            return size;
-        };
+    var size = 0,
+        key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 
 
@@ -22,7 +26,6 @@ var DataView = React.createClass({
     render: function() {
 
 
-        
         //var socket = io();
         var tweets = {
             "twitterResponse": [{
@@ -13865,7 +13868,7 @@ var DataView = React.createClass({
         // console.log(classifier.classify('did the tests pass?'));
         // console.log(classifier.classify('did you buy a new drive?'));
 
-        
+
 
         return (
             <div>Done</div>

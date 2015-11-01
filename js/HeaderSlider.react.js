@@ -36,14 +36,6 @@ var HeaderSlider = React.createClass({
             marginLeft: '20px',
             opacity: '0.15'
         }
-        var leftArrow = {
-            marginTop: '75px',
-            opacity: '0.1'
-        }
-        var rightArrow = {
-            marginTop: '75px',
-            opacity: '0.1'
-        }
         if (self.state.stage.value['fileUploaded'] == false) {
             return (
                 <div className="container"></div>
@@ -58,10 +50,9 @@ var HeaderSlider = React.createClass({
             var wording = "Add more tags";
             var doneEditingButtonColor = "btn btn-info col-xs-12";
             return (
-                <div>
+        <div>
           <div className="container">
             <div style={appTagsContainer}>
-              <i style={leftArrow} className="fa fa-angle-left fa-3x"></i>
               {this.props.header.value.map(function(c) {
                 counter = counter+1;
                 //console.log(c);
@@ -78,7 +69,6 @@ var HeaderSlider = React.createClass({
               })}
               <i style={addCardDone} className="fa fa-plus-circle fa-4x" onClick={this._addHeader}></i>
               <i style={addCardDone} className="fa fa-check-circle fa-4x" onClick={this._doneAddingTags}></i>
-              <i style={rightArrow} className="fa fa-angle-right fa-3x"></i>
             </div>
           </div>
         </div>

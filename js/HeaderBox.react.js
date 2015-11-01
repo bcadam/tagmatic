@@ -71,34 +71,40 @@ var HeaderBox = React.createClass({
       overflowY: 'auto'
     }
 
-    return (
-      <div style={cardContainer}>
-        <div style={card} className={resizePublishToggle}>
-          <div style={cardHeader}>
-            <HeaderTitle header={holderHeader} submit={self._updateHeader}/>
-            <HeaderIcons keyColor="#555" tweetColor={(holderTweet ? "#009DFF" : "#555")} publishColor={(holderPublish ? "green" : "#555")}
-                         key={this._markKey} tweet={this._markTweet} publish={this._togglePublish}
-            />
+    if(holderTweet) {
+      return(
+        <span></span>
+      );
+    } else {
+      return (
+        <div style={cardContainer}>
+          <div style={card} className={resizePublishToggle}>
+            <div style={cardHeader}>
+              <HeaderTitle header={holderHeader} submit={self._updateHeader}/>
+              <HeaderIcons keyColor="#555" tweetColor={(holderTweet ? "#009DFF" : "#555")} publishColor={(holderPublish ? "green" : "#555")}
+                           key={this._markKey} tweet={this._markTweet} publish={this._togglePublish}
+              />
+            </div>
+            <div style={scrollWindow}>
+              {holderTags.map(function(object, index) {
+                // Loop over the objects returned by the items query, rendering them
+                // with TodoItem components.
+                return (
+                  <HeaderItem 
+                    key={object}
+                    index={index}
+                    item={object}
+                    update={this._updateItem}
+                    delete={this._destroyItem}
+                  />
+                );
+              }, this)}
+            </div>
+              <HeaderCreator submit={self._createItem} published={holderPublish} disabled={holderTweet} />
           </div>
-          <div style={scrollWindow}>
-            {holderTags.map(function(object, index) {
-              // Loop over the objects returned by the items query, rendering them
-              // with TodoItem components.
-              return (
-                <HeaderItem 
-                  key={object}
-                  index={index}
-                  item={object}
-                  update={this._updateItem}
-                  delete={this._destroyItem}
-                />
-              );
-            }, this)}
-          </div>
-            <HeaderCreator submit={self._createItem} published={holderPublish} disabled={holderTweet} />
         </div>
-      </div>
-    );
+      );
+    }
   },
   _markKey: function() {
 
