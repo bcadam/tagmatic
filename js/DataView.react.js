@@ -1,5 +1,5 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
 var ParseReact = require('parse-react');
 var natural = require('natural');
 

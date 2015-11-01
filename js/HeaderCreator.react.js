@@ -21,6 +21,7 @@
  */
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var HeaderCreator = React.createClass({
   getInitialState: function() {
@@ -64,7 +65,7 @@ var HeaderCreator = React.createClass({
     return true;
   },
   componentDidUpdate: function () {
-    React.findDOMNode(this.refs.tagInput).focus();
+    ReactDOM.findDOMNode(this.refs.tagInput).focus();
   },
   _onChange: function(e) {
     this.setState({

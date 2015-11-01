@@ -2,12 +2,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         browserify: {
             build: {
-                src: 'js/app.js',
-                dest: 'public/bundle.js'
-            },
-            build: {
-                src: 'js/dataviewapp.js',
-                dest: 'public/databundle.js'
+                src: ['js/app.js'],
+                dest: 'public/app.js'
             }
         },
         watch: {

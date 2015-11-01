@@ -1,5 +1,6 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 //http://facebook.github.io/react/docs/component-specs.html#mounting-componentwillmount
 var DefaultClass = React.createClass({

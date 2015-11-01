@@ -2,7 +2,6 @@ var Parse = require('parse').Parse;
 // ParseReact sits on top of your Parse singleton
 var ParseReact = require('parse-react');
 var React = require('react');
-var Twitter = require('twitter-node-client').Twitter;
 
 Object.size = function(obj) {
     var size = 0,
@@ -170,7 +169,9 @@ var TwitterPull = React.createClass({
     render: function() {
 
         var fileFormContainer = {
+            position: 'absolute',
             textAlign: 'center',
+            top: '60%',
             width: '100%'
         }
         var buttonUpload = {
@@ -216,7 +217,12 @@ var TwitterPull = React.createClass({
         var counter = 0;
         if (self.state.data == null) {
             return (<div id="twitterform" style={fileFormContainer}>
-                    <input style={formFormat} placeholder="Words to search for" type="text" value={self.state.searchValue} onChange={self._onChange} /><input style={formFormat} placeholder="Num of tweets to pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} /><input style={formFormat} placeholder="English only" type="checkbox" value={self.state.language} onChange={self._onChangeLanguage}><div style={buttonForm}>Request English only</div></input>
+                    <input style={formFormat} placeholder="Words to search for" type="text" value={self.state.searchValue} onChange={self._onChange} />
+                    <input style={formFormat} placeholder="Num of tweets to pull" type="number" value={self.state.searchCount} onChange={self._onChangeCount} />
+                    <label>
+                      <input style={formFormat} placeholder="English only" type="checkbox" value={self.state.language} onChange={self._onChangeLanguage} />
+                      <div style={buttonForm}>Request English only</div>
+                    </label>
                     <div style={fileFormContainer}>
                     <label className="w-button" style={buttonUpload} onClick={self._getSearch}>SEARCH</label>
                     </div>

@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Parse = require('parse');
 
 var OneMonarch = require('./TagMaticApp.react.js');
@@ -18,12 +19,8 @@ var url = 'mongodb://heroku_fmnvd22w:o92tek028huob675crb78fvepj@ds041934.mongola
 // Insert your app's keys here:
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
-var Alert = require('react-bootstrap').Alert;
 
-
-
-
-React.render(
+ReactDOM.render(
     <OneMonarch />,
     document.getElementById('app')
 );

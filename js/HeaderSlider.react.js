@@ -1,11 +1,12 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var HeaderBox = require('./HeaderBox.react.js');
 
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 var HeaderSlider = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
     render: function() {
         var self = this;
         var counter = -1;
@@ -36,16 +37,12 @@ var HeaderSlider = React.createClass({
             opacity: '0.15'
         }
         var leftArrow = {
-            left: '10px',
             marginTop: '75px',
-            opacity: '0.1',
-            position: 'fixed'
+            opacity: '0.1'
         }
         var rightArrow = {
-            right: '10px',
             marginTop: '75px',
-            opacity: '0.1',
-            position: 'fixed'
+            opacity: '0.1'
         }
         if (self.state.stage.value['fileUploaded'] == false) {
             return (
@@ -62,10 +59,9 @@ var HeaderSlider = React.createClass({
             var doneEditingButtonColor = "btn btn-info col-xs-12";
             return (
                 <div>
-          <i style={leftArrow} className="fa fa-angle-left fa-3x"></i>
-          <i style={rightArrow} className="fa fa-angle-right fa-3x"></i>
           <div className="container">
             <div style={appTagsContainer}>
+              <i style={leftArrow} className="fa fa-angle-left fa-3x"></i>
               {this.props.header.value.map(function(c) {
                 counter = counter+1;
                 //console.log(c);
@@ -82,6 +78,7 @@ var HeaderSlider = React.createClass({
               })}
               <i style={addCardDone} className="fa fa-plus-circle fa-4x" onClick={this._addHeader}></i>
               <i style={addCardDone} className="fa fa-check-circle fa-4x" onClick={this._doneAddingTags}></i>
+              <i style={rightArrow} className="fa fa-angle-right fa-3x"></i>
             </div>
           </div>
         </div>

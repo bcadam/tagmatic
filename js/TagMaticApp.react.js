@@ -45,7 +45,8 @@ TagMachine takes two states, the data that was parsed and the header object. Usi
 **/
 
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ParseReact = require('parse-react');
 
 var NavBar = require('./NavBar.react.js');
@@ -56,7 +57,7 @@ var StatusUpdates = require('./StatusUpdates.react.js');
 var TwitterPull = require('./TwitterPull.react.js');
 
 var TagMaticApp = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
     /** State   Variables
         User:   Not currently used anywhere.
         Stage:
@@ -91,69 +92,67 @@ var TagMaticApp = React.createClass({
             textAlign: 'center'
         }
         var appTags = {
-                position: 'absolute',
-                left: '0px',
-                right: '0px',
-                bottom: '0px',
-                overflowX: 'hidden',
-                overflowY: 'hidden',
-                height: '200px',
-                borderTop: '3px solid #ff763d',
-                backgroundColor: 'whitesmoke'
-            }
+            position: 'absolute',
+            left: '0px',
+            right: '0px',
+            bottom: '0px',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
+            height: '200px',
+            borderTop: '3px solid #ff763d',
+            backgroundColor: 'whitesmoke'
+        }
             //////////////
             //  This serves up the second view which is the tag option view
             //////////////
         if (self.state.stage['fileUploaded'] && self.state.stage['headersUploaded']) {
-
-
-            return (
-                <TagMachine 
-          onKeyDown={self._advancePosition}
-          data ={self.linkState('data')} 
-          stage={self.linkState('stage')} 
-          header={self.linkState('header')}
-          twitterQuery={self.linkState('twitterQuery')}
-          projectId={self.linkState('projectId')} 
-        />
-            );
+          return (
+            <TagMachine 
+              onKeyDown={self._advancePosition}
+              data ={self.linkState('data')} 
+              stage={self.linkState('stage')} 
+              header={self.linkState('header')}
+              twitterQuery={self.linkState('twitterQuery')}
+              projectId={self.linkState('projectId')} 
+            />
+          );
         } else {
-
-            var postionHolder;
-            if (!self.state.stage['fileUploaded']) {
-                postionHolder = <TwitterPull 
+          var postionHolder;
+          if (!self.state.stage['fileUploaded']) {
+            postionHolder = <TwitterPull 
               data={self.linkState('data')} 
               stage={self.linkState('stage')} 
               header={self.linkState('header')}
               twitterQuery={self.linkState('twitterQuery')}
             />;
-            } else {
-                postionHolder = <HeaderSlider 
+          } else {
+            postionHolder = <HeaderSlider 
               stage={self.linkState('stage')}
               data ={self.linkState('data')}
               header={self.linkState('header')}
             />;
-            }
-            return (
-                <div>
-          <NavBar user={self.linkState('user')} 
-              data={self.linkState('data')} 
-              stage={self.linkState('stage')} 
-              header={self.linkState('header')}
-              twitterQuery={self.linkState('twitterQuery')}
-              projectId={self.linkState('projectId')} />
-          <div style={appMain}>
-            <StatusUpdates 
-              data={self.linkState('data')} 
-              stage={self.linkState('stage')} 
-              header={self.linkState('header')}
-            />
-          </div>
-          <div style={appTags}>
-            {postionHolder}
-          </div>
-        </div>
-            );
+          }
+
+          return (
+            <div>
+              <NavBar
+                user={self.linkState('user')} 
+                data={self.linkState('data')} 
+                stage={self.linkState('stage')} 
+                header={self.linkState('header')}
+                twitterQuery={self.linkState('twitterQuery')}
+                projectId={self.linkState('projectId')}
+              />
+              <div style={appMain}>
+                <StatusUpdates 
+                  data={self.linkState('data')} 
+                  stage={self.linkState('stage')} 
+                  header={self.linkState('header')}
+                />
+                {postionHolder}
+              </div>
+            </div>
+          );
         }
     }
 });

@@ -1,6 +1,7 @@
 var Parse = require('parse').Parse;
 var ParseReact = require('parse-react');
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 var HeaderTitle = require('./HeaderTitle.react.js');
 var HeaderIcons = require('./HeaderIcons.react.js');
@@ -12,7 +13,7 @@ var HeaderCreator = require('./HeaderCreator.react.js');
 
 //http://facebook.github.io/react/docs/component-specs.html#mounting-componentwillmount
 var HeaderBox = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
   //////////////
   //  In addition to the passed props this class used a published state to hide the added
   //    tags and toggle the switch.

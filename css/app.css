@@ -1,4 +1,5 @@
 .menu-true {
+  border-right: 1px solid rgba(0,0,0,0.05);
   width: 240px !important;
 }
 
@@ -129,7 +130,7 @@
 */
 
 .nav_button:hover {
-  background-color: #4a4a4a;
+  background-color: #FF763D;
   color: white;
 }
 
@@ -137,7 +138,7 @@
   height: 31px;
 }
 
-.fa-check-circle:hover {
+.fa-check-circle:hover, .fa-plus-circle:hover {
   color: #ff763d;
   opacity: 1 !important;
 }

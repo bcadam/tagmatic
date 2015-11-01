@@ -1,5 +1,6 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ParseReact = require('parse-react');
 
 var NavBar = require('./NavBar.react.js');
@@ -12,7 +13,7 @@ var HeaderScrollerNotActive = require('./HeaderScrollerNotActive.react.js');
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 
 var TagMachine = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
 
     render: function() {
         var self = this;

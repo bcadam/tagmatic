@@ -98,14 +98,13 @@ app.use('/admin', adminRouter);
 app.use('/map', mapRouter);
 
 app.set('port', (process.env.PORT || 5000));
-
-app.use('/images', express.static('images'))
+app.use('/images', express.static('images'));
 app.use('/css', express.static('css'));
 app.get('/', function(req, res) {
-    res.sendfile('index.html');
+    res.sendFile('index.html', { root: __dirname });
 });
 app.get('/app', function(req, res) {
-    res.sendfile('app.html');
+    res.sendFile('app.html', { root: __dirname + '/public' });
 });
 
 /******   ADMIN ROUTER HERE  *****/

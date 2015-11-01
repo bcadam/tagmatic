@@ -1,7 +1,8 @@
 var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 var HeaderIcons = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
   getInitialState: function() {
     return ({
        hoverKey: false,

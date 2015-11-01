@@ -1,6 +1,6 @@
 var Parse = require('parse').Parse;
 var ParseReact = require('parse-react');
-var React = require('react/addons');
+var React = require('react');
 
 
 var Project = React.createClass({

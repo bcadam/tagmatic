@@ -1,11 +1,12 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 /** HeaderSlider is a class that displays the headers (columns) from a parsed file.
     The HeaderSlider contains mulitple HeaderBox(es), one for each header. **/
 
 var HeaderTagInsert = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
 
     render: function() {
         var self = this;

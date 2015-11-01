@@ -1,5 +1,6 @@
 var Parse = require('parse').Parse;
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ParseReact = require('parse-react');
 var natural = require('natural');
 
@@ -7,7 +8,7 @@ var natural = require('natural');
 //https://github.com/NaturalNode/natural
 
 var HeaderScroller = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
 
     getInitialState: function() {
         return {
@@ -68,7 +69,7 @@ var HeaderScroller = React.createClass({
         }
 
         return (
-            <div style={cardContainer}>
+            <div style={cardContainer} className="">
                 <div style={card}>
                   <div style={cardHeader}>{tweet}</div>
                   <div style={scrollWindow}>
@@ -76,7 +77,7 @@ var HeaderScroller = React.createClass({
                         self.props.header[1].map(function(c) {
                         counter = counter + 1;
                         return (
-                          <div key={c} className="col-xs-12" counter={counter} key={c.id}>{c} <span style={hotKey}>{counter}</span></div>
+                          <div key={c} className="" counter={counter} key={c.id}>{c} <span style={hotKey}>{counter}</span></div>
                           );
                         })
                     }

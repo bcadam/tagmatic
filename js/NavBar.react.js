@@ -1,13 +1,14 @@
 var Parse = require('parse').Parse;
 var ParseReact = require('parse-react');
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 
 var Project = require('./Project.react.js');
 
 
 var NavBar = React.createClass({
-    mixins: [React.addons.LinkedStateMixin, ParseReact.Mixin],
+    mixins: [LinkedStateMixin, ParseReact.Mixin],
     observe: function() {
         // Subscribe to all Comment objects, ordered by creation date
         // The results will be available at this.data.comments
@@ -103,37 +104,40 @@ var NavBar = React.createClass({
     render: function() {
         var self = this;
 
-        var navContainer = {
+        var menuContainer = {
             backgroundColor: 'white',
-            borderRight: '1px solid #efefef',
             overflow: 'hidden',
             position: 'fixed',
             width: '0px',
             bottom: '0',
-            top: '0',
+            top: '52',
             left: '0',
+            textOverflow: 'clip',
+            whiteSpace: 'nowrap',
             WebkitTransition: 'all 200ms ease',
             transition: 'all 200ms ease'
         }
 
         var navBar = {
-            backgroundColor: 'white',
-            borderColor: 'black black #efefef',
-            borderStyle: 'none none solid',
-            borderWidth: '1px',
+            background: 'linear-gradient(to right, rgba(255, 118, 61, 0.6), #FF763D)',
+            backgroundColor: '#FFC08F',
+            border: 'none',
+            borderBottom: '2px solid #FF763D',
+            borderRadius: '0px',
             position: 'relative',
             zIndex: '1000'
         }
 
         var navButton = {
-            borderRight: '1px solid #efefef',
+            color: 'white',
             cursor: 'pointer',
             float: 'left',
-            fontSize: '24px',
-            padding: '18px',
+            fontSize: '20px',
+            padding: '11px 15px 11px 15px',
             position: 'relative',
-            WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-            tapHighlightColor: 'rgba(0, 0, 0, 0)',
+            width: '48px',
+            WebkitTapHighlightColor: '#FF763D',
+            tapHighlightColor: '#FF763D',
             WebkitUserSelect: 'none',
             MozUserSelect: 'none',
             MsUserSelect: 'none',
@@ -143,15 +147,23 @@ var NavBar = React.createClass({
         }
 
         var brandText = {
-            color: 'black',
-            fontFamily: 'Varela, sans-serif',
-            fontWeight: '400',
-            marginLeft: '20px',
-            marginTop: '25px'
+          backgroundImage: 'url("../images/logo_1.png")',
+          backgroundPosition: '0px 0px',
+          backgroundSize: '25px',
+          backgroundRepeat: 'no-repeat',
+          color: 'white',
+          fontFamily: 'Raleway, sans-serif',
+          fontSize: '14pt',
+          fontWeight: '500',
+          height: '32px',
+          marginLeft: '10px',
+          marginTop: '8px',
+          paddingLeft: '28px',
+          paddingTop: '8px',
         }
 
-        var closeMenu = {
-            margin: '20px 15px',
+        var menuContent = {
+            padding: '20px 30px'
         }
 
         var navMenu = {
@@ -185,38 +197,58 @@ var NavBar = React.createClass({
         } else {
             button = <div className="btn btn-info" style={fullWidth} onClick={self._logOut}>LogOut</div>;
         }
-
+        var menuIcon;
+        if (self.state.menu == true) {
+            menuIcon = <i className="fa fa-times"></i>;
+        } else {
+            menuIcon = <i className="fa fa-bars"></i>;
+        }
         return (
             <div style={navBar} className="navbar">
-        <div style={navButton} className="nav_button" onClick={this._toggleMenu}>
-          <i className="fa fa-bars"></i>
-        </div>
-        <div>
-          <a className="w-nav-brand brand" href="#"><h4 style={brandText}>oneMonarch</h4></a>
-          <div className={"menu-" + this.state.menu} style={navContainer}>
-            <nav className="nav_menu"  style={closeMenu} role="navigation">
-            <i className="fa fa-times fa-2x" onClick={this._toggleMenu}></i>
-            {button}
-            <ul className="list-group">
-            {self.data.projects.map(function(c) {
-                return (
-                  <Project 
-                  object={c}     
-                  data={self.state.data} 
-                  stage={self.state.stage} 
-                  header={self.state.header}
-                  twitterQuery={self.state.twitterQuery}
-                  className="list-group-item" 
-                  key={c.id} 
-                  style={brandText}
-                  projectId={self.state.projectId} />
-                );
-              })}
-            </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
+                <div style={navButton} className="nav_button" onClick={this._toggleMenu}>
+                  {menuIcon}
+                </div>
+                <div>
+                  <a className="w-nav-brand brand" href="#">
+                    <h1 style={brandText}>one<strong>Monarch</strong></h1>
+                  </a>
+                  <div className={"menu-" + this.state.menu} style={menuContainer}>
+                    <nav className="nav_menu"  style={menuContent} role="navigation">
+                        <ul className="list-group">
+                            <li>Find chatter</li>
+                            <li>Surface topics</li>
+                            <hr/>
+                            <li><b>Text Analysis</b></li>
+                            <li>Select headers</li>
+                            <li>Review and tag</li>
+                            <hr/>
+                            <li><b>Audience Analysis</b></li>
+                            <li>Interest affinities</li>
+                            <li>Brand perception</li>
+                            <hr/>
+                            <li><b>Reporting</b></li>
+                        </ul>
+                        {button}
+                        <ul className="list-group">
+                        {self.data.projects.map(function(c) {
+                            return (
+                              <Project 
+                              object={c}     
+                              data={self.state.data} 
+                              stage={self.state.stage} 
+                              header={self.state.header}
+                              twitterQuery={self.state.twitterQuery}
+                              className="list-group-item" 
+                              key={c.id} 
+                              style={brandText}
+                              projectId={self.state.projectId} />
+                            );
+                          })}
+                        </ul>
+                    </nav>
+                  </div>
+                </div>
+            </div>
         );
     },
     _toggleMenu: function() {

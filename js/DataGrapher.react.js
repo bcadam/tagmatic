@@ -1,7 +1,7 @@
 var Parse = require('parse').Parse;
 var ParseReact = require('parse-react');
-var React = require('react/addons');
 var rd3 = require('react-d3');
+var React = require('react');
 
 var DataGrapher = React.createClass({
     _size: function(obj) {

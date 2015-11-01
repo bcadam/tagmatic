@@ -1,9 +1,10 @@
-var React = require('react/addons');
+var React = require('react');
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 //https://github.com/NaturalNode/natural
 
 var HeaderScrollerNotActive = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [LinkedStateMixin],
 
     render: function() {
         var self = this;
