@@ -7,92 +7,84 @@ Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlX
 
 
 
-
-
 function sendReports() {
+
     var myDb;
     var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
 
     // var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
     // var url = 'mongodb://adminuser:adminuseradminuser123@localhost:27017/tagmatic';
 
-    var MongoClient = require('mongodb').MongoClient,
-        assert = require('assert');
+    var MongoClient = require('mongodb').MongoClient;
+    var assert = require('assert');
 
 
     MongoClient.connect(url, function(err, db) {
+
         assert.equal(null, err);
         console.log("Connected correctly to server");
         myDb = db;
 
         var Report = Parse.Object.extend("Report");
         var queryReport = new Parse.Query(Report);
-
-        queryReport.equalTo("published", true);
-        queryReport.include('user.classifier');
-        queryReport.equalTo('query', "buying");
-        var favoriteCount = 0;
+        queryReport.include("user");
 
         queryReport.find({
             success: function(results) {
+
+                // Do something with the returned Parse.Object values
                 for (var i = 0; i < results.length; i++) {
 
-                    var userEmail = results[i].get('user').get('email');
-                    var classifier = results[i].get('classifier');
-                    var queryValue = results[i].get('query');
+
+
+                    var object = results[i];
+
+                    //console.log(object.get('user').get('email'));
+                    var query = object.get('query');
+
 
                     myDb.collection('Query').find({
-                        _id: queryValue
+                        _id: query
                     }).forEach(function(query) {
 
-                        //console.log(query.tweet);
 
+                        //console.log(query);
 
-                        //var a = ['1', '2', '3'];
                         var result = query.tweet.map(function(x) {
                             return parseInt(x, 10);
                         });
+
+
+                        var tweets = [];
+                        var count;
 
                         myDb.collection('Tweet').find({
                             _id: {
                                 $in: result
                             }
                         }).forEach(function(tweet) {
-                            //console.log(tweet.data.favorite_count);
-                            favoriteCount = favoriteCount + tweet.data.favorite_count;
-                            console.log("Query value : %s has this many favs %s", queryValue,favoriteCount);
+                            console.log(tweet._id);
                         });
 
 
-
-
+                        
 
                     });
 
-                    //sleep(1000);
                 }
-
-
 
             },
             error: function(error) {
-                alert("Error: " + error.code + " " + error.message);
+                console.log("Error: " + error.code + " " + error.message);
             }
         });
 
-
-
     });
+
+
 
 }
 
-
-// myDb.collection('Tweet').find({
-//     _id: 657648744591003650
-// }).toArray(function(err, items) {
-//     // console.log(query);
-//     // console.log(items);
-// });
 
 function sleep(milliseconds) {
     var start = new Date().getTime();

@@ -19,6 +19,7 @@ Parse.Cloud.afterSave(Parse.User, function(request) {
     ///////// end of tester
 });
 
+
 var Tweet = Parse.Object.extend("Tweet");
 Parse.Cloud.beforeSave("Tweet", function(request, response) {
     if (!request.object.get("id_str")) {
@@ -36,6 +37,28 @@ Parse.Cloud.beforeSave("Tweet", function(request, response) {
             },
             error: function(error) {
                 response.error("Could not validate uniqueness for this Tweet object.");
+            }
+        });
+    }
+});
+
+var Query = Parse.Object.extend("Query");
+Parse.Cloud.beforeSave("Query", function(request, response) {
+    if (!request.object.get("searchValue")) {
+        response.error('A Query must have a id_str.');
+    } else {
+        var query = new Parse.Query(Query);
+        query.equalTo("searchValue", request.object.get("searchValue"));
+        query.first({
+            success: function(object) {
+                if (object) {
+                    response.error("A Query with this searchValue already exists.");
+                } else {
+                    response.success();
+                }
+            },
+            error: function(error) {
+                response.error("Could not validate uniqueness for this Query object.");
             }
         });
     }

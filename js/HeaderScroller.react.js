@@ -251,8 +251,6 @@ var HeaderScroller = React.createClass({
 
         //console.log(raw);
 
-
-
         var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
         //console.log(restoredClassifier);
         restoredClassifier.addDocument(tweet, valueOfTag);
