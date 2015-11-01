@@ -114,15 +114,15 @@ var TagMachine = React.createClass({
                 <div>(Press up or down to cycle through tweets)</div>
               </div>
               <div style={appTags}>
-                <i style={leftArrow} className="fa fa-angle-left fa-3x"></i>
+                <i style={leftArrow} className="fa fa-angle-left fa-3x" onClick={this._retreatHeader}></i>
                 <HeaderScrollerNotActive header={publishHeaders[previousPositonInHeader]} />
                 <HeaderScroller key={self.state.positionInHeader - 100} tweet={currentTweet} positionInData={currentPosition} data={self.props.data} header={publishHeaders[self.state.positionInHeader]} />
                 <HeaderScrollerNotActive header={publishHeaders[nextPositionInHeader]} />
+                <i style={rightArrow} className="fa fa-angle-right fa-3x" onClick={this._advanceHeader}></i>
                 <div style={{textAlign:'center'}}>
                     <div className="btn btn-warning" onClick={this._createCsv} >Create CSV</div>
                     {saveStatus}
                 </div>
-                <i style={rightArrow} className="fa fa-angle-right fa-3x"></i>
               </div>
             </div>
 

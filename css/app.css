@@ -229,3 +229,8 @@
 .arrow_down {
   margin-top: 240px;
 }
+
+.fa-angle-right:hover, .fa-angle-left:hover {
+  cursor: pointer;
+  opacity: 0.2;
+}

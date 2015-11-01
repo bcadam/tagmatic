@@ -16,6 +16,7 @@ var DataScroller = React.createClass({
     render: function render() {
         var self = this;
         var tweetBox = {
+            backgroundColor: 'white',
             border: '3px solid #efefef',
             borderRadius: '5px',
             fontSize: '16px',
@@ -29,28 +30,28 @@ var DataScroller = React.createClass({
             width: '400px'
         };
         var tweetBoxPre = {
-            border: '3px solid #ddd',
+            border: '3px solid #ccc',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
             marginTop: '-320px',
-            opacity: '0.15',
+            opacity: '0.1',
             padding: '20px 10px',
             position: 'fixed',
             height: '150px',
             width: '400px'
         };
         var tweetBoxPost = {
-            border: '3px solid #ddd',
+            border: '3px solid #ccc',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
             marginTop: '20px',
-            opacity: '0.15',
+            opacity: '0.1',
             padding: '20px 10px',
             position: 'fixed',
             height: '150px',
@@ -900,6 +901,7 @@ var HeaderScroller = React.createClass({
             fontSize: '8px',
             fontWeight: 'bold',
             marginTop: '4px',
+            marginRight: '5px',
             padding: '1px 4px 1px 5px'
         };
 
@@ -2219,10 +2221,11 @@ var TagMachine = React.createClass({
             React.createElement(
                 'div',
                 { style: appTags },
-                React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x' }),
+                React.createElement('i', { style: leftArrow, className: 'fa fa-angle-left fa-3x', onClick: this._retreatHeader }),
                 React.createElement(HeaderScrollerNotActive, { header: publishHeaders[previousPositonInHeader] }),
                 React.createElement(HeaderScroller, { key: self.state.positionInHeader - 100, tweet: currentTweet, positionInData: currentPosition, data: self.props.data, header: publishHeaders[self.state.positionInHeader] }),
                 React.createElement(HeaderScrollerNotActive, { header: publishHeaders[nextPositionInHeader] }),
+                React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x', onClick: this._advanceHeader }),
                 React.createElement(
                     'div',
                     { style: { textAlign: 'center' } },
@@ -2232,8 +2235,7 @@ var TagMachine = React.createClass({
                         'Create CSV'
                     ),
                     saveStatus
-                ),
-                React.createElement('i', { style: rightArrow, className: 'fa fa-angle-right fa-3x' })
+                )
             )
         );
     },
