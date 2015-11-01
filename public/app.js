@@ -29,28 +29,28 @@ var DataScroller = React.createClass({
             width: '400px'
         };
         var tweetBoxPre = {
-            border: '3px solid #ddd',
+            border: '3px solid #ccc',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
             marginTop: '-320px',
-            opacity: '0.15',
+            opacity: '0.1',
             padding: '20px 10px',
             position: 'fixed',
             height: '150px',
             width: '400px'
         };
         var tweetBoxPost = {
-            border: '3px solid #ddd',
+            border: '3px solid #ccc',
             borderRadius: '5px',
             fontSize: '16px',
             left: '50%',
             top: '50%',
             marginLeft: '-200px',
             marginTop: '20px',
-            opacity: '0.15',
+            opacity: '0.1',
             padding: '20px 10px',
             position: 'fixed',
             height: '150px',
