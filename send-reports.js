@@ -4,6 +4,8 @@ var PapaParse = require('papaparse');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
 
 
 
@@ -15,8 +17,7 @@ function sendReports() {
     // var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
     // var url = 'mongodb://adminuser:adminuseradminuser123@localhost:27017/tagmatic';
 
-    var MongoClient = require('mongodb').MongoClient;
-    var assert = require('assert');
+
 
 
     MongoClient.connect(url, function(err, db) {
@@ -49,7 +50,6 @@ function sendReports() {
 
 
                         //console.log(query);
-
                         var result = query.tweet.map(function(x) {
                             return parseInt(x, 10);
                         });
@@ -63,11 +63,10 @@ function sendReports() {
                                 $in: result
                             }
                         }).forEach(function(tweet) {
-                            console.log(tweet._id);
+                            //if (err) return console.error(err);
+                            console.log(tweet);
+                            tweets.push(tweet);
                         });
-
-
-                        
 
                     });
 
@@ -77,12 +76,17 @@ function sendReports() {
             error: function(error) {
                 console.log("Error: " + error.code + " " + error.message);
             }
+        }).then(function() {
+
+            console.log("done");
+
         });
 
+
+        // db.close();
+
+
     });
-
-
-
 }
 
 
