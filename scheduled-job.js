@@ -57,7 +57,7 @@ function searchTwitter() {
                 xmlhttp.open("GET", url , false);
                 xmlhttp.send();
 
-                sleep(5000);
+                sleep(1000);
 
             }
 
