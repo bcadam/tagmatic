@@ -25,6 +25,12 @@ var Parse = require('parse/node').Parse;
 //   });
 // });
 
+var AWS = require('aws-sdk');
+var redshift = new AWS.Redshift({apiVersion: '2012-12-01'});
+
+
+
+
 /******Set up the basic app*****/
 /*******************************/
 /*******************************/
@@ -312,13 +318,13 @@ apiRouter.get('/twitter', cors(), function(req, res) {
 });
 
 apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
-
+    console.log("retrieving tweets");
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
     var language = (req.params.language == null ? null : req.params.language);
 
-    console.log(language);
-    console.log(count);
+    console.log("language is " + language);
+    console.log("count is " + count);
     var twitterQueryParameters = {
         q: query,
         count: count,
@@ -487,6 +493,7 @@ function processTweets(data, query) {
 
     queryvalue.set("searchValue", query);
     queryvalue.save();
+
 
 
     var size = Object.size(data);

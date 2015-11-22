@@ -14010,7 +14010,7 @@
         //return orderedArray;
     }
 
-    function classifyTweetsSentiment(tweets) {
+    exports.classifyTweetsSentiment = function(tweets) {
         var natural = require('natural');
         var classifier = new natural.BayesClassifier();
 
@@ -14054,7 +14054,7 @@
             })
             .then(function() {
                 //console.log(noiseTweets);
-                //console.log(happyTweets);
+                console.log(happyTweets[0]);
                 //console.log(happyTweets);
                 // returnWords(happyTweets);
                 // returnWords(noiseTweets);

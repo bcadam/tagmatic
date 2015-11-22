@@ -2,7 +2,10 @@ var Parse = require('parse/node').Parse;
 var Papa = require('babyparse');
 var Blob = require('blob');
 var fs = require('fs');
-var discoverEnginge = require('./customerdiscovery');
+var discoverEngine = require('./customerdiscovery');
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill('zYrJvetHxH4ZIpyztJM4NQ');
+
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -29,6 +32,7 @@ function sendReports() {
 
     queryReport.include("user");
     queryReport.include("classifier");
+    queryReport.equalTo("published", true);
 
     var results;
 
@@ -43,7 +47,13 @@ function sendReports() {
         }
     }).then(function() {
 
+
+
         for (var i = 0; i < results.length; i++) {
+
+            var userEmail = results[i].get('user').get('email');
+            console.log(userEmail);
+
             var queryText = results[i].get('query');
 
             db.Query.find({
@@ -98,22 +108,25 @@ function sendReports() {
                             };
 
                             console.log(queryText + " report");
-                            discoverEnginge.returnLocations(justTweets);
-                            discoverEnginge.returnWords(justTweets);
-                            discoverEnginge.returnFollowers(justTweets);
+                            // discoverEngine.returnLocations(justTweets);
+                            // discoverEngine.returnWords(justTweets);
+                            // discoverEngine.returnFollowers(justTweets);
+                            //discoverEngine.classifyTweetsSentiment(justTweets);
 
                             data = Papa.unparse(justTweets);
                             justTweets[0].text;
                             var time = new Date();
                             var timeString = "TagMatic " + queryText + " " + time.getDate() + "-" + time.getMonth() + "-" + time.getFullYear() + ".csv";
-                            
+
                             // fs.writeFile(timeString, data, 'utf8', function() {
                             //     console.log("File Saved as: " + timeString);
                             // });
 
-                        }).then(function(){return true;});
+                            sendEmail(userEmail,timeString,data);
 
+                        });
 
+                        
                     // .forEach(function(tweet) {
                     //     //if (err) return console.error(err);
                     //     console.log(tweet);
@@ -128,6 +141,100 @@ function sendReports() {
     });
 
 
+}
+
+function sendEmail(toAddress,fileName,file) {
+    var message = {
+        "html": "<p>Example HTML content</p>",
+        "text": "Example text content",
+        "subject": "example subject",
+        "from_email": "info@rooftop.me",
+        "from_name": "TagMatic",
+        "to": [{
+            "email": toAddress
+        }],
+        "headers": {
+            "Reply-To": "info@rooftop.me"
+        },
+        "important": false,
+        "track_opens": null,
+        "track_clicks": null,
+        "auto_text": null,
+        "auto_html": null,
+        "inline_css": null,
+        "url_strip_qs": null,
+        "preserve_recipients": null,
+        "view_content_link": null,
+        "bcc_address": "message.bcc_address@example.com",
+        "tracking_domain": null,
+        "signing_domain": null,
+        "return_path_domain": null,
+        "merge": true,
+        "merge_language": "mailchimp",
+        "global_merge_vars": [{
+            "name": "merge1",
+            "content": "merge1 content"
+        }],
+        "merge_vars": [{
+            "rcpt": "recipient.email@example.com",
+            "vars": [{
+                "name": "merge2",
+                "content": "merge2 content"
+            }]
+        }],
+        "tags": [
+            "password-resets"
+        ],
+        "subaccount": "customer-123",
+        "google_analytics_domains": [
+            "example.com"
+        ],
+        "google_analytics_campaign": "message.from_email@example.com",
+        "metadata": {
+            "website": "www.example.com"
+        },
+        "recipient_metadata": [{
+            "rcpt": "recipient.email@example.com",
+            "values": {
+                "user_id": 123456
+            }
+        }],
+        "attachments": [{
+            "type": "text/plain",
+            "name": "fileName",
+            "content": file
+        }],
+        "images": [{
+            "type": "image/png",
+            "name": "IMAGECID",
+            "content": "ZXhhbXBsZSBmaWxl"
+        }]
+    };
+    var async = false;
+    var ip_pool = "Main Pool";
+    var dateString = "2015-11-22 01:01:01";
+    
+
+    var send_at = dateString;
+    mandrill_client.messages.send({
+        "message": message,
+        "async": async,
+        "ip_pool": ip_pool
+    }, function(result) {
+        console.log(result);
+        /*
+        [{
+                "email": "recipient.email@example.com",
+                "status": "sent",
+                "reject_reason": "hard-bounce",
+                "_id": "abc123abc123abc123abc123abc123"
+            }]
+        */
+    }, function(e) {
+        // Mandrill returns the error as an object with name and message keys
+        console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+        // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+    });
 }
 
 

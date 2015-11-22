@@ -1,6 +1,7 @@
 var Parse = require('parse/node').Parse;
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
@@ -11,10 +12,13 @@ function searchTwitter() {
 
 
 
-    var Report = Parse.Object.extend("Report");
+    // var Report = Parse.Object.extend("Report");
+    // var query = new Parse.Query(Report);
+    // query.equalTo("published", true);
+
+    var Report = Parse.Object.extend("Query");
     var query = new Parse.Query(Report);
 
-    query.equalTo("published", true);
 
     query.find({
         success: function(results) {
@@ -22,7 +26,11 @@ function searchTwitter() {
             for (var i = 0; i < results.length; i++) {
 
 
-                var searchValue = results[i].get('query');
+                //var searchValue = results[i].get('query');
+                var searchValue = results[i].get('searchValue');
+
+
+
                 console.log("searching for: " + searchValue);
                 var searchCount = 100;
 
