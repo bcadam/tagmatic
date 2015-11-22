@@ -51,7 +51,7 @@ function searchTwitter() {
                         //     xmlhttp.responseText;
 
                         console.log("done");
-                        console.log(xmlhttp.responseText);
+                        //console.log(xmlhttp.responseText);
                     }
                 }
                 xmlhttp.open("GET", url , false);

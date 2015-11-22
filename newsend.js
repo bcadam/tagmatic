@@ -2,7 +2,6 @@ var Parse = require('parse/node').Parse;
 var Papa = require('babyparse');
 var Blob = require('blob');
 var fs = require('fs');
-var discoverEnginge = require('./customerdiscovery');
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -97,19 +96,14 @@ function sendReports() {
                                 withCredentials: undefined
                             };
 
-                            console.log(queryText + " report");
-                            discoverEnginge.returnLocations(justTweets);
-                            discoverEnginge.returnWords(justTweets);
-                            discoverEnginge.returnFollowers(justTweets);
 
                             data = Papa.unparse(justTweets);
-                            justTweets[0].text;
                             var time = new Date();
                             var timeString = "TagMatic " + queryText + " " + time.getDate() + "-" + time.getMonth() + "-" + time.getFullYear() + ".csv";
-                            
-                            // fs.writeFile(timeString, data, 'utf8', function() {
-                            //     console.log("File Saved as: " + timeString);
-                            // });
+                            //console.log(allAssociatedTweetsFromQuery[i].id);
+                            fs.writeFile(timeString, data, 'utf8', function() {
+                                console.log("File Saved as: " + timeString);
+                            });
 
                         }).then(function(){return true;});
 
