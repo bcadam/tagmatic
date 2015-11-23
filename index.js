@@ -1,53 +1,3 @@
-var elasticsearch = require('elasticsearch');
-
-
-
-var client = new elasticsearch.Client({
-    host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-    log: 'trace'
-});
-
-
-
-
-client.count(function(error, response, status) {
-    var count = response.count;
-    console.log(count);
-});
-
-// client.search({
-//     index: 'twitter',
-//     type: 'tweet',
-//     body: {
-//         query: {
-//             match: {
-//                 text: 'cat'
-//             }
-//         }
-//     }
-// }).then(function(resp) {
-//     var hits = resp.hits.hits;
-//     //console.log(hits[0]._source.text);
-// }, function(err) {
-//     console.trace(err.message);
-// });
-
-// client.indices.delete({
-//     index: 'tweets'
-// }, function(body) {
-// });
-
-
-
-
-
-
-
-
-
-
-
-
 /** Where all the requires go **/
 /*******************************/
 /*******************************/
@@ -66,6 +16,10 @@ var cors = require('cors'); //Cross Orgigin Request Management
 var bodyParser = require('body-parser');
 var rollbar = require('rollbar'); //Crash analytics for app
 var Parse = require('parse/node').Parse;
+
+
+var elasticsearch = require('elasticsearch');
+var discoverEngine = require('./customerdiscovery');
 
 // var io = require('socket.io')(express);
 // io.on('connection', function (socket) {
@@ -349,6 +303,57 @@ io.on('connection', function(socket) {
 /*******************************/
 
 
+apiRouter.get('/data/:value', function(req, res) {
+
+    var needle = req.params.value;
+
+    var client = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+
+    var lengthOfTweetsFound;
+    var tweets;
+
+    client.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: 50,
+        body: {
+            fields: ['_source'],
+            query: {
+                match: {
+                    _all: needle
+                }
+            }
+        }
+    }).then(function(resp) {
+
+        tweets = resp.hits.hits;
+        var processedTweets = [];
+        for (var y = 0; y < tweets.length; y++) {
+            processedTweets.push(tweets[y]._source);
+        };
+
+        lengthOfTweetsFound = processedTweets.length;
+        var followers = discoverEngine.returnFollowers(processedTweets, res);
+        var words = discoverEngine.returnWords(processedTweets);
+        var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
+
+        res.json({
+            length: lengthOfTweetsFound,
+            followers: followers,
+            words: words,
+            sentiment: sentiment
+        });
+
+    });
+
+
+});
+
+
 
 apiRouter.get('/', function(req, res) {
     res.json({
@@ -508,8 +513,6 @@ apiRouter.post('/suggested', function(req, res) {
             upsert: true
         }
     );
-
-
     console.log(variable);
     res.send(true);
 });
@@ -558,48 +561,6 @@ function processTweets(data, query) {
             body: data[i]
         });
     }
-
-    // client.bulk({
-    //     body: [
-    //         // action description
-    //         {
-    //             index: {
-    //                 _index: 'myindex',
-    //                 _type: 'mytype',
-    //                 _id: 1
-    //             }
-    //         },
-    //         // the document to index
-    //         {
-    //             title: 'foo'
-    //         },
-    //         // action description
-    //         {
-    //             update: {
-    //                 _index: 'myindex',
-    //                 _type: 'mytype',
-    //                 _id: 2
-    //             }
-    //         },
-    //         // the document to update
-    //         {
-    //             doc: {
-    //                 title: 'foo'
-    //             }
-    //         },
-    //         // action description
-    //         {
-    //             delete: {
-    //                 _index: 'myindex',
-    //                 _type: 'mytype',
-    //                 _id: 3
-    //             }
-    //         },
-    //         // no document needed for this delete
-    //     ]
-    // }, function(err, resp) {
-    //     // ...
-    // });
 
 
     for (var i = 0; i <= size - 1; i++) {
