@@ -356,6 +356,57 @@ apiRouter.get('/data/:value', function(req, res) {
 
 });
 
+apiRouter.get('/geotagged/:value', function(req, res) {
+
+    var needle = req.params.value;
+    var Query = Parse.Object.extend("Query");
+    var queryvalue = new Query();
+
+
+    var client = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    var lengthOfTweetsFound;
+    var tweets;
+
+    client.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: 5000,
+        body: {
+            query: {
+                filtered: {
+                    query: {
+                        match: {
+                            _all: needle
+                        }
+                    },
+                    filter: {
+                        not: {
+                            filter: {
+                                missing: {
+                                    field: "coordinates"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function(resp) {
+
+        res.json({
+            tweets: resp
+        });
+
+    });
+
+
+});
+
+
 
 
 apiRouter.get('/', function(req, res) {
