@@ -68,7 +68,7 @@
         };
 
 
-        var wordsToDelete = ['if', 'was', 'she', 'a', 'it', 'how', 'rt', 'a', 'de', 'la', 'i', 'in', 'my', 'to', 'the', 'no', 'at', 'el', 'en', 'que', 'you', '+', 'per', 'for', 'on', '-', 'their', 'and', 'we', 'with', 'is', 'del'];
+        var wordsToDelete = ['into','of','if', 'was', 'she', 'a', 'it', 'how', 'rt', 'a', 'de', 'la', 'i', 'in', 'my', 'to', 'the', 'no', 'at', 'el', 'en', 'que', 'you', '+', 'per', 'for', 'on', '-', 'their', 'and', 'we', 'with', 'is', 'del'];
         for (var i = 0; i < textOfTweets.length; i++) {
             for (var y = 0; y < wordsToDelete.length; y++) {
                 if (textOfTweets[i] == wordsToDelete[y]) {
