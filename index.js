@@ -1,3 +1,53 @@
+var elasticsearch = require('elasticsearch');
+
+
+
+var client = new elasticsearch.Client({
+    host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+    log: 'trace'
+});
+
+
+
+
+client.count(function(error, response, status) {
+    var count = response.count;
+    console.log(count);
+});
+
+// client.search({
+//     index: 'twitter',
+//     type: 'tweet',
+//     body: {
+//         query: {
+//             match: {
+//                 text: 'cat'
+//             }
+//         }
+//     }
+// }).then(function(resp) {
+//     var hits = resp.hits.hits;
+//     //console.log(hits[0]._source.text);
+// }, function(err) {
+//     console.trace(err.message);
+// });
+
+// client.indices.delete({
+//     index: 'tweets'
+// }, function(body) {
+// });
+
+
+
+
+
+
+
+
+
+
+
+
 /** Where all the requires go **/
 /*******************************/
 /*******************************/
@@ -24,11 +74,6 @@ var Parse = require('parse/node').Parse;
 //     console.log(data);
 //   });
 // });
-
-var AWS = require('aws-sdk');
-var redshift = new AWS.Redshift({apiVersion: '2012-12-01'});
-
-
 
 
 /******Set up the basic app*****/
@@ -82,7 +127,7 @@ var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
 MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected correctly to server");
+    //console.log("Connected correctly to server");
     myDb = db;
 });
 
@@ -495,8 +540,68 @@ function processTweets(data, query) {
     queryvalue.save();
 
 
-
     var size = Object.size(data);
+
+
+    var elasticsearch = require('elasticsearch');
+
+    var client = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    for (var i = 0; i <= size - 1; i++) {
+        client.create({
+            index: 'twitter',
+            type: 'tweet',
+            id: data[i]['id'],
+            body: data[i]
+        });
+    }
+
+    // client.bulk({
+    //     body: [
+    //         // action description
+    //         {
+    //             index: {
+    //                 _index: 'myindex',
+    //                 _type: 'mytype',
+    //                 _id: 1
+    //             }
+    //         },
+    //         // the document to index
+    //         {
+    //             title: 'foo'
+    //         },
+    //         // action description
+    //         {
+    //             update: {
+    //                 _index: 'myindex',
+    //                 _type: 'mytype',
+    //                 _id: 2
+    //             }
+    //         },
+    //         // the document to update
+    //         {
+    //             doc: {
+    //                 title: 'foo'
+    //             }
+    //         },
+    //         // action description
+    //         {
+    //             delete: {
+    //                 _index: 'myindex',
+    //                 _type: 'mytype',
+    //                 _id: 3
+    //             }
+    //         },
+    //         // no document needed for this delete
+    //     ]
+    // }, function(err, resp) {
+    //     // ...
+    // });
+
+
     for (var i = 0; i <= size - 1; i++) {
 
         bulkTweet.insert({

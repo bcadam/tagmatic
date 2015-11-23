@@ -5,7 +5,6 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 
-
 function searchTwitter() {
     //console.log('Hello');
     //http://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial
@@ -62,7 +61,7 @@ function searchTwitter() {
                         //console.log(xmlhttp.responseText);
                     }
                 }
-                xmlhttp.open("GET", url , false);
+                xmlhttp.open("GET", url, false);
                 xmlhttp.send();
 
                 sleep(1000);

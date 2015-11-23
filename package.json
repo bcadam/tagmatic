@@ -14,6 +14,7 @@
     "kerberos": "*",
     "lapack": "0.1.0",
     "mandrill-api" : "1.0.45",
+    "elasticsearch" : "9.0.2",
     "mongodb": "2.0.46",
     "mongodb-then" : "0.1.2",
     "mongolab-provider": "1.1.1",
