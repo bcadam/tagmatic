@@ -341,11 +341,13 @@ apiRouter.get('/data/:value', function(req, res) {
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
         var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
+        var locations = discoverEngine.returnLocations(processedTweets);
 
         res.json({
             length: lengthOfTweetsFound,
             followers: followers,
             words: words,
+            locations: locations,
             sentiment: sentiment
         });
 
