@@ -321,7 +321,7 @@ apiRouter.get('/data/:value', function(req, res) {
     client.search({
         index: 'twitter',
         type: 'tweet',
-        size: 3000,
+        size: 10000,
         body: {
             fields: ['_source'],
             query: {
@@ -347,8 +347,8 @@ apiRouter.get('/data/:value', function(req, res) {
             length: lengthOfTweetsFound,
             followers: followers,
             words: words,
-            locations: locations,
-            sentiment: sentiment
+            locations: locations//,
+            //sentiment: sentiment
         });
 
     });
