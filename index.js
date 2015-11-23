@@ -11,6 +11,7 @@ var express = require('express');
 var apiRouter = express.Router();
 var adminRouter = express.Router();
 var mapRouter = express.Router();
+var Blob = require('blob');
 
 var cors = require('cors'); //Cross Orgigin Request Management
 var bodyParser = require('body-parser');
@@ -256,10 +257,7 @@ io.on('connection', function(socket) {
 
 
     });
-
-
 });
-
 
 
 // var Twitter = require('twitter');
@@ -306,12 +304,10 @@ io.on('connection', function(socket) {
 apiRouter.get('/data/:value', function(req, res) {
 
     var needle = req.params.value;
-
     var client = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
     });
-
 
     var lengthOfTweetsFound;
     var tweets;
@@ -319,7 +315,7 @@ apiRouter.get('/data/:value', function(req, res) {
     client.search({
         index: 'twitter',
         type: 'tweet',
-        size: 10000,
+        size: 3000,
         body: {
             fields: ['_source'],
             query: {
@@ -335,7 +331,6 @@ apiRouter.get('/data/:value', function(req, res) {
         for (var y = 0; y < tweets.length; y++) {
             processedTweets.push(tweets[y]._source);
         };
-
         lengthOfTweetsFound = processedTweets.length;
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
@@ -347,7 +342,6 @@ apiRouter.get('/data/:value', function(req, res) {
             words: words,
             sentiment: sentiment
         });
-
     });
 
 
@@ -430,6 +424,7 @@ apiRouter.post('/queries', function(req, res) {
         });
     });
 });
+
 apiRouter.put('/queries/:id', function(req, res) {
     var id = req.params.id;
     var query = req.body;
