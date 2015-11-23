@@ -309,7 +309,7 @@ apiRouter.get('/data/:value', function(req, res) {
 
     queryvalue.set("searchValue", needle);
     queryvalue.save();
-    
+
     var client = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
@@ -321,7 +321,7 @@ apiRouter.get('/data/:value', function(req, res) {
     client.search({
         index: 'twitter',
         type: 'tweet',
-        size: 3000,
+        size: 10000,
         body: {
             fields: ['_source'],
             query: {
