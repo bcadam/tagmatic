@@ -342,6 +342,7 @@ apiRouter.get('/data/:value', function(req, res) {
             words: words,
             sentiment: sentiment
         });
+        
     });
 
 
