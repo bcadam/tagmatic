@@ -347,8 +347,8 @@ apiRouter.get('/data/:value', function(req, res) {
             length: lengthOfTweetsFound,
             followers: followers,
             words: words,
-            locations: locations//,
-            //sentiment: sentiment
+            locations: locations,
+            sentiment: sentiment
         });
 
     });
