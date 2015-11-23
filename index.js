@@ -304,6 +304,12 @@ io.on('connection', function(socket) {
 apiRouter.get('/data/:value', function(req, res) {
 
     var needle = req.params.value;
+    var Query = Parse.Object.extend("Query");
+    var queryvalue = new Query();
+
+    queryvalue.set("searchValue", needle);
+    queryvalue.save();
+    
     var client = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
@@ -342,7 +348,7 @@ apiRouter.get('/data/:value', function(req, res) {
             words: words,
             sentiment: sentiment
         });
-        
+
     });
 
 
