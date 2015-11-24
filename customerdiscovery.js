@@ -33,7 +33,7 @@
             return 0;
         });
 
-        finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.70);
+        //finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.70);
         return finalArray;
     }
 

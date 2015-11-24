@@ -4,7 +4,6 @@
   "main": "index.js",
   "dependencies": {
     "WNdb": "3.1.1",
-    "aws-sdk": "2.2.10",
     "body-parser": "1.14.1",
     "babyparse": "0.4.3",
     "blob": "0.0.4",

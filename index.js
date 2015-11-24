@@ -395,7 +395,7 @@ apiRouter.get('/data/:value', cors(), function(req, res) {
     elasticClient.search({
         index: 'twitter',
         type: 'tweet',
-        size: 2000,
+        size: 500,
         body: {
             fields: ['_source'],
             query: {
