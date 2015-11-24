@@ -367,7 +367,7 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 });
 
 
-apiRouter.get('/data/:value', function(req, res) {
+apiRouter.get('/data/:value', cors(), function(req, res) {
 
     var needle = req.params.value;
     var Query = Parse.Object.extend("Query");
