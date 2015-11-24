@@ -8,13 +8,24 @@ var mandrill_client = new mandrill.Mandrill('zYrJvetHxH4ZIpyztJM4NQ');
 var elasticsearch = require('elasticsearch');
 var tweets = require('./tweets');
 var natural = require('natural');
+var wordnet = new natural.WordNet();
+
+wordnet.lookup('cat','n', function(results) {
+    results.forEach(function(result) {
+        console.log('------------------------------------');
+        console.log(result.synsetOffset);
+        console.log(result.pos);
+        console.log(result.lemma);
+        console.log(result.synonyms);
+        console.log(result.pos);
+        console.log(result.gloss);
+    });
+});
 
 
-
-
-var finalTweets = tweets.tweets.twitterResponse;
-var words = discoverEngine.returnWords(finalTweets);
+// var finalTweets = tweets.tweets.twitterResponse;
+// var words = discoverEngine.returnWords(finalTweets);
 //words = discoverEngine.combineBasedOnSimilarityOfString(words,.94);
 
-console.log(words.slice(0,10));
+//console.log(words.slice(0,10));
 

@@ -39,7 +39,7 @@ function searchTwitter() {
                 xmlhttp.open("GET", url, false);
                 xmlhttp.send();
 
-                sleep(1000);
+                sleep(4000);
 
             }
 
