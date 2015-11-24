@@ -383,11 +383,11 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
     var language = (req.params.language == null ? null : req.params.language);
 
-    var twitterQueryParameters = {
-        q: needle,
-        count: 100,
-        language: language
-    };
+    // var twitterQueryParameters = {
+    //     q: needle,
+    //     count: 100,
+    //     language: language
+    // };
 
     var lengthOfTweetsFound;
     var tweets;
