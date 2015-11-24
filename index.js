@@ -367,12 +367,12 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 });
 
 
-apiRouter.get('/data/:value', cors(), function(req, res) {
+apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
     var needle = req.params.value;
     var Query = Parse.Object.extend("Query");
     var queryvalue = new Query();
-
+    var count = (req.params.count ? req.params.count : 500)
     queryvalue.set("searchValue", needle);
     queryvalue.save();
 
@@ -395,7 +395,7 @@ apiRouter.get('/data/:value', cors(), function(req, res) {
     elasticClient.search({
         index: 'twitter',
         type: 'tweet',
-        size: 500,
+        size: 2000,
         body: {
             fields: ['_source'],
             query: {
