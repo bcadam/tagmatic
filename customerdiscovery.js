@@ -33,7 +33,7 @@
             return 0;
         });
 
-        //finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.70);
+        finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.93);
         return finalArray;
     }
 
@@ -43,35 +43,11 @@
             for (var j = i + 1; j < words.length; j++) {
                 var distance = natural.JaroWinklerDistance(words[i][0], words[j][0]);
                 if (distance > distanceForSame) {
-                    arrayOfMatches.push([i, j, words[i][0], words[j][0]]);
+                    words[i][1] = words[i][1] + words[j][1];
+                    words.splice(j,0);
                 }
             }
         }
-        for (var i = 0; i < arrayOfMatches.length; i++) {
-            var firstPosition = arrayOfMatches[i][0];
-            var secondPosition = arrayOfMatches[i][1];
-            words[firstPosition][1] = words[firstPosition][1] + words[secondPosition][1];
-        };
-        for (var i = 0; i < arrayOfMatches.length; i++) {
-            var firstPosition = arrayOfMatches[i][0];
-            var secondPosition = arrayOfMatches[i][1];
-            words[firstPosition][1] = words[firstPosition][1] + words[secondPosition][1];
-        };
-        var arrayToRemove = [];
-        for (var i = 0; i < arrayOfMatches.length; i++) {
-            arrayToRemove.push(arrayOfMatches[i][1]);
-        };
-        var arr = arrayToRemove.filter(function(v, i, a) {
-            return a.indexOf(v) == i
-        });
-        arr.sort(function(a, b) {
-            return a - b
-        });
-        for (var i = 0; i < arr.length; i++) {
-            var indexToDelete = arr[i] + i;
-            words.splice(indexToDelete, 1);
-        };
-        //console.log(words.slice(0,10));
         return words;
     }
 

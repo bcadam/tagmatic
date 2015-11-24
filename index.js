@@ -414,6 +414,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         lengthOfTweetsFound = processedTweets.length;
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
+        //words = discoverEngine.combineBasedOnSimilarityOfString(words,.94);
         var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
         var locations = discoverEngine.returnLocations(processedTweets);
 
@@ -430,7 +431,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
 });
 
-apiRouter.get('/geotagged/:value', function(req, res) {
+apiRouter.get('/geotagged/:value?', function(req, res) {
 
     var needle = req.params.value;
     // var Query = Parse.Object.extend("Query");
