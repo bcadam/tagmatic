@@ -430,6 +430,42 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
 });
 
+apiRouter.get('/cout/:value', cors(), function(req, res) {
+
+    var needle = req.params.value;
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    var lengthOfTweetsFound;
+    var tweets;
+
+    elasticClient.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: count,
+        body: {
+            fields: ['_source'],
+            query: {
+                match: {
+                    _all: needle
+                }
+            }
+        }
+    }).then(function(resp) {
+
+        res.json({
+            length: resp.length
+        });
+
+    });
+
+
+});
+
+
 apiRouter.get('/geotagged/:value?', function(req, res) {
 
     var needle = req.params.value;
