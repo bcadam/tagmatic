@@ -313,10 +313,6 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 
     classifierQuery.get(classifierId, {
         success: function(result) {
-
-            // res.json({
-            //             twitterResponse: result.get('classifier')
-            //         });
             var raw = result.get('classifier');
             var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
 
@@ -327,33 +323,20 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 
             twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
                 if (!error) {
-                    //console.log(tweets);
-
-
-                    //console.log(raw);
-
-
-
+                    
                     for (var i = 0; i < tweets.length; i++) {
                         restoredClassifier.addDocument(tweets[i].text, sentiment);
                         restoredClassifier.train();
                         trainingEvents = trainingEvents + 1;
                     };
 
-
-
-
                     var raw = JSON.stringify(restoredClassifier);
                     result.set("classifier", raw);
                     result.save();
 
-
                     res.json({
                         learningEvents: trainingEvents
                     });
-
-
-
 
                 } else {
                     res.json({
@@ -362,16 +345,11 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
                 }
             });
 
-
-
         },
         error: function(error) {
             console.log("Error: " + error.code + " " + error.message);
         }
     });
-
-
-
 
     // twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
     //     if (error) throw error;
@@ -381,16 +359,10 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
     //     });
     // });
 
-
-
-
     // var elasticClient = new elasticsearch.Client({
     //     host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
     //     log: 'trace'
     // });
-
-
-
 
 });
 
@@ -410,20 +382,12 @@ apiRouter.get('/data/:value', function(req, res) {
     });
 
     var language = (req.params.language == null ? null : req.params.language);
-    // // console.log("language is " + language);
-    // // console.log("count is " + count);
+
     var twitterQueryParameters = {
         q: needle,
         count: 100,
         language: language
     };
-
-    // twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
-    //     if (error) throw error;
-    //     tweets = tweets['statuses']
-    //     processTweets(tweets, query);
-    // });
-
 
     var lengthOfTweetsFound;
     var tweets;
@@ -431,7 +395,7 @@ apiRouter.get('/data/:value', function(req, res) {
     elasticClient.search({
         index: 'twitter',
         type: 'tweet',
-        size: 5000,
+        size: 2000,
         body: {
             fields: ['_source'],
             query: {
@@ -471,8 +435,6 @@ apiRouter.get('/geotagged/:value', function(req, res) {
     var needle = req.params.value;
     // var Query = Parse.Object.extend("Query");
     // var queryvalue = new Query();
-
-
 
     var elasticClient = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
