@@ -372,7 +372,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     var needle = req.params.value;
     var Query = Parse.Object.extend("Query");
     var queryvalue = new Query();
-    var count = (req.params.count ? req.params.count : 500)
+    var count = (req.params.count != null ? req.params.count : 500)
     queryvalue.set("searchValue", needle);
     queryvalue.save();
 
@@ -395,7 +395,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     elasticClient.search({
         index: 'twitter',
         type: 'tweet',
-        size: 2000,
+        size: count,
         body: {
             fields: ['_source'],
             query: {
@@ -414,7 +414,6 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         lengthOfTweetsFound = processedTweets.length;
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
-        //words = discoverEngine.combineBasedOnSimilarityOfString(words,.94);
         var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
         var locations = discoverEngine.returnLocations(processedTweets);
 
