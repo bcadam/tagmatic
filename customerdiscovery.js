@@ -32,7 +32,47 @@
             if (a[1] > b[1]) return -1;
             return 0;
         });
+
+        finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.70);
         return finalArray;
+    }
+
+    exports.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
+        var arrayOfMatches = [];
+        for (var i = 0; i < words.length; i++) {
+            for (var j = i + 1; j < words.length; j++) {
+                var distance = natural.JaroWinklerDistance(words[i][0], words[j][0]);
+                if (distance > distanceForSame) {
+                    arrayOfMatches.push([i, j, words[i][0], words[j][0]]);
+                }
+            }
+        }
+        for (var i = 0; i < arrayOfMatches.length; i++) {
+            var firstPosition = arrayOfMatches[i][0];
+            var secondPosition = arrayOfMatches[i][1];
+            words[firstPosition][1] = words[firstPosition][1] + words[secondPosition][1];
+        };
+        for (var i = 0; i < arrayOfMatches.length; i++) {
+            var firstPosition = arrayOfMatches[i][0];
+            var secondPosition = arrayOfMatches[i][1];
+            words[firstPosition][1] = words[firstPosition][1] + words[secondPosition][1];
+        };
+        var arrayToRemove = [];
+        for (var i = 0; i < arrayOfMatches.length; i++) {
+            arrayToRemove.push(arrayOfMatches[i][1]);
+        };
+        var arr = arrayToRemove.filter(function(v, i, a) {
+            return a.indexOf(v) == i
+        });
+        arr.sort(function(a, b) {
+            return a - b
+        });
+        for (var i = 0; i < arr.length; i++) {
+            var indexToDelete = arr[i] + i;
+            words.splice(indexToDelete, 1);
+        };
+        //console.log(words.slice(0,10));
+        return words;
     }
 
     exports.returnLocations = function(tweets) {
@@ -68,7 +108,7 @@
         };
 
 
-        var wordsToDelete = ['into','as','of','the','&amp;','if', 'was', 'she', 'a', 'it', 'how', 'rt', 'a', 'de', 'la', 'i', 'in', 'my', 'to', 'the', 'no', 'at', 'el', 'en', 'que', 'you', '+', 'per', 'for', 'on', '-', 'their', 'and', 'we', 'with', 'is', 'del'];
+        var wordsToDelete = ['into', 'ha', 'as', 'of', 'the', '&amp;', 'if', 'was', 'she', 'a', 'it', 'how', 'rt', 'a', 'de', 'la', 'i', 'in', 'my', 'to', 'the', 'no', 'at', 'el', 'en', 'que', 'you', '+', 'per', 'for', 'on', '-', 'their', 'and', 'we', 'with', 'is', 'del'];
         for (var i = 0; i < textOfTweets.length; i++) {
             for (var y = 0; y < wordsToDelete.length; y++) {
                 if (textOfTweets[i] == wordsToDelete[y]) {
@@ -224,4 +264,3 @@
 
 
 })();
-
