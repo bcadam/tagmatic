@@ -129,11 +129,7 @@ app.get('/data', function(req, res) {
 /*******************************/
 /*******************************/
 
-
-
 mapRouter.use('/', express.static('public/map.html'));
-
-
 
 /******   Socket Connection  *****/
 /*******************************/
@@ -289,8 +285,6 @@ io.on('connection', function(socket) {
 //     });
 // });
 
-
-
 /******   API ROUTER HERE  *****/
 /*******************************/
 /*******************************/
@@ -323,7 +317,7 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 
             twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
                 if (!error) {
-                    
+
                     for (var i = 0; i < tweets.length; i++) {
                         restoredClassifier.addDocument(tweets[i].text, sentiment);
                         restoredClassifier.train();
@@ -370,24 +364,28 @@ apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, re
 apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
     var needle = req.params.value;
-    var Query = Parse.Object.extend("Query");
-    var queryvalue = new Query();
     var count = (req.params.count != null ? req.params.count : 500)
-    queryvalue.set("searchValue", needle);
-    queryvalue.save();
+
+    // console.log('count');
+    // res.json({
+    //         count: count
+    //     });
+
+    // var Query = Parse.Object.extend("Query");
+    // var queryvalue = new Query();
+    // queryvalue.set("searchValue", needle);
+    // queryvalue.save();
 
     var elasticClient = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
     });
 
-    var language = (req.params.language == null ? null : req.params.language);
-
-    // var twitterQueryParameters = {
-    //     q: needle,
-    //     count: 100,
-    //     language: language
-    // };
+    // // var twitterQueryParameters = {
+    // //     q: needle,
+    // //     count: 100,
+    // //     language: language
+    // // };
 
     var lengthOfTweetsFound;
     var tweets;
@@ -414,6 +412,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         lengthOfTweetsFound = processedTweets.length;
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
+        words = exports.combineBasedOnSimilarityOfString(words,.93);
         var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
         var locations = discoverEngine.returnLocations(processedTweets);
 
