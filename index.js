@@ -412,7 +412,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         lengthOfTweetsFound = processedTweets.length;
         var followers = discoverEngine.returnFollowers(processedTweets, res);
         var words = discoverEngine.returnWords(processedTweets);
-        words = exports.combineBasedOnSimilarityOfString(words,.93);
+        words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
         var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
         var locations = discoverEngine.returnLocations(processedTweets);
 
