@@ -1,4 +1,4 @@
-function() {
+(function() {
     
 export.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
     var arrayOfMatches = [];
@@ -99,4 +99,4 @@ export.JaroWinklerDistance = function(s1, s2, dj) {
     }
 }
 
-}();
+})();
