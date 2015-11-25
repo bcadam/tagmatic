@@ -112,7 +112,6 @@ function distance(s1, s2) {
     return (m / s1.length + m / s2.length + (m - t) / m) / 3;
 }
 
-// Computes the Winkler distance between two string -- intrepreted from:
 // http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
 // s1 is the first string to compare
 // s2 is the second string to compare
@@ -133,12 +132,9 @@ function JaroWinklerDistance(s1, s2, dj) {
         }
 }
 
-
-
-
 var searchValue = "London";
 var host = "http://onemonarch.herokuapp.com";
-var url = host + "/api/data/" + searchValue + "/1000";
+var url = host + "/api/data/" + searchValue + "/100";
 var xmlhttp;
 var response;
 xmlhttp = new XMLHttpRequest();

@@ -397,12 +397,6 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
             body: {
                 fields: ['_source'],
                 query: {
-                    range: {
-                        date: {
-                            gte: "2014-01-01",
-                            lt: "2014-02-01"
-                        }
-                    }
                     match: {
                         _all: needle
                     }
