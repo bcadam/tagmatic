@@ -1,11 +1,11 @@
 ! function() {
     
-function combineBasedOnSimilarityOfString(words, distanceForSame) {
+export.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
     var arrayOfMatches = [];
     for (var i = 0; i < words.length; i++) {
         for (var j = i + 1; j < words.length; j++) {
             //var distance = JaroWinklerDistance()
-            var distance = JaroWinklerDistance(words[i][0], words[j][0]);
+            var distance = export.JaroWinklerDistance(words[i][0], words[j][0]);
             if (distance > distanceForSame) {
                 words[i][1] = words[i][1] + words[j][1];
                 words.splice(j, 0);
@@ -15,7 +15,7 @@ function combineBasedOnSimilarityOfString(words, distanceForSame) {
     return words;
 }
 
-function distance(s1, s2) {
+export.distance = function(s1, s2) {
     if (typeof(s1) != "string" || typeof(s2) != "string") return 0;
     if (s1.length == 0 || s2.length == 0)
         return 0;
@@ -84,12 +84,12 @@ function distance(s1, s2) {
 // s1 is the first string to compare
 // s2 is the second string to compare
 // dj is the Jaro Distance (if you've already computed it), leave blank and the method handles it
-function JaroWinklerDistance(s1, s2, dj) {
+export.JaroWinklerDistance = function(s1, s2, dj) {
     if (s1 == s2) {
         return 1
     } else {
         var jaro;
-        (typeof(dj) == 'undefined') ? jaro = distance(s1, s2): jaro = dj;
+        (typeof(dj) == 'undefined') ? jaro = export.distance(s1, s2): jaro = dj;
         var p = 0.1; //
         var l = 0 // length of the matching prefix
         while (s1[l] == s2[l] && l < 4)
