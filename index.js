@@ -408,12 +408,18 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
         access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
     });
 
+    var d = new Date(); // today!
+    var x = 5; // go back 5 days!
+    d.setDate(d.getDate() - x);
+
+    d = "%20until%3A" + d.toISOString().split('T')[0];
+    console.log('airbnb%20until%3A2015-11-19');
+    console.log(query + d);
 
     var twitterQueryParameters = {
-        q: query,
+        q: query + d,
         count: count,
-        lang: 'en',
-        max_id : "1004444444444444000"
+        lang: 'en'
     };
 
     twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
