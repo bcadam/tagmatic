@@ -1,6 +1,6 @@
-(function() {
+(function(window){
     
-export.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
+function combineBasedOnSimilarityOfString(words, distanceForSame) {
     var arrayOfMatches = [];
     for (var i = 0; i < words.length; i++) {
         for (var j = i + 1; j < words.length; j++) {
@@ -15,7 +15,7 @@ export.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
     return words;
 }
 
-export.distance = function(s1, s2) {
+function distance(s1, s2) {
     if (typeof(s1) != "string" || typeof(s2) != "string") return 0;
     if (s1.length == 0 || s2.length == 0)
         return 0;
@@ -84,7 +84,7 @@ export.distance = function(s1, s2) {
 // s1 is the first string to compare
 // s2 is the second string to compare
 // dj is the Jaro Distance (if you've already computed it), leave blank and the method handles it
-export.JaroWinklerDistance = function(s1, s2, dj) {
+function JaroWinklerDistance(s1, s2, dj) {
     if (s1 == s2) {
         return 1
     } else {
@@ -99,4 +99,4 @@ export.JaroWinklerDistance = function(s1, s2, dj) {
     }
 }
 
-})();
+})(window);
