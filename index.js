@@ -391,51 +391,41 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     var tweets;
 
     elasticClient.search({
-            index: 'twitter',
-            type: 'tweet',
-            size: count,
-            body: {
-                fields: ['_source'],
-                {
-                    query: {
-                        query_string: {
-                            _all: needle
-                        }
-                    },
-                    sort: {
-                        _script: {
-                            script: "Math.random()",
-                            type: "number",
-                            params: {},
-                            order: "asc"
-                        }
-                    }
+        index: 'twitter',
+        type: 'tweet',
+        size: count,
+        body: {
+            fields: ['_source'],
+            query: {
+                match: {
+                    _all: needle
                 }
             }
-        })
-        .then(function(resp) {
+        }
+    })
+    .then(function(resp) {
 
-            tweets = resp.hits.hits;
-            var processedTweets = [];
-            for (var y = 0; y < tweets.length; y++) {
-                processedTweets.push(tweets[y]._source);
-            };
-            lengthOfTweetsFound = processedTweets.length;
-            var followers = discoverEngine.returnFollowers(processedTweets, res);
-            var words = discoverEngine.returnWords(processedTweets);
-            //words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
-            var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
-            var locations = discoverEngine.returnLocations(processedTweets);
+        tweets = resp.hits.hits;
+        var processedTweets = [];
+        for (var y = 0; y < tweets.length; y++) {
+            processedTweets.push(tweets[y]._source);
+        };
+        lengthOfTweetsFound = processedTweets.length;
+        var followers = discoverEngine.returnFollowers(processedTweets, res);
+        var words = discoverEngine.returnWords(processedTweets);
+        //words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
+        var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
+        var locations = discoverEngine.returnLocations(processedTweets);
 
-            res.json({
-                length: lengthOfTweetsFound,
-                followers: followers,
-                words: words,
-                locations: locations,
-                sentiment: sentiment
-            });
-
+        res.json({
+            length: lengthOfTweetsFound,
+            followers: followers,
+            words: words,
+            locations: locations,
+            sentiment: sentiment
         });
+
+    });
 
 
 });
