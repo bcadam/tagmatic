@@ -5,7 +5,7 @@ function combineBasedOnSimilarityOfString(words, distanceForSame) {
     for (var i = 0; i < words.length; i++) {
         for (var j = i + 1; j < words.length; j++) {
             //var distance = JaroWinklerDistance()
-            var distance = export.JaroWinklerDistance(words[i][0], words[j][0]);
+            var distance = JaroWinklerDistance(words[i][0], words[j][0]);
             if (distance > distanceForSame) {
                 words[i][1] = words[i][1] + words[j][1];
                 words.splice(j, 0);
@@ -89,7 +89,7 @@ function JaroWinklerDistance(s1, s2, dj) {
         return 1
     } else {
         var jaro;
-        (typeof(dj) == 'undefined') ? jaro = export.distance(s1, s2): jaro = dj;
+        (typeof(dj) == 'undefined') ? jaro = distance(s1, s2): jaro = dj;
         var p = 0.1; //
         var l = 0 // length of the matching prefix
         while (s1[l] == s2[l] && l < 4)
