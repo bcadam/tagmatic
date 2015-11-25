@@ -1,8 +1,960 @@
 (function() {
 
 
-var tweets = {
+    var tweets = {
         "twitterResponse": [{
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 14:55:15 +0000 2015",
+            "id": 666630686636441600,
+            "id_str": "666630686636441600",
+            "text": "CARMIGNAC PHOTOJOURNALISM AWARD: A RETROSPECTIVE @Saatchi https://t.co/80SQJDTehO",
+            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 20242151,
+                "id_str": "20242151",
+                "name": "Kehrer Verlag",
+                "screen_name": "Kehrer_Verlag",
+                "location": "Heidelberg",
+                "description": "We design and publish art & photography books in Heidelberg, Germany. On twitter we inform you about the most recent book reviews and upcoming events.",
+                "url": "http://t.co/EPKqoS35Kz",
+                "entities": {
+                    "url": {
+                        "urls": [{
+                            "url": "http://t.co/EPKqoS35Kz",
+                            "expanded_url": "http://www.kehrerverlag.com",
+                            "display_url": "kehrerverlag.com",
+                            "indices": [0, 22]
+                        }]
+                    },
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 4109,
+                "friends_count": 1469,
+                "listed_count": 255,
+                "created_at": "Fri Feb 06 15:00:23 +0000 2009",
+                "favourites_count": 312,
+                "utc_offset": 3600,
+                "time_zone": "Berlin",
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 1888,
+                "lang": "de",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "DBE9ED",
+                "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/796434508/c506a2e1094fac3fe984ec4d2b0dda91.jpeg",
+                "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/796434508/c506a2e1094fac3fe984ec4d2b0dda91.jpeg",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1813055621/Kehrer_Logo_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1813055621/Kehrer_Logo_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/20242151/1402566500",
+                "profile_link_color": "4D5463",
+                "profile_sidebar_border_color": "FFFFFF",
+                "profile_sidebar_fill_color": "E6F6F9",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 0,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "user_mentions": [{
+                    "screen_name": "saatchi",
+                    "name": "@Saatchi",
+                    "id": 4817091,
+                    "id_str": "4817091",
+                    "indices": [49, 57]
+                }],
+                "urls": [{
+                    "url": "https://t.co/80SQJDTehO",
+                    "expanded_url": "http://goo.gl/KMtsRw",
+                    "display_url": "goo.gl/KMtsRw",
+                    "indices": [58, 81]
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }, {
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 16:01:47 +0000 2015",
+            "id": 666647429509464000,
+            "id_str": "666647429509464064",
+            "text": "Ping An-backed Lufax seeking fresh capital https://t.co/Z2F7YAlbaz #PrivateEquity",
+            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 1637794394,
+                "id_str": "1637794394",
+                "name": "Nicolas Marx",
+                "screen_name": "marxnd",
+                "location": "Frankfurt|Hong Kong|Singapore",
+                "description": "Corporate Finance | Private Equity | Hotel Properties | Principal & Chief Investment Officer | NMCO & MM STRAITS CAPITAL",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 935,
+                "friends_count": 809,
+                "listed_count": 112,
+                "created_at": "Thu Aug 01 11:40:14 +0000 2013",
+                "favourites_count": 2560,
+                "utc_offset": 32400,
+                "time_zone": "Tokyo",
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 16973,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "709397",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme6/bg.gif",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme6/bg.gif",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/554556669279997953/Yl9RDlK3_normal.jpeg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/554556669279997953/Yl9RDlK3_normal.jpeg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1637794394/1413716375",
+                "profile_link_color": "4A913C",
+                "profile_sidebar_border_color": "86A4A6",
+                "profile_sidebar_fill_color": "A0C5C7",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "has_extended_profile": true,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 1,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [{
+                    "text": "PrivateEquity",
+                    "indices": [67, 81]
+                }],
+                "symbols": [],
+                "user_mentions": [],
+                "urls": [{
+                    "url": "https://t.co/Z2F7YAlbaz",
+                    "expanded_url": "http://www.financeasia.com/News/403930,ping-an-backed-lufax-seeking-fresh-capital.aspx#.VktPVgQehn0.twitter",
+                    "display_url": "financeasia.com/News/403930,pi…",
+                    "indices": [43, 66]
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }, {
+            "metadata": {
+                "result_type": "recent",
+                "iso_language_code": "ko"
+            },
+            "created_at": "Wed Nov 18 01:06:23 +0000 2015",
+            "id": 666784483660533800,
+            "id_str": "666784483660533760",
+            "text": "[핀테크 유니콘들]\n\n대부업체인 Lufax의 기업가치가 100억불이군요. 암튼 대부와 결제 두가지로 나뉘어 시장을 평정해 가는 듯 한데 국내 시장은 어떤가요? +_+ https://t.co/1mmLkpm7MV",
+            "source": "<a href=\"http://www.facebook.com/twitter\" rel=\"nofollow\">Facebook</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 38125688,
+                "id_str": "38125688",
+                "name": "나이 먹으면 뭔가 자꾸 흘려..,",
+                "screen_name": "agonyman",
+                "location": "어딘가...",
+                "description": "아저씨...",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 2184,
+                "friends_count": 1988,
+                "listed_count": 63,
+                "created_at": "Wed May 06 06:02:54 +0000 2009",
+                "favourites_count": 235,
+                "utc_offset": 32400,
+                "time_zone": "Seoul",
+                "geo_enabled": true,
+                "verified": false,
+                "statuses_count": 10795,
+                "lang": "ko",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "BADFCD",
+                "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/730570732/ad96f2b97444de824a6cccf07066fb6c.jpeg",
+                "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/730570732/ad96f2b97444de824a6cccf07066fb6c.jpeg",
+                "profile_background_tile": true,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/603400572402671617/psTst65z_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/603400572402671617/psTst65z_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/38125688/1440946241",
+                "profile_link_color": "FF0000",
+                "profile_sidebar_border_color": "FFFFFF",
+                "profile_sidebar_fill_color": "FFF7CC",
+                "profile_text_color": "0C3E53",
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 0,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "user_mentions": [],
+                "urls": [{
+                    "url": "https://t.co/1mmLkpm7MV",
+                    "expanded_url": "http://fb.me/6PwDd2yLp",
+                    "display_url": "fb.me/6PwDd2yLp",
+                    "indices": [93, 116]
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "ko"
+        }, {
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 16:17:06 +0000 2015",
+            "id": 666651283709943800,
+            "id_str": "666651283709943809",
+            "text": "RT @marxnd: Ping An-backed Lufax seeking fresh capital https://t.co/Z2F7YAlbaz #PrivateEquity",
+            "source": "<a href=\"https://roundteam.co\" rel=\"nofollow\">RoundTeam</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 480811134,
+                "id_str": "480811134",
+                "name": "fundlessPE",
+                "screen_name": "fundlessPE",
+                "location": "Dallas, Texas",
+                "description": "COMING SOON. A blog and online community for independent sponsors (a/k/a fundless sponsors) of private equity transactions. #privateequity #buyouts",
+                "url": "http://t.co/BHgyQhWWfl",
+                "entities": {
+                    "url": {
+                        "urls": [{
+                            "url": "http://t.co/BHgyQhWWfl",
+                            "expanded_url": "http://www.fundlessPE.com",
+                            "display_url": "fundlessPE.com",
+                            "indices": [0, 22]
+                        }]
+                    },
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 787,
+                "friends_count": 923,
+                "listed_count": 174,
+                "created_at": "Wed Feb 01 23:02:02 +0000 2012",
+                "favourites_count": 14,
+                "utc_offset": -21600,
+                "time_zone": "Central Time (US & Canada)",
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 23245,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "D8E1E6",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1797799342/barchart_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1797799342/barchart_normal.jpg",
+                "profile_link_color": "0084B4",
+                "profile_sidebar_border_color": "FFFFFF",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": false,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "retweeted_status": {
+                "metadata": {
+                    "iso_language_code": "en",
+                    "result_type": "recent"
+                },
+                "created_at": "Tue Nov 17 16:01:47 +0000 2015",
+                "id": 666647429509464000,
+                "id_str": "666647429509464064",
+                "text": "Ping An-backed Lufax seeking fresh capital https://t.co/Z2F7YAlbaz #PrivateEquity",
+                "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                "truncated": false,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "user": {
+                    "id": 1637794394,
+                    "id_str": "1637794394",
+                    "name": "Nicolas Marx",
+                    "screen_name": "marxnd",
+                    "location": "Frankfurt|Hong Kong|Singapore",
+                    "description": "Corporate Finance | Private Equity | Hotel Properties | Principal & Chief Investment Officer | NMCO & MM STRAITS CAPITAL",
+                    "url": null,
+                    "entities": {
+                        "description": {
+                            "urls": []
+                        }
+                    },
+                    "protected": false,
+                    "followers_count": 935,
+                    "friends_count": 809,
+                    "listed_count": 112,
+                    "created_at": "Thu Aug 01 11:40:14 +0000 2013",
+                    "favourites_count": 2560,
+                    "utc_offset": 32400,
+                    "time_zone": "Tokyo",
+                    "geo_enabled": false,
+                    "verified": false,
+                    "statuses_count": 16973,
+                    "lang": "en",
+                    "contributors_enabled": false,
+                    "is_translator": false,
+                    "is_translation_enabled": false,
+                    "profile_background_color": "709397",
+                    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme6/bg.gif",
+                    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme6/bg.gif",
+                    "profile_background_tile": false,
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/554556669279997953/Yl9RDlK3_normal.jpeg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/554556669279997953/Yl9RDlK3_normal.jpeg",
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1637794394/1413716375",
+                    "profile_link_color": "4A913C",
+                    "profile_sidebar_border_color": "86A4A6",
+                    "profile_sidebar_fill_color": "A0C5C7",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "has_extended_profile": true,
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "following": false,
+                    "follow_request_sent": false,
+                    "notifications": false
+                },
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 1,
+                "favorite_count": 0,
+                "entities": {
+                    "hashtags": [{
+                        "text": "PrivateEquity",
+                        "indices": [67, 81]
+                    }],
+                    "symbols": [],
+                    "user_mentions": [],
+                    "urls": [{
+                        "url": "https://t.co/Z2F7YAlbaz",
+                        "expanded_url": "http://www.financeasia.com/News/403930,ping-an-backed-lufax-seeking-fresh-capital.aspx#.VktPVgQehn0.twitter",
+                        "display_url": "financeasia.com/News/403930,pi…",
+                        "indices": [43, 66]
+                    }]
+                },
+                "favorited": false,
+                "retweeted": false,
+                "possibly_sensitive": false,
+                "lang": "en"
+            },
+            "is_quote_status": false,
+            "retweet_count": 1,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [{
+                    "text": "PrivateEquity",
+                    "indices": [79, 93]
+                }],
+                "symbols": [],
+                "user_mentions": [{
+                    "screen_name": "marxnd",
+                    "name": "Nicolas Marx",
+                    "id": 1637794394,
+                    "id_str": "1637794394",
+                    "indices": [3, 10]
+                }],
+                "urls": [{
+                    "url": "https://t.co/Z2F7YAlbaz",
+                    "expanded_url": "http://www.financeasia.com/News/403930,ping-an-backed-lufax-seeking-fresh-capital.aspx#.VktPVgQehn0.twitter",
+                    "display_url": "financeasia.com/News/403930,pi…",
+                    "indices": [55, 78]
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }, {
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 20:57:02 +0000 2015",
+            "id": 666721731281707000,
+            "id_str": "666721731281707009",
+            "text": "Bill Fay @Toyota says we need to listen to our customers and respond accordingly @Saatchi @JDPower #AutoConfLA",
+            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 9342132,
+                "id_str": "9342132",
+                "name": "clintgraham",
+                "screen_name": "clintgraham",
+                "location": "Belmont Shore, CA",
+                "description": "Experience ad tech executive with 11+ years experience in multi-screen video and technology connecting marketers with the right audience.",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 297,
+                "friends_count": 330,
+                "listed_count": 25,
+                "created_at": "Wed Oct 10 02:54:00 +0000 2007",
+                "favourites_count": 18,
+                "utc_offset": -28800,
+                "time_zone": "Pacific Time (US & Canada)",
+                "geo_enabled": true,
+                "verified": false,
+                "statuses_count": 1110,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "9AE4E8",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/664474644901064704/qUDI9gbY_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/664474644901064704/qUDI9gbY_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/9342132/1414698460",
+                "profile_link_color": "0084B4",
+                "profile_sidebar_border_color": "BDDCAD",
+                "profile_sidebar_fill_color": "2A3BDF",
+                "profile_text_color": "C87A65",
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 0,
+            "favorite_count": 1,
+            "entities": {
+                "hashtags": [{
+                    "text": "AutoConfLA",
+                    "indices": [99, 110]
+                }],
+                "symbols": [],
+                "user_mentions": [{
+                    "screen_name": "Toyota",
+                    "name": "Toyota USA",
+                    "id": 14219877,
+                    "id_str": "14219877",
+                    "indices": [9, 16]
+                }, {
+                    "screen_name": "saatchi",
+                    "name": "@Saatchi",
+                    "id": 4817091,
+                    "id_str": "4817091",
+                    "indices": [81, 89]
+                }, {
+                    "screen_name": "JDPower",
+                    "name": "J.D. Power",
+                    "id": 46775492,
+                    "id_str": "46775492",
+                    "indices": [90, 98]
+                }],
+                "urls": []
+            },
+            "favorited": false,
+            "retweeted": false,
+            "lang": "en"
+        }, {
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 14:47:16 +0000 2015",
+            "id": 666628676415529000,
+            "id_str": "666628676415528960",
+            "text": "Ping An-backed Lufax seeking fresh capital - Equity - Deals - News - https://t.co/4efqYccwKg",
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 1270123698,
+                "id_str": "1270123698",
+                "name": "p2pmoneyshop.com",
+                "screen_name": "johnmcphee6",
+                "location": "Glasgow, Scotland",
+                "description": "Helping you save time and money in the  Peer-to-Peer (P2P) economy.The P2P marketplace in one place helping everyone get a better deal.",
+                "url": "https://t.co/vG92jTh7s1",
+                "entities": {
+                    "url": {
+                        "urls": [{
+                            "url": "https://t.co/vG92jTh7s1",
+                            "expanded_url": "http://www.p2pmoneyshop.com",
+                            "display_url": "p2pmoneyshop.com",
+                            "indices": [0, 23]
+                        }]
+                    },
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 1633,
+                "friends_count": 1738,
+                "listed_count": 192,
+                "created_at": "Fri Mar 15 16:35:57 +0000 2013",
+                "favourites_count": 2281,
+                "utc_offset": -28800,
+                "time_zone": "Pacific Time (US & Canada)",
+                "geo_enabled": true,
+                "verified": false,
+                "statuses_count": 7062,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "000000",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/624668370596691968/2hoTX9gv_normal.png",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/624668370596691968/2hoTX9gv_normal.png",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1270123698/1438178900",
+                "profile_link_color": "3B94D9",
+                "profile_sidebar_border_color": "000000",
+                "profile_sidebar_fill_color": "000000",
+                "profile_text_color": "000000",
+                "profile_use_background_image": false,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 0,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "user_mentions": [],
+                "urls": [{
+                    "url": "https://t.co/4efqYccwKg",
+                    "expanded_url": "http://www.financeasia.com/News/403930,ping-an-backed-lufax-seeking-fresh-capital.aspx#.Vks976_JOFs.twitter",
+                    "display_url": "financeasia.com/News/403930,pi…",
+                    "indices": [69, 92]
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }, {
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "created_at": "Tue Nov 17 02:54:44 +0000 2015",
+            "id": 666449363531530200,
+            "id_str": "666449363531530240",
+            "text": "RT @stephencimini: ✦ RAW BEAUTY ✦ Original ART @saatchi art https://t.co/NusfbYCCOd  #abstractart #art #oilpainting #geometric #albers http…",
+            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+            "truncated": false,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 45168108,
+                "id_str": "45168108",
+                "name": "LeRoy Banks (photo)",
+                "screen_name": "Oddservation",
+                "location": "Online",
+                "description": "Artist and Photographer",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 5485,
+                "friends_count": 5740,
+                "listed_count": 208,
+                "created_at": "Sat Jun 06 17:04:50 +0000 2009",
+                "favourites_count": 9319,
+                "utc_offset": -25200,
+                "time_zone": "Mountain Time (US & Canada)",
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 8751,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "131516",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme14/bg.gif",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme14/bg.gif",
+                "profile_background_tile": true,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/628875166366330880/vAi6Ubsb_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/628875166366330880/vAi6Ubsb_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/45168108/1438770498",
+                "profile_link_color": "4A913C",
+                "profile_sidebar_border_color": "000000",
+                "profile_sidebar_fill_color": "000000",
+                "profile_text_color": "000000",
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "retweeted_status": {
+                "metadata": {
+                    "iso_language_code": "en",
+                    "result_type": "recent"
+                },
+                "created_at": "Tue Nov 17 02:51:03 +0000 2015",
+                "id": 666448435470561300,
+                "id_str": "666448435470561280",
+                "text": "✦ RAW BEAUTY ✦ Original ART @saatchi art https://t.co/NusfbYCCOd  #abstractart #art #oilpainting #geometric #albers https://t.co/B2ZPqPymY0",
+                "source": "<a href=\"https://www.tweetsuite.com/\" rel=\"nofollow\">Tweet Suite</a>",
+                "truncated": false,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "user": {
+                    "id": 312890952,
+                    "id_str": "312890952",
+                    "name": "stephen cimini",
+                    "screen_name": "stephencimini",
+                    "location": "NYC",
+                    "description": "Abstract Beauty Paintings: creating random symmetry out of quantum chaos",
+                    "url": "https://t.co/ovtChuA77H",
+                    "entities": {
+                        "url": {
+                            "urls": [{
+                                "url": "https://t.co/ovtChuA77H",
+                                "expanded_url": "http://www.stephencimini.com",
+                                "display_url": "stephencimini.com",
+                                "indices": [0, 23]
+                            }]
+                        },
+                        "description": {
+                            "urls": []
+                        }
+                    },
+                    "protected": false,
+                    "followers_count": 5107,
+                    "friends_count": 3680,
+                    "listed_count": 219,
+                    "created_at": "Tue Jun 07 20:41:33 +0000 2011",
+                    "favourites_count": 4718,
+                    "utc_offset": -14400,
+                    "time_zone": "Atlantic Time (Canada)",
+                    "geo_enabled": true,
+                    "verified": false,
+                    "statuses_count": 32724,
+                    "lang": "en",
+                    "contributors_enabled": false,
+                    "is_translator": false,
+                    "is_translation_enabled": false,
+                    "profile_background_color": "131516",
+                    "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/579807410203688961/bI6j0ECT.jpg",
+                    "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/579807410203688961/bI6j0ECT.jpg",
+                    "profile_background_tile": true,
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/651868363145236480/Fdlc6ZLh_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/651868363145236480/Fdlc6ZLh_normal.jpg",
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/312890952/1427071696",
+                    "profile_link_color": "0F0214",
+                    "profile_sidebar_border_color": "FFFFFF",
+                    "profile_sidebar_fill_color": "EFEFEF",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "has_extended_profile": false,
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "following": false,
+                    "follow_request_sent": false,
+                    "notifications": false
+                },
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 1,
+                "favorite_count": 2,
+                "entities": {
+                    "hashtags": [{
+                        "text": "abstractart",
+                        "indices": [66, 78]
+                    }, {
+                        "text": "art",
+                        "indices": [79, 83]
+                    }, {
+                        "text": "oilpainting",
+                        "indices": [84, 96]
+                    }, {
+                        "text": "geometric",
+                        "indices": [97, 107]
+                    }, {
+                        "text": "albers",
+                        "indices": [108, 115]
+                    }],
+                    "symbols": [],
+                    "user_mentions": [{
+                        "screen_name": "saatchi",
+                        "name": "@Saatchi",
+                        "id": 4817091,
+                        "id_str": "4817091",
+                        "indices": [28, 36]
+                    }],
+                    "urls": [{
+                        "url": "https://t.co/NusfbYCCOd",
+                        "expanded_url": "http://bit.ly/1Lod1Mu",
+                        "display_url": "bit.ly/1Lod1Mu",
+                        "indices": [41, 64]
+                    }],
+                    "media": [{
+                        "id": 666448433520246800,
+                        "id_str": "666448433520246786",
+                        "indices": [116, 139],
+                        "media_url": "http://pbs.twimg.com/media/CT-zUb0XAAI7BYf.jpg",
+                        "media_url_https": "https://pbs.twimg.com/media/CT-zUb0XAAI7BYf.jpg",
+                        "url": "https://t.co/B2ZPqPymY0",
+                        "display_url": "pic.twitter.com/B2ZPqPymY0",
+                        "expanded_url": "http://twitter.com/stephencimini/status/666448435470561280/photo/1",
+                        "type": "photo",
+                        "sizes": {
+                            "thumb": {
+                                "w": 150,
+                                "h": 150,
+                                "resize": "crop"
+                            },
+                            "large": {
+                                "w": 600,
+                                "h": 716,
+                                "resize": "fit"
+                            },
+                            "small": {
+                                "w": 340,
+                                "h": 405,
+                                "resize": "fit"
+                            },
+                            "medium": {
+                                "w": 600,
+                                "h": 716,
+                                "resize": "fit"
+                            }
+                        }
+                    }]
+                },
+                "favorited": false,
+                "retweeted": false,
+                "possibly_sensitive": false,
+                "lang": "en"
+            },
+            "is_quote_status": false,
+            "retweet_count": 1,
+            "favorite_count": 0,
+            "entities": {
+                "hashtags": [{
+                    "text": "abstractart",
+                    "indices": [85, 97]
+                }, {
+                    "text": "art",
+                    "indices": [98, 102]
+                }, {
+                    "text": "oilpainting",
+                    "indices": [103, 115]
+                }, {
+                    "text": "geometric",
+                    "indices": [116, 126]
+                }, {
+                    "text": "albers",
+                    "indices": [127, 134]
+                }],
+                "symbols": [],
+                "user_mentions": [{
+                    "screen_name": "stephencimini",
+                    "name": "stephen cimini",
+                    "id": 312890952,
+                    "id_str": "312890952",
+                    "indices": [3, 17]
+                }, {
+                    "screen_name": "saatchi",
+                    "name": "@Saatchi",
+                    "id": 4817091,
+                    "id_str": "4817091",
+                    "indices": [47, 55]
+                }],
+                "urls": [{
+                    "url": "https://t.co/NusfbYCCOd",
+                    "expanded_url": "http://bit.ly/1Lod1Mu",
+                    "display_url": "bit.ly/1Lod1Mu",
+                    "indices": [60, 83]
+                }],
+                "media": [{
+                    "id": 666448433520246800,
+                    "id_str": "666448433520246786",
+                    "indices": [139, 140],
+                    "media_url": "http://pbs.twimg.com/media/CT-zUb0XAAI7BYf.jpg",
+                    "media_url_https": "https://pbs.twimg.com/media/CT-zUb0XAAI7BYf.jpg",
+                    "url": "https://t.co/B2ZPqPymY0",
+                    "display_url": "pic.twitter.com/B2ZPqPymY0",
+                    "expanded_url": "http://twitter.com/stephencimini/status/666448435470561280/photo/1",
+                    "type": "photo",
+                    "sizes": {
+                        "thumb": {
+                            "w": 150,
+                            "h": 150,
+                            "resize": "crop"
+                        },
+                        "large": {
+                            "w": 600,
+                            "h": 716,
+                            "resize": "fit"
+                        },
+                        "small": {
+                            "w": 340,
+                            "h": 405,
+                            "resize": "fit"
+                        },
+                        "medium": {
+                            "w": 600,
+                            "h": 716,
+                            "resize": "fit"
+                        }
+                    },
+                    "source_status_id": 666448435470561300,
+                    "source_status_id_str": "666448435470561280",
+                    "source_user_id": 312890952,
+                    "source_user_id_str": "312890952"
+                }]
+            },
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }, {
             "metadata": {
                 "iso_language_code": "und",
                 "result_type": "recent"
@@ -13829,6 +14781,6 @@ var tweets = {
         }]
     };
 
-exports.tweets = tweets;
+    exports.tweets = tweets;
 
 })();

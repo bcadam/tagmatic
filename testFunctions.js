@@ -20,14 +20,37 @@ var wordnet = new natural.WordNet();
 //         //console.log(result.pos);
 //         //console.log(result.gloss);
 //     });
-
-
 // });
+// var finalTweets = tweets.tweets.twitterResponse;
+// var words = discoverEngine.returnWords(finalTweets);
+// words = discoverEngine.combineBasedOnSimilarityOfString(words,.94);
 
+// console.log(words.slice(0,10));
 
-var finalTweets = tweets.tweets.twitterResponse;
-var words = discoverEngine.returnWords(finalTweets);
-words = discoverEngine.combineBasedOnSimilarityOfString(words,.94);
+twitterConfig = {
+    "consumerKey": "99U4wZ1wPFmuVE0qWmi7fTllB",
+    "consumerSecret": "U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9",
+    "accessToken": "312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26",
+    "accessTokenSecret": "cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK",
+    "callBackUrl": "https://onemonarch.herokuapp.com/"
+};
 
-console.log(words.slice(0,10));
+var Twitter = require('twitter');
+var twitterClient = new Twitter({
+    consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+    consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+    access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+    access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
+});
 
+twitterClient.stream('statuses/filter', params, function(stream) {
+    stream.on('data', function(tweet) {
+        //console.log(tweet.user.screen_name);
+        //console.log(tweet.text);
+
+        
+    });
+    stream.on('error', function(error) {
+        console.log(error);
+    });
+});

@@ -132,9 +132,9 @@ function JaroWinklerDistance(s1, s2, dj) {
         }
 }
 
-var searchValue = "London";
+var searchValue = "uber";
 var host = "http://onemonarch.herokuapp.com";
-var url = host + "/api/data/" + searchValue + "/100";
+var url = host + "/api/data/" + searchValue + "/1000";
 var xmlhttp;
 var response;
 xmlhttp = new XMLHttpRequest();
@@ -155,7 +155,7 @@ xmlhttp.onreadystatechange = function() {
 
         //console.log(response.words);
         var wordLength = response.words.length;
-        response.words = combineBasedOnSimilarityOfString(response.words,.92);
+        response.words = combineBasedOnSimilarityOfString(response.words,.90);
         if (response.words.length > 10) {
             wordLength = 10;
         }

@@ -248,42 +248,8 @@ io.on('connection', function(socket) {
                 console.log(error);
             });
         });
-
-
-
-
     });
 });
-
-
-// var Twitter = require('twitter');
-// var client = new Twitter({
-//     consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-//     consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-//     access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-//     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-// });
-
-// var params = {
-//     track: "twitter",
-//     result_type: "popular",
-//     language: "en"
-// };
-
-
-// client.stream('statuses/filter', params, function(stream) {
-//     console.log("Open Stream");
-//     stream.on('data', function(tweet) {
-//         console.log(tweet.user.screen_name);
-//         console.log(tweet.text);
-//         socket.emit('start stream', {
-//             hello: 'world'
-//         });
-//     });
-//     stream.on('error', function(error) {
-//         console.log(error);
-//     });
-// });
 
 /******   API ROUTER HERE  *****/
 /*******************************/
@@ -366,11 +332,6 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     var needle = req.params.value;
     var count = (req.params.count != null ? req.params.count : 500)
 
-    // console.log('count');
-    // res.json({
-    //         count: count
-    //     });
-
     // var Query = Parse.Object.extend("Query");
     // var queryvalue = new Query();
     // queryvalue.set("searchValue", needle);
@@ -380,12 +341,6 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
     });
-
-    // // var twitterQueryParameters = {
-    // //     q: needle,
-    // //     count: 100,
-    // //     language: language
-    // // };
 
     var lengthOfTweetsFound;
     var tweets;
@@ -466,9 +421,11 @@ apiRouter.get('/count/:value', cors(), function(req, res) {
 });
 
 
-apiRouter.get('/geotagged/:value?', function(req, res) {
+apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 
     var needle = req.params.value;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
     // var Query = Parse.Object.extend("Query");
     // var queryvalue = new Query();
 
@@ -483,7 +440,7 @@ apiRouter.get('/geotagged/:value?', function(req, res) {
     elasticClient.search({
         index: 'twitter',
         type: 'tweet',
-        size: 5000,
+        size: count,
         body: {
             query: {
                 filtered: {
@@ -506,20 +463,64 @@ apiRouter.get('/geotagged/:value?', function(req, res) {
         }
     }).then(function(resp) {
 
-        // var processedTweets = [];
-        // for (var y = 0; y < tweets.length; y++) {
-        //     processedTweets.push(tweets[y]._source);
-        // };
+        var rawTweets = resp['hits']['hits'];
+
+        var processedTweets = [];
+
+        for (var i = 0; i < rawTweets.length; i++) {
+            processedTweets.push(rawTweets[i]['_source']);
+        };
 
         res.json({
-            tweets: resp
+            tweets: processedTweets
         });
-
     });
-
-
 });
 
+apiRouter.get('/twitter/lastday/:value/:count?', function(req, res) {
+    var needle = req.params.value;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    elasticClient.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: 500,
+        body: {
+            query: {
+                filtered: {
+                    query: {
+                        match: {
+                            _all: needle
+                        }
+                    },
+                    filter: {
+                        range: {
+                            created_at: {
+                                gte: "now-1d/d",
+                                lt: "now/d"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function(resp) {
+        var justTweets = [];
+
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            justTweets.push(resp['hits']['hits'][i]['_source']);
+        };
+        res.json({
+            tweets: justTweets
+        });
+    });
+
+});
 
 
 
@@ -721,6 +722,7 @@ function processTweets(data, query) {
         log: 'trace'
     });
 
+    var bulkBody = [];
     for (var i = 0; i <= size - 1; i++) {
         elasticClient.create({
             index: 'twitter',
@@ -729,27 +731,23 @@ function processTweets(data, query) {
             body: data[i]
         });
 
-        // testclient.bulk({
-        //     body: [
-        //         // action description
-        //         {
-        //             index: 'testIndex',
-        //             type: 'tweet',
-        //             id: data[i]['id'],
-        //             body: data[i]
-        //         }, {
-        //             index: 'testIndex',
-        //             type: 'tweet',
-        //             id: data[i]['id'],
-        //             body: data[i]
-        //         }
-        //     ]
-        // }, function(err, resp) {
-        //     // ...
-        // });
+        //bulkBody.push({ "create" : { "_index" : "testindex", "_type" : "tweet", "_id" : data[i]['id'], "body" : data[i] } });
     }
 
+    // elasticClient.indices.create({
+    //     index: "testindex"}, function (err, resp, respcode) {
+    //     console.log(err, resp, respcode);
+    //     // resp.json({
+    //     //     tweets: err
+    //     // });
+    // });
 
+
+    // elasticClient.bulk({
+    //     body: bulkBody
+    // }, function(err, resp) {
+    //     console.log(resp);
+    // });
 
 
 
