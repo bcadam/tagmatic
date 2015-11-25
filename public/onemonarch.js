@@ -1,4 +1,4 @@
-! function() {
+function() {
     
 export.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
     var arrayOfMatches = [];
