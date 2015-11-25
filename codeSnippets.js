@@ -73,3 +73,40 @@ client.stream('statuses/filter', params, function(stream) {
         console.log(error);
     });
 });
+
+
+
+ elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+        filtered: {
+            query: {
+                match: {
+                        _all: needle
+                    }
+            },
+            filter: {
+                and: [
+                    // {
+                    //     range : {
+                    //         created_at : { 
+                    //             from : "now-1h", 
+                    //             to : "now"
+                    //         }
+                    //     },
+                    // }
+                    {
+                        filter : {
+                            iso_language_code : "en"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+            }
+        })

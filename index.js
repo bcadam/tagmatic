@@ -371,7 +371,7 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
     var twitterQueryParameters = {
         q: query,
         count: count,
-        language: 'en'
+        lang: 'en',
     };
 
     twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
@@ -412,7 +412,8 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
     var twitterQueryParameters = {
         q: query,
         count: count,
-        language: 'en'
+        lang: 'en',
+        max_id : "1004444444444444000"
     };
 
     twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
