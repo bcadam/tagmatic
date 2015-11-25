@@ -506,7 +506,7 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
     var twitterQueryParameters = {
         q: query,
         count: count,
-        language: 'language'
+        language: 'en'
     };
 
     twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
