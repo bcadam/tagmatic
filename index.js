@@ -397,17 +397,17 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
             body: {
                 fields: ['_source'],
                 {
-                    "query": {
-                        "query_string": {
-                            "query": needle
+                    query: {
+                        query_string: {
+                            _all: needle
                         }
                     },
-                    "sort": {
-                        "_script": {
-                            "script": "Math.random()",
-                            "type": "number",
-                            "params": {},
-                            "order": "asc"
+                    sort: {
+                        _script: {
+                            script: "Math.random()",
+                            type: "number",
+                            params: {},
+                            order: "asc"
                         }
                     }
                 }
