@@ -204,9 +204,7 @@ io.on('connection', function(socket) {
 
         twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
             if (error) throw error;
-
             tweets = tweets['statuses']
-
 
             var size = Object.size(tweets);
 
@@ -218,10 +216,7 @@ io.on('connection', function(socket) {
                         tweet: tweets[i]
                     });
                 }
-
-
             }
-
         });
 
 
@@ -384,42 +379,6 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
 
 });
-
-apiRouter.get('/count/:value', cors(), function(req, res) {
-
-    var needle = req.params.value;
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    var lengthOfTweetsFound;
-    var tweets;
-
-    elasticClient.search({
-        index: 'twitter',
-        type: 'tweet',
-        size: count,
-        body: {
-            fields: ['_source'],
-            query: {
-                match: {
-                    _all: needle
-                }
-            }
-        }
-    }).then(function(resp) {
-
-        res.json({
-            length: resp.length
-        });
-
-    });
-
-
-});
-
 
 apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 
