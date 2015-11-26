@@ -4,7 +4,7 @@ var body = {
                 coordinates: {
                     properties: {
                         coordinates: {
-                            type: "double"
+                            type: "geo_point"
                         },
                         type: {
                             type: "string"
@@ -449,7 +449,7 @@ var body = {
                         geo: {
                             properties: {
                                 coordinates: {
-                                    type: "double"
+                                    type: "geo_point"
                                 },
                                 type: {
                                     type: "string"

@@ -24,17 +24,8 @@ function searchTwitter() {
 
                 var xmlhttp = new XMLHttpRequest();
 
-
-                var d = new Date();
-                var x = 5;
-                d.setDate(d.getDate() - x);
-
-                d = "%20until%3A" + d.toISOString().split('T')[0];
-
-                d = searchValue + d;
-
                 var host = "https://onemonarch.herokuapp.com";
-                var url = host + "/api/twitter/search/" + d + "/" + searchCount;
+                var url = host + "/api/twitter/historical/" + d + "/" + searchCount;
 
                 var xmlhttp;
                 xmlhttp = new XMLHttpRequest();
