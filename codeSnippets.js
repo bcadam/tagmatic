@@ -1,34 +1,49 @@
 var fs = require('fs');
-    elasticClient.indices.getMapping({
-        index: 'twitter'
-    }, function(error, response) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(response);
-            var response = JSON.stringify(response)
-            fs.writeFile("file of mappings", response, 'utf8', function() {
-                //console.log("File Saved as: " + timeString);
-            });
-        }
+elasticClient.indices.getMapping({
+    index: 'twitter'
+}, function(error, response) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log(response);
+        var response = JSON.stringify(response)
+        fs.writeFile("file of mappings", response, 'utf8', function() {
+            //console.log("File Saved as: " + timeString);
+        });
+    }
+});
+elasticClient.indices.create({
+    index: "twitter",
+    body: body
+}, function(err, resp, respcode) {
+    console.log(err, resp, respcode);
+    res.json({
+        tweets: err
     });
+});
+
+elasticClient.indices.delete({
+    index: "twitter"
+}, function(err, resp, respcode) {
+    console.log(err, resp, respcode);
+    res.json({
+        tweets: resp
+    });
+}).then(function() {
+
     elasticClient.indices.create({
         index: "twitter",
         body: body
-    }, function (err, resp, respcode) {
+    }, function(err, resp, respcode) {
         console.log(err, resp, respcode);
         res.json({
             tweets: err
         });
     });
-    elasticClient.indices.delete({
-        index: "twitter"
-    }, function (err, resp, respcode) {
-        console.log(err, resp, respcode);
-        res.json({
-            tweets: resp
-        });
-    });
+
+
+}).then(function() {
+
     elasticClient.indices.putMapping({
         index: "twitter",
         type: "tweet",
@@ -41,6 +56,12 @@ var fs = require('fs');
             tweets: err
         });
     });
+
+});
+
+
+
+
 
 
 
@@ -76,37 +97,37 @@ client.stream('statuses/filter', params, function(stream) {
 
 
 
- elasticClient.search({
-            index: 'twitter',
-            type: 'tweet',
-            size: count,
-            body: {
-                fields: ['_source'],
+elasticClient.search({
+    index: 'twitter',
+    type: 'tweet',
+    size: count,
+    body: {
+        fields: ['_source'],
+        query: {
+            filtered: {
                 query: {
-        filtered: {
-            query: {
-                match: {
+                    match: {
                         _all: needle
                     }
-            },
-            filter: {
-                and: [
-                    // {
-                    //     range : {
-                    //         created_at : { 
-                    //             from : "now-1h", 
-                    //             to : "now"
-                    //         }
-                    //     },
-                    // }
-                    {
-                        filter : {
-                            iso_language_code : "en"
+                },
+                filter: {
+                    and: [
+                        // {
+                        //     range : {
+                        //         created_at : { 
+                        //             from : "now-1h", 
+                        //             to : "now"
+                        //         }
+                        //     },
+                        // }
+                        {
+                            filter: {
+                                iso_language_code: "en"
+                            }
                         }
-                    }
-                ]
+                    ]
+                }
             }
         }
     }
-            }
-        })
+})

@@ -31,12 +31,10 @@ function searchTwitter() {
 
                 d = "%20until%3A" + d.toISOString().split('T')[0];
 
-                searchValue = searchValue + d;
-                console.log(searchValue);
+                d = searchValue + d;
 
-                
                 var host = "https://onemonarch.herokuapp.com";
-                var url = host + "/api/twitter/search/" + searchValue + "/" + searchCount;
+                var url = host + "/api/twitter/search/" + d + "/" + searchCount;
 
                 var xmlhttp;
                 xmlhttp = new XMLHttpRequest();
