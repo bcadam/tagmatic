@@ -25,7 +25,7 @@ function searchTwitter() {
                 var xmlhttp = new XMLHttpRequest();
 
                 var host = "https://onemonarch.herokuapp.com";
-                var url = host + "/api/twitter/historical/" + d + "/" + searchCount;
+                var url = host + "/api/twitter/historical/" + searchValue + "/" + searchCount;
 
                 var xmlhttp;
                 xmlhttp = new XMLHttpRequest();
