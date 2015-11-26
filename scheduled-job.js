@@ -2,7 +2,6 @@ var Parse = require('parse/node').Parse;
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
-Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -24,6 +23,7 @@ function shuffle(array) {
 
 
 function searchTwitter() {
+    Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
     var Report = Parse.Object.extend("Query");
     var query = new Parse.Query(Report);
