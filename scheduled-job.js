@@ -3,6 +3,24 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 
 function searchTwitter() {
@@ -13,6 +31,8 @@ function searchTwitter() {
 
     query.find({
         success: function(results) {
+
+            results = shuffle(results);
 
             for (var i = 0; i < results.length; i++) {
 

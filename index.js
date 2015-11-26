@@ -410,9 +410,12 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
         access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
     });
 
-    var d = new Date(); // today!
-    var x = 6; // go back 5 days!
-    d.setDate(d.getDate() - x);
+    var d = new Date(); 
+
+    //Gets a random number between 1 and 6 to set how far back the tweets should go
+    var num = Math.floor(Math.random() * 6 + 1);
+
+    d.setDate(d.getDate() - num);
 
     d = "%20until%3A" + d.toISOString().split('T')[0];
     console.log('airbnb%20until%3A2015-11-19');
