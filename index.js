@@ -767,11 +767,11 @@ Object.size = function(obj) {
 function processTweets(data, query) {
     var queryString = query;
 
-    var Query = Parse.Object.extend("Query");
-    var queryvalue = new Query();
+    // var Query = Parse.Object.extend("Query");
+    // var queryvalue = new Query();
 
-    queryvalue.set("searchValue", query);
-    queryvalue.save();
+    // queryvalue.set("searchValue", query);
+    // queryvalue.save();
 
 
     var size = Object.size(data);
