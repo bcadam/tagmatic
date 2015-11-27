@@ -210,7 +210,7 @@
         var Classifier = Parse.Object.extend("Classifier");
         var classifier = new Parse.Query(Classifier);
 
-        var restoredClassifier = natural.BayesClassifier.restore(localClassifier.classifier);
+        var restoredClassifier = natural.BayesClassifier.restore(localClassifier.classifierString);
 
         for (var i = 0; i < tweets.length; i++) {
             var classifications = restoredClassifier.getClassifications(tweets[i].text);

@@ -1,10 +1,19 @@
 (function() {
 
-//var classifier = require('./sentiment_classifier.json');
-var fs = require('fs');
-var classifier = JSON.parse(fs.readFileSync('sentiment_classifier.json', 'utf8'));
+    //var classifier = require('./sentiment_classifier.json');
+    var fs = require('fs');
+    var natural = require('natural');
 
-exports.classifier = classifier;
-console.log(classifier);
+    var classifierString = JSON.parse(fs.readFileSync('sentiment_classifier.json', 'utf8'));
+    var classifierObject = natural.BayesClassifier.restore(classifierString);
+
+    exports.classifierString = classifierString;
+    exports.classifierObject = classifierObject;
+    
+    console.log(classifier);
+
+    exports.addDocument = function(document, sentiment) {
+
+    }
 
 })();
