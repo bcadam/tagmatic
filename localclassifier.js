@@ -9,11 +9,6 @@
 
     exports.classifierString = classifierString;
     exports.classifierObject = classifierObject;
-    
-    console.log(classifier);
 
-    exports.addDocument = function(document, sentiment) {
-
-    }
-
+    //console.log(classifierString);
 })();
