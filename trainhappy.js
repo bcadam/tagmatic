@@ -76,8 +76,6 @@ twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweet
 
 
 
-
-
 function sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {

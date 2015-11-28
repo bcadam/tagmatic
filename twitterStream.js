@@ -8,7 +8,6 @@ var wordnet = new natural.WordNet();
 
 
 var fullString = '';
-
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 
 var Report = Parse.Object.extend("Query");

@@ -258,80 +258,80 @@ io.on('connection', function(socket) {
 /*******************************/
 /*******************************/
 
-apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, res) {
+// apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, res) {
 
-    var natural = require('natural');
-    var classifierId = req.params.classifierId;
-    var sentiment = req.params.sentiment;
-    var twitterUserId = req.params.twitterUserId;
-    var trainingEvents = 0;
+//     var natural = require('natural');
+//     var classifierId = req.params.classifierId;
+//     var sentiment = req.params.sentiment;
+//     var twitterUserId = req.params.twitterUserId;
+//     var trainingEvents = 0;
 
-    var Classifier = Parse.Object.extend("Classifier");
-    var classifierQuery = new Parse.Query(Classifier);
+//     var Classifier = Parse.Object.extend("Classifier");
+//     var classifierQuery = new Parse.Query(Classifier);
 
-    var Twitter = require('twitter');
-    var twitterClient = new Twitter({
-        consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-        consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-        access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-        access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-    });
+//     var Twitter = require('twitter');
+//     var twitterClient = new Twitter({
+//         consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+//         consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+//         access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+//         access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
+//     });
 
 
-    classifierQuery.get(classifierId, {
-        success: function(result) {
-            var raw = result.get('classifier');
-            var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
+//     classifierQuery.get(classifierId, {
+//         success: function(result) {
+//             var raw = result.get('classifier');
+//             var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
 
-            var params = {
-                screen_name: twitterUserId,
-                count: 100
-            };
+//             var params = {
+//                 screen_name: twitterUserId,
+//                 count: 100
+//             };
 
-            twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
-                if (!error) {
+//             twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+//                 if (!error) {
 
-                    for (var i = 0; i < tweets.length; i++) {
-                        restoredClassifier.addDocument(tweets[i].text, sentiment);
-                        restoredClassifier.train();
-                        trainingEvents = trainingEvents + 1;
-                    };
+//                     for (var i = 0; i < tweets.length; i++) {
+//                         restoredClassifier.addDocument(tweets[i].text, sentiment);
+//                         restoredClassifier.train();
+//                         trainingEvents = trainingEvents + 1;
+//                     };
 
-                    var raw = JSON.stringify(restoredClassifier);
-                    result.set("classifier", raw);
-                    result.save();
+//                     var raw = JSON.stringify(restoredClassifier);
+//                     result.set("classifier", raw);
+//                     result.save();
 
-                    res.json({
-                        learningEvents: trainingEvents
-                    });
+//                     res.json({
+//                         learningEvents: trainingEvents
+//                     });
 
-                } else {
-                    res.json({
-                        twitterResponse: "Something went wrong."
-                    });
-                }
-            });
+//                 } else {
+//                     res.json({
+//                         twitterResponse: "Something went wrong."
+//                     });
+//                 }
+//             });
 
-        },
-        error: function(error) {
-            console.log("Error: " + error.code + " " + error.message);
-        }
-    });
+//         },
+//         error: function(error) {
+//             console.log("Error: " + error.code + " " + error.message);
+//         }
+//     });
 
-    // twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
-    //     if (error) throw error;
-    //     tweets = tweets['statuses']
-    //     res.json({
-    //         twitterResponse: tweets
-    //     });
-    // });
+//     // twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
+//     //     if (error) throw error;
+//     //     tweets = tweets['statuses']
+//     //     res.json({
+//     //         twitterResponse: tweets
+//     //     });
+//     // });
 
-    // var elasticClient = new elasticsearch.Client({
-    //     host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-    //     log: 'trace'
-    // });
+//     // var elasticClient = new elasticsearch.Client({
+//     //     host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+//     //     log: 'trace'
+//     // });
 
-});
+// });
 
 
 
