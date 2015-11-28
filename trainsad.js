@@ -37,7 +37,7 @@ var twitterClient = new Twitter({
 
 //var queryValue = results[i].get('searchValue');
 
-var searchValue = queryValue + "%20%3A)";
+var searchValue = queryValue + "%20%3A(";
 console.log(searchValue);
 
 var twitterQueryParameters = {
