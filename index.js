@@ -650,8 +650,45 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     // res.json({
     //     status: "done"
     // });
+});
 
+apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
 
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+            res.json({
+                tweets: processedTweets
+            });
+        });
 });
 
 apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
