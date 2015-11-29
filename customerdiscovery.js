@@ -44,7 +44,7 @@
                 var distance = natural.JaroWinklerDistance(words[i][0], words[j][0]);
                 if (distance > distanceForSame) {
                     words[i][1] = words[i][1] + words[j][1];
-                    words.splice(j,0);
+                    words.splice(j, 0);
                 }
             }
         }
@@ -200,26 +200,21 @@
     }
 
     exports.classifyTweetsSentiment = function(tweets) {
-        var natural = require('natural');
-        var classifier = new natural.BayesClassifier();
+        // var natural = require('natural');
+        // var classifier = new natural.BayesClassifier();
 
         var happyTweets = [];
         var noiseTweets = [];
         var sadTweets = [];
 
-        var Classifier = Parse.Object.extend("Classifier");
-        var classifier = new Parse.Query(Classifier);
-
-        var restoredClassifier = natural.BayesClassifier.restore(localClassifier.classifierString);
-
         for (var i = 0; i < tweets.length; i++) {
-            var classifications = restoredClassifier.getClassifications(tweets[i].text);
+            var classifications = localClassifier.classifierObject.getClassifications(tweets[i].text);
             //console.log(classifications);
             if (classifications[0]['label'] == 'Positive') {
                 happyTweets.push(tweets[i]);
             } else if (classifications[0]['label'] == 'Negative') {
                 sadTweets.push(tweets[i]);
-            } else if (classifications[0]['label'] == 'undefined') {
+            } else if (classifications[0]['label'] == 'Neutral') {
                 noiseTweets.push(tweets[i]);
             }
         };
@@ -229,12 +224,35 @@
         // returnWords(noiseTweets);
         // returnWords(sadTweets);
 
+        console.log(happyTweets.length);
+        console.log(noiseTweets.length);
+        console.log(sadTweets.length);
+
         return {
             happytweets: happyTweets,
             noiseTweets: noiseTweets,
             sadTweets: sadTweets
         };
 
+        // var Classifier = Parse.Object.extend("Classifier");
+        // var classifier = new Parse.Query(Classifier);
+        // var restoredClassifier = natural.BayesClassifier.restore(localClassifier.classifier);
+        // for (var i = 0; i < tweets.length; i++) {
+        //     var classifications = restoredClassifier.getClassifications(tweets[i].text);
+        //     //console.log(classifications);
+        //     if (classifications[0]['label'] == 'Positive') {
+        //         happyTweets.push(tweets[i]);
+        //     } else if (classifications[0]['label'] == 'Negative') {
+        //         sadTweets.push(tweets[i]);
+        //     } else if (classifications[0]['label'] == 'undefined') {
+        //         noiseTweets.push(tweets[i]);
+        //     }
+        // };
+
+        //console.log(noiseTweets);
+        // returnWords(happyTweets);
+        // returnWords(noiseTweets);
+        // returnWords(sadTweets);
 
     }
 

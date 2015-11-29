@@ -1,21 +1,8 @@
-
-
-
-var queryValue = "computer";
-
-
-
-
-
-
-
-
-
-
 var Parse = require('parse/node').Parse;
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var classifier = require('./localclassifier');
+var elasticsearch = require('elasticsearch');
+
 
 var Twitter = require('twitter');
 var twitterClient = new Twitter({
@@ -25,53 +12,74 @@ var twitterClient = new Twitter({
     access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
 });
 
-// var Report = Parse.Object.extend("Query");
-// var query = new Parse.Query(Report);
+var Query = Parse.Object.extend("Query");
+var queryReport = new Parse.Query(Query);
 
-// query.find({
-//     success: function(results) {
+// queryReport.include("user");
+// queryReport.include("classifier");
+// queryReport.equalTo("published", true);
 
-//         console.log("There are this many queries: " + results.length);
+//console.log(searchValue);
+queryReport.find({
+    success: function(foundReports) {
 
-//         for (var i = 0; i < results.length; i++) {
-
-//var queryValue = results[i].get('searchValue');
-
-var searchValue = queryValue + "%20%3A)";
-console.log(searchValue);
-
-var twitterQueryParameters = {
-    q: searchValue,
-    count: 100,
-    lang: 'en',
-};
+        console.log(foundReports.length);
 
 
-twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
-    if (error) {
-        console.log(error);
-        console.log(response.message);
+        for (var i = 0; i < foundReports.length; i++) {
+
+            var classifier = require('./localclassifier');
+            var queryValue = foundReports[i].get('searchValue');
+
+            console.log(queryValue);
+
+            var searchValue = queryValue + "%20%3A)";
+
+            var twitterQueryParameters = {
+                q: searchValue,
+                count: 100,
+                lang: 'en',
+            };
+
+
+            twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
+                if (error) {
+                    console.log(error);
+                    console.log(response.message);
+                }
+                for (var y = 0; y < tweets.statuses.length; y++) {
+                    var textOfTweet = tweets.statuses[y].text
+                    console.log(textOfTweet);
+                    classifier.classifierObject.addDocument(textOfTweet, "Positive");
+                };
+                classifier.classifierObject.train();
+                classifier.classifierObject.save('sentiment_classifier.json', function(err, classifier) {
+                    // the classifier is saved to the classifier.json file!
+                //processTweets(tweets.statuses);
+                console.log("saved back to file");
+                });
+            });
+
+
+
+            sleep(5000);
+
+
+        };
+
+
+
+
+
+
+    },
+    error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
     }
-    for (var y = 0; y < tweets.statuses.length; y++) {
-        var textOfTweet = tweets.statuses[y].text
-        console.log(textOfTweet);
-        classifier.classifierObject.addDocument(textOfTweet, "Positive");
-    };
-    classifier.classifierObject.train();
-    classifier.classifierObject.save('sentiment_classifier.json', function(err, classifier) {
-        // the classifier is saved to the classifier.json file!
-        console.log("saved back to file");
-    });
 });
-//             sleep(15000);
-//         };
 
+//var queryValue = "computer";
 
-//     },
-//     error: function(error) {
-//         alert("Error: " + error.code + " " + error.message);
-//     }
-// });
 
 
 
@@ -82,5 +90,31 @@ function sleep(milliseconds) {
         if ((new Date().getTime() - start) > milliseconds) {
             break;
         }
+    }
+}
+
+
+function processTweets(data, query) {
+    var queryString = query;
+
+    var size = Object.size(data);
+
+
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    var bulkBody = [];
+    for (var i = 0; i <= size - 1; i++) {
+        elasticClient.create({
+            index: 'twitter',
+            type: 'tweet',
+            id: data[i]['id'],
+            body: data[i]
+        });
+
+        //bulkBody.push({ "create" : { "_index" : "testindex", "_type" : "tweet", "_id" : data[i]['id'], "body" : data[i] } });
     }
 }
