@@ -13,9 +13,7 @@
 </head>
 
 <body id="target" class='col-xs-12'>
-
-    </div>
-    
+</body>
 <script>
 var searchValue = "airbnb";
 var host = "http://onemonarch.herokuapp.com/";
@@ -34,23 +32,6 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.responseType = 'json';
 xmlhttp.send();
-
-
-// var searchValue = "kabbage";
-// var host = "https://onemonarch.herokuapp.com";
-// var url = host + "/api/geotagged/" + searchValue;
-// var xmlhttp;
-// var response;
-// xmlhttp = new XMLHttpRequest();
-// xmlhttp.onreadystatechange = function() {
-//     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-//         console.log(xmlhttp.response);
-//         response = xmlhttp.response;
-//     }
-// }
-// xmlhttp.open("GET", url, true);
-// xmlhttp.responseType = 'json';
-// xmlhttp.send();
 </script>
 
 </html>

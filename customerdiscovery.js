@@ -1,18 +1,10 @@
 (function() {
 
-    // var Parse = require('parse/node').Parse;
-    // var Papa = require('babyparse');
-    // var Blob = require('blob');
-    // var fs = require('fs');
     var natural = require('natural');
     var localClassifier = require('./localclassifier');
-    // var tweets = require('./tweets');
-    //console.log(tweets.tweets);
-    //console.log(localClassifier.classifier);
+    var pos = require('pos');
 
-    //Parse.initialize("8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO", "oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV");
-
-    function sortByOccurence(arrayOfData) {
+    function sortByOccurrence(arrayOfData) {
         var counts = [];
         for (var i = 0; i < arrayOfData.length; i++) {
             var holder = arrayOfData[i];
@@ -33,10 +25,32 @@
             return 0;
         });
 
-        // finalArray = exports.combineBasedOnSimilarityOfString(finalArray,.93);
+        finalArray = exports.combineBasedOnSimilarityOfString(finalArray, .93);
         return finalArray;
     }
 
+    function cleanJunkWords(arrayOfData) {
+
+        var wordsToDelete = ["it's","into", "ha", "as", "of", "the", "&amp;", "if", "was", "she", "a", "it", "how", "rt", "a", "de", "la", "i", "in", "my", "to", "the", "no", "at", "el", "en", "que", "you", "+", "per", "for", "on", "-", "their", "and", "we", "with", "is", "del"];
+
+        for (var i = 0; i < arrayOfData.length; i++) {
+            for (var y = 0; y < wordsToDelete.length; y++) {
+                //console.log(wordsToDelete[y]);
+                //console.log(arrayOfData[i][0]);
+                // console.log(arrayOfData[i][0] + "  " + wordsToDelete[y]);
+                if (arrayOfData[i][0].toLowerCase() == wordsToDelete[y]) {
+                    arrayOfData.splice(i, 1);
+                }
+            };
+        };
+        console.log(arrayOfData);
+        return arrayOfData;
+    }
+
+    // Example input 
+    // [['cat',2],['cats',2],['dog',1]]
+    // Example output
+    // [['cat',4],['dog',1]]
     exports.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
         var arrayOfMatches = [];
         for (var i = 0; i < words.length; i++) {
@@ -57,7 +71,7 @@
             locations.push(tweets[i].user.location);
         };
 
-        var finalArray = sortByOccurence(locations);
+        var finalArray = sortByOccurrence(locations);
         //console.log(finalArray.splice(0, 5));
         return finalArray;
     }
@@ -81,20 +95,10 @@
             }
         };
 
-
-        var wordsToDelete = ['into', 'ha', 'as', 'of', 'the', '&amp;', 'if', 'was', 'she', 'a', 'it', 'how', 'rt', 'a', 'de', 'la', 'i', 'in', 'my', 'to', 'the', 'no', 'at', 'el', 'en', 'que', 'you', '+', 'per', 'for', 'on', '-', 'their', 'and', 'we', 'with', 'is', 'del'];
-        for (var i = 0; i < textOfTweets.length; i++) {
-            for (var y = 0; y < wordsToDelete.length; y++) {
-                if (textOfTweets[i] == wordsToDelete[y]) {
-                    textOfTweets.splice(i, 1);
-                }
-            };
-
-        };
-
-        var finalArray = sortByOccurence(textOfTweets);
+        textOfTweets = sortByOccurrence(textOfTweets);
+        textOfTweets = cleanJunkWords(textOfTweets);
         //console.log(finalArray.slice(0, 10));
-        return finalArray;
+        return textOfTweets;
     }
 
     exports.returnFollowers = function(tweets) {
@@ -131,7 +135,7 @@
             followers.push(parseInt(tweets[i].user.followers_count));
         };
 
-        var finalArray = sortByOccurence(bucketedFollowers);
+        var finalArray = sortByOccurrence(bucketedFollowers);
         var orderedArray = [
             ['10,001+', 0],
             ['1,001-10,000', 0],
@@ -197,34 +201,59 @@
         return orderedArray;
     }
 
+    // Example Response
+    // { verb: [],
+    // noun: 
+    //  [ [ 'cat', 4 ],
+    //    [ '/', 3 ],
+    //    [ 'dancer', 2 ],
+    //    [ 'interactive', 1 ],
+    //    [ 'toy', 1 ],
+    //    [ 'products', 1 ],
+    //    [ 'xqzu', 1 ],
+    //    [ 'charmer', 1 ],
+    //    [ 't', 1 ],
+    //    [ 'co', 1 ],
+    //    [ 'jwrfo', 1 ],
+    //    [ 'https', 1 ] ],
+    // adverb: [],
+    // adjective: [],
+    // modal: [],
+    // interjection: [],
+    // foreign: [],
+    // url: [],
+    // other: 
+    //  [ [ '2', 1 ],
+    //    [ '301', 1 ],
+    //    [ 'by', 1 ],
+    //    [ '-', 1 ],
+    //    [ ':', 1 ],
+    //    [ '.', 1 ] ] }
     exports.partsOfSpeech = function(tweets) {
-
-        if (tweets.length == null)
-        {
+        if (tweets.length == null) {
             return null;
         }
-
         var partsOfSpeechObject = {
-            verb: [],
-            noun: [],
-            adverb: [],
+            conjunction: [],
+            cardinal: [],
+            foreign: [],
+            preposition: [],
             adjective: [],
             modal: [],
+            noun: [],
+            possessive: [],
+            personal: [],
+            adverb: [],
+            symbol: [],
             interjection: [],
-            foreign: [],
             url: [],
+            verb: [],
             other: []
         };
-
-        var pos = require('pos');
-
         for (var i = 0; i < tweets.length; i++) {
-
             var words = new pos.Lexer().lex(tweets[i].text);
-
             var tagger = new pos.Tagger();
             var taggedWords = tagger.tag(words);
-
             for (y in taggedWords) {
                 var taggedWord = taggedWords[y];
                 var word = taggedWord[0];
@@ -244,33 +273,44 @@
                     partsOfSpeechObject.interjection.push([word.toLowerCase()]);
                 } else if (!tag.indexOf('FW')) {
                     partsOfSpeechObject.foreign.push([word.toLowerCase()]);
-                }else if (!tag.indexOf('URL')) {
+                } else if (!tag.indexOf('URL')) {
                     partsOfSpeechObject.url.push([word.toLowerCase()]);
-                }else{
+                } else if (!tag.indexOf('CC')) {
+                    partsOfSpeechObject.conjunction.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('CD')) {
+                    partsOfSpeechObject.cardinal.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('IN')) {
+                    partsOfSpeechObject.preposition.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('POS')) {
+                    partsOfSpeechObject.possessive.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('PRP')) {
+                    partsOfSpeechObject.personal.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('SYM')) {
+                    partsOfSpeechObject.symbol.push([word.toLowerCase()]);
+                } else {
                     partsOfSpeechObject.other.push([word.toLowerCase()]);
                 }
                 //console.log(word);
             }
-
         };
-
-        partsOfSpeechObject.verb = sortByOccurence(partsOfSpeechObject.verb);
-        partsOfSpeechObject.noun = sortByOccurence(partsOfSpeechObject.noun);
-        partsOfSpeechObject.adverb = sortByOccurence(partsOfSpeechObject.adverb);
-        partsOfSpeechObject.adjective = sortByOccurence(partsOfSpeechObject.adjective);
-        partsOfSpeechObject.modal = sortByOccurence(partsOfSpeechObject.modal);
-        partsOfSpeechObject.interjection = sortByOccurence(partsOfSpeechObject.interjection);
-        partsOfSpeechObject.foreign = sortByOccurence(partsOfSpeechObject.foreign);
-        partsOfSpeechObject.url = sortByOccurence(partsOfSpeechObject.url);
-        partsOfSpeechObject.other = sortByOccurence(partsOfSpeechObject.other);
-
-
-        // console.log("partsOfSpeechObject");
-        // console.log(partsOfSpeechObject);
-
+        partsOfSpeechObject.conjunction = sortByOccurrence(partsOfSpeechObject.conjunction);
+        partsOfSpeechObject.cardinal = sortByOccurrence(partsOfSpeechObject.cardinal);
+        partsOfSpeechObject.foreign = sortByOccurrence(partsOfSpeechObject.foreign);
+        partsOfSpeechObject.preposition = sortByOccurrence(partsOfSpeechObject.preposition);
+        partsOfSpeechObject.adjective = sortByOccurrence(partsOfSpeechObject.adjective);
+        partsOfSpeechObject.modal = sortByOccurrence(partsOfSpeechObject.modal);
+        partsOfSpeechObject.noun = sortByOccurrence(partsOfSpeechObject.noun);
+        partsOfSpeechObject.possessive = sortByOccurrence(partsOfSpeechObject.possessive);
+        partsOfSpeechObject.personal = sortByOccurrence(partsOfSpeechObject.personal);
+        partsOfSpeechObject.adverb = sortByOccurrence(partsOfSpeechObject.adverb);
+        partsOfSpeechObject.symbol = sortByOccurrence(partsOfSpeechObject.symbol);
+        partsOfSpeechObject.interjection = sortByOccurrence(partsOfSpeechObject.interjection);
+        partsOfSpeechObject.url = sortByOccurrence(partsOfSpeechObject.url);
+        partsOfSpeechObject.verb = sortByOccurrence(partsOfSpeechObject.verb);
+        partsOfSpeechObject.other = sortByOccurrence(partsOfSpeechObject.other).splice(0, 100);
+        //console.log(partsOfSpeechObject);
         return partsOfSpeechObject;
     }
-
     exports.classifyTweetsSentiment = function(tweets) {
         // var natural = require('natural');
         // var classifier = new natural.BayesClassifier();
@@ -305,8 +345,5 @@
             noiseTweets: noiseTweets,
             sadTweets: sadTweets
         };
-
     }
-
-
 })();

@@ -8,19 +8,17 @@
 /*******************************/
 
 var express = require('express');
-var apiRouter = express.Router();
-var adminRouter = express.Router();
-var mapRouter = express.Router();
+var elasticsearch = require('elasticsearch');
 var Blob = require('blob');
-
 var cors = require('cors'); //Cross Orgigin Request Management
 var bodyParser = require('body-parser');
 var rollbar = require('rollbar'); //Crash analytics for app
+var discoverEngine = require('./customerdiscovery');
 var Parse = require('parse/node').Parse;
 
-
-var elasticsearch = require('elasticsearch');
-var discoverEngine = require('./customerdiscovery');
+var apiRouter = express.Router();
+var adminRouter = express.Router();
+var mapRouter = express.Router();
 
 // var io = require('socket.io')(express);
 // io.on('connection', function (socket) {
@@ -29,7 +27,6 @@ var discoverEngine = require('./customerdiscovery');
 //     console.log(data);
 //   });
 // });
-
 
 /******Set up the basic app*****/
 /*******************************/
@@ -86,12 +83,7 @@ MongoClient.connect(url, function(err, db) {
     myDb = db;
 });
 
-
-
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
-
-
-// var apiRouter = require('./apiRouter');
 
 app.use('/api', apiRouter);
 app.use('/admin', adminRouter);
@@ -105,11 +97,13 @@ app.get('/', function(req, res) {
         root: __dirname
     });
 });
+
 app.get('/app', function(req, res) {
     res.sendFile('app.html', {
         root: __dirname + '/public'
     });
 });
+
 app.get('/data', function(req, res) {
     res.sendfile('data.html');
 });
@@ -258,86 +252,6 @@ io.on('connection', function(socket) {
 /*******************************/
 /*******************************/
 
-// apiRouter.get('/train/:classifierId/:sentiment/:twitterUserId', function(req, res) {
-
-//     var natural = require('natural');
-//     var classifierId = req.params.classifierId;
-//     var sentiment = req.params.sentiment;
-//     var twitterUserId = req.params.twitterUserId;
-//     var trainingEvents = 0;
-
-//     var Classifier = Parse.Object.extend("Classifier");
-//     var classifierQuery = new Parse.Query(Classifier);
-
-//     var Twitter = require('twitter');
-//     var twitterClient = new Twitter({
-//         consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-//         consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-//         access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-//         access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-//     });
-
-
-//     classifierQuery.get(classifierId, {
-//         success: function(result) {
-//             var raw = result.get('classifier');
-//             var restoredClassifier = natural.BayesClassifier.restore(JSON.parse(raw));
-
-//             var params = {
-//                 screen_name: twitterUserId,
-//                 count: 100
-//             };
-
-//             twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
-//                 if (!error) {
-
-//                     for (var i = 0; i < tweets.length; i++) {
-//                         restoredClassifier.addDocument(tweets[i].text, sentiment);
-//                         restoredClassifier.train();
-//                         trainingEvents = trainingEvents + 1;
-//                     };
-
-//                     var raw = JSON.stringify(restoredClassifier);
-//                     result.set("classifier", raw);
-//                     result.save();
-
-//                     res.json({
-//                         learningEvents: trainingEvents
-//                     });
-
-//                 } else {
-//                     res.json({
-//                         twitterResponse: "Something went wrong."
-//                     });
-//                 }
-//             });
-
-//         },
-//         error: function(error) {
-//             console.log("Error: " + error.code + " " + error.message);
-//         }
-//     });
-
-//     // twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
-//     //     if (error) throw error;
-//     //     tweets = tweets['statuses']
-//     //     res.json({
-//     //         twitterResponse: tweets
-//     //     });
-//     // });
-
-//     // var elasticClient = new elasticsearch.Client({
-//     //     host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-//     //     log: 'trace'
-//     // });
-
-// });
-
-
-
-
-
-
 apiRouter.get('/', function(req, res) {
     res.json({
         message: 'hooray! welcome to our api!'
@@ -350,6 +264,8 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 
+//This is a live call to twitter. It also creates a query record 
+//in the database which will call the word to be watched gong forward
 apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
     console.log("retrieving tweets");
     var query = req.params.query;
@@ -386,12 +302,10 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
         });
         processTweets(tweets, query);
     });
-
 });
 
-
-
-
+//This is a call to tweets from a few days ago.
+// It also creates a query record to watch the phrase going forward
 apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(req, res) {
 
     console.log("retrieving tweets");
@@ -439,12 +353,341 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
         });
         processTweets(tweets, query);
     });
-
 });
 
+// This only looks into the database. It does not call to twitter
+// It will return raw tweets
+apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+            res.json({
+                tweets: processedTweets
+            });
+        });
+});
+
+// This only looks into the database. It does not call to twitter
+// It will return the parts of speech of tweets
+apiRouter.get('/twitter/parts/:value/:count?', cors(), function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+        // var count = 50;
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+            //console.log(processedTweets.length);
+            processedTweets = discoverEngine.partsOfSpeech(processedTweets);
+            res.json({
+                partsOfSpeech: processedTweets
+            });
+        });
+});
+
+apiRouter.get('/twitter/words/:value/:count?', cors(), function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+        // var count = 50;
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+            //console.log(processedTweets.length);
+            processedTweets = discoverEngine.returnWords(processedTweets);
+            res.json({
+                partsOfSpeech: processedTweets
+            });
+        });
+});
+// This only looks into the database. It does not call to twitter
+// It will return tweets that have a location
+apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    // var Query = Parse.Object.extend("Query");
+    // var queryvalue = new Query();
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    var lengthOfTweetsFound;
+    var tweets;
+
+    elasticClient.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: count,
+        body: {
+            query: {
+                filtered: {
+                    query: {
+                        match: {
+                            _all: needle
+                        }
+                    },
+                    filter: {
+                        not: {
+                            filter: {
+                                missing: {
+                                    field: "coordinates"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function(resp) {
+        var processedTweets = [];
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            processedTweets.push(resp['hits']['hits'][i]['_source']);
+        };
+        res.json({
+            tweets: processedTweets
+        });
+    });
+});
+
+// This only looks into the database. It does not call to twitter
+// It will return raw tweets from yesterday
+apiRouter.get('/twitter/lastday/:value/:count?', function(req, res) {
+    var needle = req.params.value;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    elasticClient.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: 500,
+        body: {
+            query: {
+                filtered: {
+                    query: {
+                        match: {
+                            _all: needle
+                        }
+                    },
+                    filter: {
+                        range: {
+                            created_at: {
+                                gte: "now-1d/d",
+                                lt: "now/d"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function(resp) {
+        var justTweets = [];
+
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            justTweets.push(resp['hits']['hits'][i]['_source']);
+        };
+        res.json({
+            tweets: justTweets
+        });
+    });
+});
+
+// Dumby end used for testing
+apiRouter.get('/testingend', function(req, res) {
+
+    var elasticsearch = require('elasticsearch');
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    res.json({
+        response: "Let's do this"
+    });
+});
+
+// This only looks into the database. It does not call to twitter
+// It will return raw tweets that have been proccessed for the various things
+// that we are looking for
+apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+
+    // var Query = Parse.Object.extend("Query");
+    // var queryvalue = new Query();
+    // queryvalue.set("searchValue", needle);
+    // queryvalue.save();
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    var lengthOfTweetsFound;
+    var tweets;
+
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+
+            var responseObject = {
+                processedTweets: [],
+                followers: [],
+                words: [],
+                sentiment: [],
+                locations: []
+            };
+
+            //var processedTweets = [];
+
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                responseObject.processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+
+            //Just for testing load times
+            if (true) {
+                responseObject.followers = discoverEngine.returnFollowers(responseObject.processedTweets, res);
+                responseObject.words = discoverEngine.returnWords(responseObject.processedTweets);
+                // responseObject.words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
+                responseObject.sentiment = discoverEngine.classifyTweetsSentiment(responseObject.processedTweets);
+                responseObject.locations = discoverEngine.returnLocations(responseObject.processedTweets);
+                responseObject.happyPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.happyTweets);
+                responseObject.noisePartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.noiseTweets);
+                responseObject.sadPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.sadTweets);
+                res.json({
+                    length: responseObject.processedTweets.length,
+                    followers: responseObject.followers,
+                    words: responseObject.words,
+                    locations: responseObject.locations,
+                    sentiment: responseObject.sentiment,
+                    happyPartsOfSpeech: responseObject.happyPartsOfSpeech,
+                    noisePartsOfSpeech: responseObject.noisePartsOfSpeech,
+                    sadPartsOfSpeech: responseObject.sadPartsOfSpeech
+                });
+            }
+            //Just for testing
+            else {
+                res.json({
+                    tweets: responseObject.processedTweets
+                });
+            }
+
+
+        });
+
+
+    // res.json({
+    //     status: "done"
+    // });
+});
 
 apiRouter.get('/queries', function(req, res) {
-
     myDb.collection('Query', function(err, collection) {
         collection.find().toArray(function(err, items) {
             res.send(items);
@@ -463,6 +706,7 @@ apiRouter.get('/queries/:id', function(req, res) {
         });
     });
 });
+
 apiRouter.post('/queries', function(req, res) {
     var query = req.body;
     console.log('Adding query: ' + JSON.stringify(query));
@@ -569,302 +813,6 @@ apiRouter.post('/suggested', function(req, res) {
     res.send(true);
 });
 
-
-apiRouter.get('/testingend', function(req, res) {
-
-    var elasticsearch = require('elasticsearch');
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    res.json({
-        response: "Let's do this"
-    });
-
-});
-
-apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
-
-    var needle = req.params.value;
-    var count = (req.params.count != null ? req.params.count : 500)
-
-    // var Query = Parse.Object.extend("Query");
-    // var queryvalue = new Query();
-    // queryvalue.set("searchValue", needle);
-    // queryvalue.save();
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    var lengthOfTweetsFound;
-    var tweets;
-
-    elasticClient.search({
-            index: 'twitter',
-            type: 'tweet',
-            size: count,
-            body: {
-                fields: ['_source'],
-                query: {
-                    filtered: {
-                        query: {
-                            match: {
-                                _all: needle
-                            }
-                        }
-
-                    }
-                }
-            }
-        })
-        .then(function(resp) {
-
-            var responseObject = {
-                processedTweets: [],
-                followers: [],
-                words: [],
-                sentiment: [],
-                locations: []
-            };
-
-            //var processedTweets = [];
-
-            for (var i = 0; i < resp['hits']['hits'].length; i++) {
-                responseObject.processedTweets.push(resp['hits']['hits'][i]['_source']);
-            };
-
-            //Just for testing load times
-            if (true) {
-                responseObject.followers = discoverEngine.returnFollowers(responseObject.processedTweets, res);
-                responseObject.words = discoverEngine.returnWords(responseObject.processedTweets);
-                // responseObject.words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
-                responseObject.sentiment = discoverEngine.classifyTweetsSentiment(responseObject.processedTweets);
-                responseObject.locations = discoverEngine.returnLocations(responseObject.processedTweets);
-                responseObject.happyPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.happyTweets);
-                responseObject.noisePartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.noiseTweets);
-                responseObject.sadPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.sadTweets);
-                res.json({
-                    length: responseObject.processedTweets.length,
-                    followers: responseObject.followers,
-                    words: responseObject.words,
-                    locations: responseObject.locations,
-                    sentiment: responseObject.sentiment,
-                    happyPartsOfSpeech: responseObject.happyPartsOfSpeech,
-                    noisePartsOfSpeech: responseObject.noisePartsOfSpeech,
-                    sadPartsOfSpeech: responseObject.sadPartsOfSpeech
-                });
-            }
-            //Just for testing
-            else{
-                res.json({
-                    tweets: responseObject.processedTweets
-                });
-            }
-
-
-        });
-
-
-    // res.json({
-    //     status: "done"
-    // });
-});
-
-apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
-
-    var needle = req.params.value;
-    var count = (req.params.count != null ? req.params.count : 500)
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-    var lengthOfTweetsFound;
-    var tweets;
-    elasticClient.search({
-            index: 'twitter',
-            type: 'tweet',
-            size: count,
-            body: {
-                fields: ['_source'],
-                query: {
-                    filtered: {
-                        query: {
-                            match: {
-                                _all: needle
-                            }
-                        }
-
-                    }
-                }
-            }
-        })
-        .then(function(resp) {
-            var processedTweets = [];
-            for (var i = 0; i < resp['hits']['hits'].length; i++) {
-                processedTweets.push(resp['hits']['hits'][i]['_source']);
-            };
-            res.json({
-                tweets: processedTweets
-            });
-        });
-});
-
-
-apiRouter.get('/twitter/parts/:value/:count?', cors(), function(req, res) {
-
-    var needle = req.params.value;
-    var count = (req.params.count != null ? req.params.count : 500)
-        // var count = 50;
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-    var lengthOfTweetsFound;
-    var tweets;
-    elasticClient.search({
-            index: 'twitter',
-            type: 'tweet',
-            size: count,
-            body: {
-                fields: ['_source'],
-                query: {
-                    filtered: {
-                        query: {
-                            match: {
-                                _all: needle
-                            }
-                        }
-
-                    }
-                }
-            }
-        })
-        .then(function(resp) {
-
-
-            var processedTweets = [];
-            for (var i = 0; i < resp['hits']['hits'].length; i++) {
-                processedTweets.push(resp['hits']['hits'][i]['_source']);
-            };
-
-            console.log(processedTweets.length);
-
-            processedTweets = discoverEngine.partsOfSpeech(processedTweets);
-
-
-
-            res.json({
-                tweets: processedTweets
-            });
-        });
-});
-
-
-apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
-
-    var needle = req.params.value;
-    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
-    // var Query = Parse.Object.extend("Query");
-    // var queryvalue = new Query();
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    var lengthOfTweetsFound;
-    var tweets;
-
-    elasticClient.search({
-        index: 'twitter',
-        type: 'tweet',
-        size: count,
-        body: {
-            query: {
-                filtered: {
-                    query: {
-                        match: {
-                            _all: needle
-                        }
-                    },
-                    filter: {
-                        not: {
-                            filter: {
-                                missing: {
-                                    field: "coordinates"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }).then(function(resp) {
-
-        var processedTweets = [];
-
-        for (var i = 0; i < resp['hits']['hits'].length; i++) {
-            processedTweets.push(resp['hits']['hits'][i]['_source']);
-        };
-
-        res.json({
-            tweets: processedTweets
-        });
-    });
-});
-
-
-apiRouter.get('/twitter/lastday/:value/:count?', function(req, res) {
-    var needle = req.params.value;
-    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    elasticClient.search({
-        index: 'twitter',
-        type: 'tweet',
-        size: 500,
-        body: {
-            query: {
-                filtered: {
-                    query: {
-                        match: {
-                            _all: needle
-                        }
-                    },
-                    filter: {
-                        range: {
-                            created_at: {
-                                gte: "now-1d/d",
-                                lt: "now/d"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }).then(function(resp) {
-        var justTweets = [];
-
-        for (var i = 0; i < resp['hits']['hits'].length; i++) {
-            justTweets.push(resp['hits']['hits'][i]['_source']);
-        };
-        res.json({
-            tweets: justTweets
-        });
-    });
-
-});
-
-
 Object.size = function(obj) {
     var size = 0,
         key;
@@ -877,11 +825,11 @@ Object.size = function(obj) {
 function processTweets(data, query) {
     var queryString = query;
 
-    // var Query = Parse.Object.extend("Query");
-    // var queryvalue = new Query();
+    var Query = Parse.Object.extend("Query");
+    var queryvalue = new Query();
 
-    // queryvalue.set("searchValue", query);
-    // queryvalue.save();
+    queryvalue.set("searchValue", query);
+    queryvalue.save();
 
 
     var size = Object.size(data);
