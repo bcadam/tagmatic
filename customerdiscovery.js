@@ -31,7 +31,7 @@
 
     function cleanJunkWords(arrayOfData) {
 
-        var wordsToDelete = ["it's","into", "ha", "as", "of", "the", "&amp;", "if", "was", "she", "a", "it", "how", "rt", "a", "de", "la", "i", "in", "my", "to", "the", "no", "at", "el", "en", "que", "you", "+", "per", "for", "on", "-", "their", "and", "we", "with", "is", "del"];
+        var wordsToDelete = ["it's", "into", "ha", "as", "of", "the", "&amp;", "if", "was", "she", "a", "it", "how", "rt", "a", "de", "la", "i", "in", "my", "to", "the", "no", "at", "el", "en", "que", "you", "+", "per", "for", "on", "-", "their", "and", "we", "with", "is", "del"];
 
         for (var i = 0; i < arrayOfData.length; i++) {
             for (var y = 0; y < wordsToDelete.length; y++) {
@@ -47,10 +47,10 @@
         return arrayOfData;
     }
 
-    // Example input 
-    // [['cat',2],['cats',2],['dog',1]]
-    // Example output
-    // [['cat',4],['dog',1]]
+    /*    Example input 
+        [['cat',2],['cats',2],['dog',1]]
+        Example output
+        [['cat',4],['dog',1]] */
     exports.combineBasedOnSimilarityOfString = function(words, distanceForSame) {
         var arrayOfMatches = [];
         for (var i = 0; i < words.length; i++) {
@@ -201,34 +201,34 @@
         return orderedArray;
     }
 
-    // Example Response
-    // { verb: [],
-    // noun: 
-    //  [ [ 'cat', 4 ],
-    //    [ '/', 3 ],
-    //    [ 'dancer', 2 ],
-    //    [ 'interactive', 1 ],
-    //    [ 'toy', 1 ],
-    //    [ 'products', 1 ],
-    //    [ 'xqzu', 1 ],
-    //    [ 'charmer', 1 ],
-    //    [ 't', 1 ],
-    //    [ 'co', 1 ],
-    //    [ 'jwrfo', 1 ],
-    //    [ 'https', 1 ] ],
-    // adverb: [],
-    // adjective: [],
-    // modal: [],
-    // interjection: [],
-    // foreign: [],
-    // url: [],
-    // other: 
-    //  [ [ '2', 1 ],
-    //    [ '301', 1 ],
-    //    [ 'by', 1 ],
-    //    [ '-', 1 ],
-    //    [ ':', 1 ],
-    //    [ '.', 1 ] ] }
+    /*Example Response
+    { verb: [],
+    noun: 
+     [ [ 'cat', 4 ],
+       [ '/', 3 ],
+       [ 'dancer', 2 ],
+       [ 'interactive', 1 ],
+       [ 'toy', 1 ],
+       [ 'products', 1 ],
+       [ 'xqzu', 1 ],
+       [ 'charmer', 1 ],
+       [ 't', 1 ],
+       [ 'co', 1 ],
+       [ 'jwrfo', 1 ],
+       [ 'https', 1 ] ],
+    adverb: [],
+    adjective: [],
+    modal: [],
+    interjection: [],
+    foreign: [],
+    url: [],
+    other: 
+     [ [ '2', 1 ],
+       [ '301', 1 ],
+       [ 'by', 1 ],
+       [ '-', 1 ],
+       [ ':', 1 ],
+       [ '.', 1 ] ] }*/
     exports.partsOfSpeech = function(tweets) {
         if (tweets.length == null) {
             return null;
@@ -311,6 +311,7 @@
         //console.log(partsOfSpeechObject);
         return partsOfSpeechObject;
     }
+
     exports.classifyTweetsSentiment = function(tweets) {
         // var natural = require('natural');
         // var classifier = new natural.BayesClassifier();
@@ -346,4 +347,5 @@
             sadTweets: sadTweets
         };
     }
+
 })();

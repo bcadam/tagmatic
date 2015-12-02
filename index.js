@@ -1,12 +1,3 @@
-/** Where all the requires go **/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-
 var express = require('express');
 var elasticsearch = require('elasticsearch');
 var Blob = require('blob');
@@ -49,14 +40,10 @@ app.locals.twitterConfig = {
     "accessTokenSecret": "cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK",
     "callBackUrl": "https://onemonarch.herokuapp.com/"
 };
-app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
-})); // for parsing application/x-www-form-urlencoded
-
-// app.get('/', function(req, res) {
-//     res.sendFile(__dirname + '/index.html');
-// });
+}));
 
 app.use('/', express.static('public'));
 
@@ -68,7 +55,6 @@ app.use('/', express.static('public'));
 /*******************************/
 /*******************************/
 /*******************************/
-
 
 var url = 'mongodb://adminuser:adminuseradminuser123@ds043324.mongolab.com:43324/tagmatic';
 // var url = 'mongodb://adminuser:adminuseradminuser123@128.122.36.72:27017/tagmatic';
@@ -82,8 +68,9 @@ MongoClient.connect(url, function(err, db) {
     //console.log("Connected correctly to server");
     myDb = db;
 });
-
 Parse.initialize('8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO', 'oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV');
+
+
 
 app.use('/api', apiRouter);
 app.use('/admin', adminRouter);
@@ -108,149 +95,7 @@ app.get('/data', function(req, res) {
     res.sendfile('data.html');
 });
 
-/******   ADMIN ROUTER HERE  *****/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-
 mapRouter.use('/', express.static('public/map.html'));
-
-/******   Socket Connection  *****/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-var server = app.listen(app.get('port'), function() {
-    console.log('oneMonarch is running on port', app.get('port'));
-});
-
-var query = 'intel';
-
-var io = require('socket.io').listen(server);
-io.on('connection', function(socket) {
-
-    var Twitter = require('twitter');
-    var twitterClient = new Twitter({
-        consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
-        consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
-        access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
-        access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
-    });
-
-    socket.on('subscribe data', function(data) {
-
-        var params = {
-            track: query
-        };
-
-
-
-        twitterClient.stream('statuses/filter', params, function(stream) {
-            stream.on('data', function(tweet) {
-                //console.log(tweet.user.screen_name);
-                //console.log(tweet.text);
-
-                if (tweet.coordinates != null) {
-                    console.log(tweet.text);
-
-                    socket.emit('tweets', {
-                        tweet: tweet
-                    });
-
-
-                }
-            });
-            stream.on('error', function(error) {
-                console.log(error);
-            });
-        });
-    });
-
-    socket.on("longitudinal data", function(data) {
-        var firstPointLng = data[0].lng;
-        var firstPointLat = data[0].lat;
-
-        var secondPointLng = data[1].lng;
-        var secondPointLat = data[1].lat;
-
-        var southWestLat = (firstPointLat > secondPointLat ? secondPointLat : firstPointLat);
-        var southWestLng = (firstPointLng > secondPointLng ? secondPointLng : firstPointLng);
-
-
-        var northEastLat = (firstPointLat < secondPointLat ? secondPointLat : firstPointLat);
-        var northEastLng = (firstPointLng < secondPointLng ? secondPointLng : firstPointLng);
-
-        var location = "" + southWestLng + "," + southWestLat + "," + northEastLng + "," + northEastLat;
-        //console.log(location);
-
-
-        var query = data[2];
-        console.log(query);
-        var twitterQueryParameters = {
-            q: query,
-            count: 100,
-            location: location
-        };
-
-        twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
-            if (error) throw error;
-            tweets = tweets['statuses']
-
-            var size = Object.size(tweets);
-
-            for (var i = 0; i < size; i++) {
-                //console.log(tweets[i].coordinates);
-                if (tweets[i].coordinates != null) {
-                    console.log(tweets[i].text);
-                    socket.emit('tweets', {
-                        tweet: tweets[i]
-                    });
-                }
-            }
-        });
-
-
-        var params = {
-            track: query,
-            location: location
-        };
-
-        twitterClient.stream('statuses/filter', params, function(stream) {
-            stream.on('data', function(tweet) {
-                //console.log(tweet.user.screen_name);
-                //console.log(tweet.text);
-
-                if (tweet.coordinates != null) {
-                    console.log(tweet.text);
-                    socket.emit('tweets', {
-                        tweet: tweet
-                    });
-
-
-                }
-            });
-            stream.on('error', function(error) {
-                console.log(error);
-            });
-        });
-    });
-});
-
-/******   API ROUTER HERE  *****/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
-/*******************************/
 
 apiRouter.get('/', function(req, res) {
     res.json({
@@ -264,8 +109,8 @@ apiRouter.get('/twitter', cors(), function(req, res) {
     });
 });
 
-//This is a live call to twitter. It also creates a query record 
-//in the database which will call the word to be watched gong forward
+/*This is a live call to twitter. It also creates a query record 
+in the database which will call the word to be watched gong forward*/
 apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req, res) {
     console.log("retrieving tweets");
     var query = req.params.query;
@@ -304,8 +149,8 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
     });
 });
 
-//This is a call to tweets from a few days ago.
-// It also creates a query record to watch the phrase going forward
+/*This is a call to twitter for tweets from a few days ago.
+It also creates a query record to watch the phrase going forward*/
 apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(req, res) {
 
     console.log("retrieving tweets");
@@ -355,8 +200,54 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
     });
 });
 
-// This only looks into the database. It does not call to twitter
-// It will return raw tweets
+/*This only looks into the database. It does not call to twitter
+It will return raw tweets from yesterday*/
+apiRouter.get('/twitter/lastday/:value/:count?', function(req, res) {
+    var needle = req.params.value;
+    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
+
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+
+    elasticClient.search({
+        index: 'twitter',
+        type: 'tweet',
+        size: 500,
+        body: {
+            query: {
+                filtered: {
+                    query: {
+                        match: {
+                            _all: needle
+                        }
+                    },
+                    filter: {
+                        range: {
+                            created_at: {
+                                gte: "now-1d/d",
+                                lt: "now/d"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function(resp) {
+        var justTweets = [];
+
+        for (var i = 0; i < resp['hits']['hits'].length; i++) {
+            justTweets.push(resp['hits']['hits'][i]['_source']);
+        };
+        res.json({
+            tweets: justTweets
+        });
+    });
+});
+
+/*This only looks into the database. It does not call to twitter
+It will return raw tweets*/
 apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
 
     var needle = req.params.value;
@@ -396,8 +287,8 @@ apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
         });
 });
 
-// This only looks into the database. It does not call to twitter
-// It will return the parts of speech of tweets
+/*This only looks into the database. It does not call to twitter
+It will return the parts of speech of tweets*/
 apiRouter.get('/twitter/parts/:value/:count?', cors(), function(req, res) {
 
     var needle = req.params.value;
@@ -481,8 +372,10 @@ apiRouter.get('/twitter/words/:value/:count?', cors(), function(req, res) {
             });
         });
 });
-// This only looks into the database. It does not call to twitter
-// It will return tweets that have a location
+
+/*
+This only looks into the database. It does not call to twitter
+It will return tweets that have a location*/
 apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 
     var needle = req.params.value;
@@ -534,53 +427,7 @@ apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
     });
 });
 
-// This only looks into the database. It does not call to twitter
-// It will return raw tweets from yesterday
-apiRouter.get('/twitter/lastday/:value/:count?', function(req, res) {
-    var needle = req.params.value;
-    var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
-
-    var elasticClient = new elasticsearch.Client({
-        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-        log: 'trace'
-    });
-
-    elasticClient.search({
-        index: 'twitter',
-        type: 'tweet',
-        size: 500,
-        body: {
-            query: {
-                filtered: {
-                    query: {
-                        match: {
-                            _all: needle
-                        }
-                    },
-                    filter: {
-                        range: {
-                            created_at: {
-                                gte: "now-1d/d",
-                                lt: "now/d"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }).then(function(resp) {
-        var justTweets = [];
-
-        for (var i = 0; i < resp['hits']['hits'].length; i++) {
-            justTweets.push(resp['hits']['hits'][i]['_source']);
-        };
-        res.json({
-            tweets: justTweets
-        });
-    });
-});
-
-// Dumby end used for testing
+/*Dumby end used for testing*/
 apiRouter.get('/testingend', function(req, res) {
 
     var elasticsearch = require('elasticsearch');
@@ -595,9 +442,9 @@ apiRouter.get('/testingend', function(req, res) {
     });
 });
 
-// This only looks into the database. It does not call to twitter
-// It will return raw tweets that have been proccessed for the various things
-// that we are looking for
+/**This only looks into the database. It does not call to twitter
+It will return raw tweets that have been proccessed for the various things
+that we are looking for**/
 apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
 
     var needle = req.params.value;
@@ -811,6 +658,130 @@ apiRouter.post('/suggested', function(req, res) {
     );
     console.log(variable);
     res.send(true);
+});
+
+/******   Socket Connection  *****/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+/*******************************/
+var server = app.listen(app.get('port'), function() {
+    console.log('oneMonarch is running on port', app.get('port'));
+});
+
+var query = 'intel';
+
+var io = require('socket.io').listen(server);
+io.on('connection', function(socket) {
+
+    var Twitter = require('twitter');
+    var twitterClient = new Twitter({
+        consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
+        consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',
+        access_token_key: '312687274-zhuIwxkbJtuvy4Qe93tZ26W2KqQRK0BS4SE7cR26',
+        access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
+    });
+
+    socket.on('subscribe data', function(data) {
+
+        var params = {
+            track: query
+        };
+
+
+
+        twitterClient.stream('statuses/filter', params, function(stream) {
+            stream.on('data', function(tweet) {
+                //console.log(tweet.user.screen_name);
+                //console.log(tweet.text);
+
+                if (tweet.coordinates != null) {
+                    console.log(tweet.text);
+
+                    socket.emit('tweets', {
+                        tweet: tweet
+                    });
+
+
+                }
+            });
+            stream.on('error', function(error) {
+                console.log(error);
+            });
+        });
+    });
+
+    socket.on("longitudinal data", function(data) {
+        var firstPointLng = data[0].lng;
+        var firstPointLat = data[0].lat;
+
+        var secondPointLng = data[1].lng;
+        var secondPointLat = data[1].lat;
+
+        var southWestLat = (firstPointLat > secondPointLat ? secondPointLat : firstPointLat);
+        var southWestLng = (firstPointLng > secondPointLng ? secondPointLng : firstPointLng);
+
+
+        var northEastLat = (firstPointLat < secondPointLat ? secondPointLat : firstPointLat);
+        var northEastLng = (firstPointLng < secondPointLng ? secondPointLng : firstPointLng);
+
+        var location = "" + southWestLng + "," + southWestLat + "," + northEastLng + "," + northEastLat;
+        //console.log(location);
+
+
+        var query = data[2];
+        console.log(query);
+        var twitterQueryParameters = {
+            q: query,
+            count: 100,
+            location: location
+        };
+
+        twitterClient.get('search/tweets', twitterQueryParameters, function(error, tweets, response) {
+            if (error) throw error;
+            tweets = tweets['statuses']
+
+            var size = Object.size(tweets);
+
+            for (var i = 0; i < size; i++) {
+                //console.log(tweets[i].coordinates);
+                if (tweets[i].coordinates != null) {
+                    console.log(tweets[i].text);
+                    socket.emit('tweets', {
+                        tweet: tweets[i]
+                    });
+                }
+            }
+        });
+
+
+        var params = {
+            track: query,
+            location: location
+        };
+
+        twitterClient.stream('statuses/filter', params, function(stream) {
+            stream.on('data', function(tweet) {
+                //console.log(tweet.user.screen_name);
+                //console.log(tweet.text);
+
+                if (tweet.coordinates != null) {
+                    console.log(tweet.text);
+                    socket.emit('tweets', {
+                        tweet: tweet
+                    });
+
+
+                }
+            });
+            stream.on('error', function(error) {
+                console.log(error);
+            });
+        });
+    });
 });
 
 Object.size = function(obj) {
