@@ -1,16 +1,16 @@
 (function() {
 
-    var Parse = require('parse/node').Parse;
-    var Papa = require('babyparse');
-    var Blob = require('blob');
-    var fs = require('fs');
+    // var Parse = require('parse/node').Parse;
+    // var Papa = require('babyparse');
+    // var Blob = require('blob');
+    // var fs = require('fs');
     var natural = require('natural');
     var localClassifier = require('./localclassifier');
-    var tweets = require('./tweets');
+    // var tweets = require('./tweets');
     //console.log(tweets.tweets);
     //console.log(localClassifier.classifier);
 
-    Parse.initialize("8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO", "oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV");
+    //Parse.initialize("8jNBnCVreI02H6KRVJHeKvdQicDnUwMmCZeuisrO", "oJ9u5BVMYDb4ajCvlXTcmoULRs6lMV6AALX8umlV");
 
     function sortByOccurence(arrayOfData) {
         var counts = [];
@@ -63,15 +63,13 @@
     }
 
     exports.returnWords = function(tweets) {
+
         var textOfTweets = [];
         for (var i = 0; i < tweets.length; i++) {
             var holder = tweets[i].text.split(' ');
             for (var y = 0; y < holder.length; y++) {
-                textOfTweets.push(holder[y]);
+                textOfTweets.push(holder[y].toLowerCase());
             };
-        };
-        for (var i = 0; i < textOfTweets.length; i++) {
-            textOfTweets[i] = textOfTweets[i].toLowerCase();
         };
 
         for (var i = 0; i < textOfTweets.length; i++) {
@@ -199,6 +197,80 @@
         return orderedArray;
     }
 
+    exports.partsOfSpeech = function(tweets) {
+
+        if (tweets.length == null)
+        {
+            return null;
+        }
+
+        var partsOfSpeechObject = {
+            verb: [],
+            noun: [],
+            adverb: [],
+            adjective: [],
+            modal: [],
+            interjection: [],
+            foreign: [],
+            url: [],
+            other: []
+        };
+
+        var pos = require('pos');
+
+        for (var i = 0; i < tweets.length; i++) {
+
+            var words = new pos.Lexer().lex(tweets[i].text);
+
+            var tagger = new pos.Tagger();
+            var taggedWords = tagger.tag(words);
+
+            for (y in taggedWords) {
+                var taggedWord = taggedWords[y];
+                var word = taggedWord[0];
+                var tag = taggedWord[1];
+                //console.log(word + " /" + tag);
+                if (!tag.indexOf('VB')) {
+                    partsOfSpeechObject.verb.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('NN')) {
+                    partsOfSpeechObject.noun.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('JJ')) {
+                    partsOfSpeechObject.adjective.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('RB')) {
+                    partsOfSpeechObject.adverb.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('MD')) {
+                    partsOfSpeechObject.modal.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('UH')) {
+                    partsOfSpeechObject.interjection.push([word.toLowerCase()]);
+                } else if (!tag.indexOf('FW')) {
+                    partsOfSpeechObject.foreign.push([word.toLowerCase()]);
+                }else if (!tag.indexOf('URL')) {
+                    partsOfSpeechObject.url.push([word.toLowerCase()]);
+                }else{
+                    partsOfSpeechObject.other.push([word.toLowerCase()]);
+                }
+                //console.log(word);
+            }
+
+        };
+
+        partsOfSpeechObject.verb = sortByOccurence(partsOfSpeechObject.verb);
+        partsOfSpeechObject.noun = sortByOccurence(partsOfSpeechObject.noun);
+        partsOfSpeechObject.adverb = sortByOccurence(partsOfSpeechObject.adverb);
+        partsOfSpeechObject.adjective = sortByOccurence(partsOfSpeechObject.adjective);
+        partsOfSpeechObject.modal = sortByOccurence(partsOfSpeechObject.modal);
+        partsOfSpeechObject.interjection = sortByOccurence(partsOfSpeechObject.interjection);
+        partsOfSpeechObject.foreign = sortByOccurence(partsOfSpeechObject.foreign);
+        partsOfSpeechObject.url = sortByOccurence(partsOfSpeechObject.url);
+        partsOfSpeechObject.other = sortByOccurence(partsOfSpeechObject.other);
+
+
+        // console.log("partsOfSpeechObject");
+        // console.log(partsOfSpeechObject);
+
+        return partsOfSpeechObject;
+    }
+
     exports.classifyTweetsSentiment = function(tweets) {
         // var natural = require('natural');
         // var classifier = new natural.BayesClassifier();
@@ -229,30 +301,10 @@
         console.log(sadTweets.length);
 
         return {
-            happytweets: happyTweets,
+            happyTweets: happyTweets,
             noiseTweets: noiseTweets,
             sadTweets: sadTweets
         };
-
-        // var Classifier = Parse.Object.extend("Classifier");
-        // var classifier = new Parse.Query(Classifier);
-        // var restoredClassifier = natural.BayesClassifier.restore(localClassifier.classifier);
-        // for (var i = 0; i < tweets.length; i++) {
-        //     var classifications = restoredClassifier.getClassifications(tweets[i].text);
-        //     //console.log(classifications);
-        //     if (classifications[0]['label'] == 'Positive') {
-        //         happyTweets.push(tweets[i]);
-        //     } else if (classifications[0]['label'] == 'Negative') {
-        //         sadTweets.push(tweets[i]);
-        //     } else if (classifications[0]['label'] == 'undefined') {
-        //         noiseTweets.push(tweets[i]);
-        //     }
-        // };
-
-        //console.log(noiseTweets);
-        // returnWords(happyTweets);
-        // returnWords(noiseTweets);
-        // returnWords(sadTweets);
 
     }
 

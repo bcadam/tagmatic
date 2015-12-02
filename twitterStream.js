@@ -2,9 +2,9 @@ var Parse = require('parse/node').Parse;
 var fs = require('fs');
 var discoverEngine = require('./customerdiscovery');
 var elasticsearch = require('elasticsearch');
-var tweets = require('./tweets');
 var natural = require('natural');
 var wordnet = new natural.WordNet();
+var Twitter = require('twitter');
 
 
 var fullString = '';
@@ -38,7 +38,6 @@ function openStream(fullString) {
         stall_warnings: true
     });
 
-    var Twitter = require('twitter');
     var twitterClient = new Twitter({
         consumer_key: '99U4wZ1wPFmuVE0qWmi7fTllB',
         consumer_secret: 'U54J0wDK4YPtYmNzV9GcofrHZqs5bgMgVfsvnWLBpPF6dULpO9',

@@ -25,6 +25,7 @@
     "nodemon": "1.7.1",
     "papaparse": "4.1.2",
     "parse": "^1.6.5",
+    "pos":"0.3.0",
     "parse-react": "^0.5.0",
     "react": "^0.14.1",
     "react-dom": "^0.14.1",
@@ -36,6 +37,7 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#af22b9c657494748e3d643a7b3a9fa74467a2c52",
     "xmlhttprequest": "1.8.0",
     "d3" : "3.5.6",
+    "wordpos" : "0.1.15",
     "jsdom" : "7.0.2"
   },
   "devDependencies": {

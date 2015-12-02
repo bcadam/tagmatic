@@ -393,7 +393,7 @@ apiRouter.get('/twitter/search/:query/:count?/:language?', cors(), function(req,
 
 
 apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(req, res) {
-    
+
     console.log("retrieving tweets");
     var query = req.params.query;
     var count = (req.params.count == null || req.params.count > 100 ? 100 : req.params.count);
@@ -410,7 +410,7 @@ apiRouter.get('/twitter/historical/:query/:count?/:language?', cors(), function(
         access_token_secret: 'cBeATWgQQpUJOZIstdrEE3PLLpAcjfhQPIIQTHzx1EQDK'
     });
 
-    var d = new Date(); 
+    var d = new Date();
 
     //Gets a random number between 1 and 6 to set how far back the tweets should go
     var num = Math.floor(Math.random() * 6 + 1);
@@ -623,26 +623,48 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
         })
         .then(function(resp) {
 
-            var processedTweets = [];
-
-            for (var i = 0; i < resp['hits']['hits'].length; i++) {
-                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            var responseObject = {
+                processedTweets: [],
+                followers: [],
+                words: [],
+                sentiment: [],
+                locations: []
             };
 
-            lengthOfTweetsFound = processedTweets.length;
-            var followers = discoverEngine.returnFollowers(processedTweets, res);
-            var words = discoverEngine.returnWords(processedTweets);
-            //words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
-            var sentiment = discoverEngine.classifyTweetsSentiment(processedTweets);
-            var locations = discoverEngine.returnLocations(processedTweets);
+            //var processedTweets = [];
 
-            res.json({
-                length: lengthOfTweetsFound,
-                followers: followers,
-                words: words,
-                locations: locations,
-                sentiment: sentiment
-            });
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                responseObject.processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+
+            //Just for testing load times
+            if (true) {
+                responseObject.followers = discoverEngine.returnFollowers(responseObject.processedTweets, res);
+                responseObject.words = discoverEngine.returnWords(responseObject.processedTweets);
+                // responseObject.words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
+                responseObject.sentiment = discoverEngine.classifyTweetsSentiment(responseObject.processedTweets);
+                responseObject.locations = discoverEngine.returnLocations(responseObject.processedTweets);
+                responseObject.happyPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.happyTweets);
+                responseObject.noisePartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.noiseTweets);
+                responseObject.sadPartsOfSpeech = discoverEngine.partsOfSpeech(responseObject.sentiment.sadTweets);
+                res.json({
+                    length: responseObject.processedTweets.length,
+                    followers: responseObject.followers,
+                    words: responseObject.words,
+                    locations: responseObject.locations,
+                    sentiment: responseObject.sentiment,
+                    happyPartsOfSpeech: responseObject.happyPartsOfSpeech,
+                    noisePartsOfSpeech: responseObject.noisePartsOfSpeech,
+                    sadPartsOfSpeech: responseObject.sadPartsOfSpeech
+                });
+            }
+            //Just for testing
+            else{
+                res.json({
+                    tweets: responseObject.processedTweets
+                });
+            }
+
 
         });
 
@@ -690,6 +712,57 @@ apiRouter.get('/twitter/database/:value/:count?', cors(), function(req, res) {
             });
         });
 });
+
+
+apiRouter.get('/twitter/parts/:value/:count?', cors(), function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+        // var count = 50;
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+
+
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+
+            console.log(processedTweets.length);
+
+            processedTweets = discoverEngine.partsOfSpeech(processedTweets);
+
+
+
+            res.json({
+                tweets: processedTweets
+            });
+        });
+});
+
 
 apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 
