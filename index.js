@@ -431,7 +431,7 @@ apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 apiRouter.get('/twitter/formatted/:value/:count?', function(req, res) {
 
     var needle = req.params.value;
-    var count = (req.params.count != null ? req.params.count : 500)
+    var count = (req.params.count != null || req.params.count < 200 ? req.params.count : 200)
     var elasticClient = new elasticsearch.Client({
         host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
         log: 'trace'
