@@ -428,6 +428,55 @@ apiRouter.get('/twitter/geotagged/:value/:count?', function(req, res) {
 });
 
 /*Dumby end used for testing*/
+apiRouter.get('/twitter/formatted/:value/:count?', function(req, res) {
+
+    var needle = req.params.value;
+    var count = (req.params.count != null ? req.params.count : 500)
+    var elasticClient = new elasticsearch.Client({
+        host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+        log: 'trace'
+    });
+    var lengthOfTweetsFound;
+    var tweets;
+    elasticClient.search({
+            index: 'twitter',
+            type: 'tweet',
+            size: count,
+            body: {
+                fields: ['_source'],
+                query: {
+                    filtered: {
+                        query: {
+                            match: {
+                                _all: needle
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+        .then(function(resp) {
+            var processedTweets = [];
+            for (var i = 0; i < resp['hits']['hits'].length; i++) {
+                processedTweets.push(resp['hits']['hits'][i]['_source']);
+            };
+
+            for (var i = 0; i < processedTweets.length; i++) {
+                processedTweets[i].sentiment = discoverEngine.classifyTweetSentimentScore(processedTweets[i].text);
+                processedTweets[i].partsOfSpeech = discoverEngine.partsOfSpeechForSingleTweet(processedTweets[i].text);
+            };
+
+
+
+            res.json({
+                tweets: processedTweets
+            });
+        });
+
+});
+
+/*Dumby end used for testing*/
 apiRouter.get('/testingend', function(req, res) {
 
     var elasticsearch = require('elasticsearch');
@@ -500,7 +549,7 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
             //Just for testing load times
             if (true) {
                 responseObject.followers = discoverEngine.returnFollowers(responseObject.processedTweets, res);
-                responseObject.words = discoverEngine.returnWords(responseObject.processedTweets);
+                //responseObject.words = discoverEngine.returnWords(responseObject.processedTweets);
                 // responseObject.words = discoverEngine.combineBasedOnSimilarityOfString(words,.93);
                 responseObject.sentiment = discoverEngine.classifyTweetsSentiment(responseObject.processedTweets);
                 responseObject.locations = discoverEngine.returnLocations(responseObject.processedTweets);
@@ -533,6 +582,12 @@ apiRouter.get('/data/:value/:count?', cors(), function(req, res) {
     //     status: "done"
     // });
 });
+
+
+
+
+
+
 
 apiRouter.get('/queries', function(req, res) {
     myDb.collection('Query', function(err, collection) {

@@ -202,52 +202,52 @@
     }
 
     /*Example Response
-    { verb: [],
-    noun: 
-     [ [ 'cat', 4 ],
-       [ '/', 3 ],
-       [ 'dancer', 2 ],
-       [ 'interactive', 1 ],
-       [ 'toy', 1 ],
-       [ 'products', 1 ],
-       [ 'xqzu', 1 ],
-       [ 'charmer', 1 ],
-       [ 't', 1 ],
-       [ 'co', 1 ],
-       [ 'jwrfo', 1 ],
-       [ 'https', 1 ] ],
-    adverb: [],
-    adjective: [],
-    modal: [],
-    interjection: [],
-    foreign: [],
-    url: [],
-    other: 
-     [ [ '2', 1 ],
-       [ '301', 1 ],
-       [ 'by', 1 ],
-       [ '-', 1 ],
-       [ ':', 1 ],
-       [ '.', 1 ] ] }*/
+        { verb: [],
+        noun: 
+         [ [ 'cat', 4 ],
+           [ '/', 3 ],
+           [ 'dancer', 2 ],
+           [ 'interactive', 1 ],
+           [ 'toy', 1 ],
+           [ 'products', 1 ],
+           [ 'xqzu', 1 ],
+           [ 'charmer', 1 ],
+           [ 't', 1 ],
+           [ 'co', 1 ],
+           [ 'jwrfo', 1 ],
+           [ 'https', 1 ] ],
+        adverb: [],
+        adjective: [],
+        modal: [],
+        interjection: [],
+        foreign: [],
+        url: [],
+        other: 
+         [ [ '2', 1 ],
+           [ '301', 1 ],
+           [ 'by', 1 ],
+           [ '-', 1 ],
+           [ ':', 1 ],
+           [ '.', 1 ] ] }*/
     exports.partsOfSpeech = function(tweets) {
         if (tweets.length == null) {
             return null;
         }
         var partsOfSpeechObject = {
+            adjective: [],
+            verb: [],
+            noun: [],
             conjunction: [],
             cardinal: [],
             foreign: [],
             preposition: [],
-            adjective: [],
             modal: [],
-            noun: [],
             possessive: [],
             personal: [],
             adverb: [],
             symbol: [],
             interjection: [],
             url: [],
-            verb: [],
             other: []
         };
         for (var i = 0; i < tweets.length; i++) {
@@ -346,6 +346,98 @@
             noiseTweets: noiseTweets,
             sadTweets: sadTweets
         };
+    }
+
+    exports.classifyTweetSentimentScore = function(tweetText) {
+        // var natural = require('natural');
+        // var classifier = new natural.BayesClassifier();
+
+        var sentiment = localClassifier.classifierObject.getClassifications(tweetText);
+
+        return sentiment;
+    }
+
+    exports.partsOfSpeechForSingleTweet = function(text) {
+        // if (tweets.length == null) {
+        //     return null;
+        // }
+        var partsOfSpeechObject = {
+            adjective: [],
+            verb: [],
+            noun: [],
+            conjunction: [],
+            cardinal: [],
+            foreign: [],
+            preposition: [],
+            modal: [],
+            possessive: [],
+            personal: [],
+            adverb: [],
+            symbol: [],
+            interjection: [],
+            url: [],
+            other: []
+        };
+
+        var words = new pos.Lexer().lex(text);
+        var tagger = new pos.Tagger();
+        var taggedWords = tagger.tag(words);
+        for (y in taggedWords) {
+            var taggedWord = taggedWords[y];
+            var word = taggedWord[0];
+            var tag = taggedWord[1];
+            //console.log(word + " /" + tag);
+            if (!tag.indexOf('VB')) {
+                partsOfSpeechObject.verb.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('NN')) {
+                partsOfSpeechObject.noun.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('JJ')) {
+                partsOfSpeechObject.adjective.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('RB')) {
+                partsOfSpeechObject.adverb.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('MD')) {
+                partsOfSpeechObject.modal.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('UH')) {
+                partsOfSpeechObject.interjection.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('FW')) {
+                partsOfSpeechObject.foreign.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('URL')) {
+                partsOfSpeechObject.url.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('CC')) {
+                partsOfSpeechObject.conjunction.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('CD')) {
+                partsOfSpeechObject.cardinal.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('IN')) {
+                partsOfSpeechObject.preposition.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('POS')) {
+                partsOfSpeechObject.possessive.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('PRP')) {
+                partsOfSpeechObject.personal.push([word.toLowerCase()]);
+            } else if (!tag.indexOf('SYM')) {
+                partsOfSpeechObject.symbol.push([word.toLowerCase()]);
+            } else {
+                partsOfSpeechObject.other.push([word.toLowerCase()]);
+            }
+            //console.log(word);
+        }
+
+        partsOfSpeechObject.conjunction = sortByOccurrence(partsOfSpeechObject.conjunction);
+        partsOfSpeechObject.cardinal = sortByOccurrence(partsOfSpeechObject.cardinal);
+        partsOfSpeechObject.foreign = sortByOccurrence(partsOfSpeechObject.foreign);
+        partsOfSpeechObject.preposition = sortByOccurrence(partsOfSpeechObject.preposition);
+        partsOfSpeechObject.adjective = sortByOccurrence(partsOfSpeechObject.adjective);
+        partsOfSpeechObject.modal = sortByOccurrence(partsOfSpeechObject.modal);
+        partsOfSpeechObject.noun = sortByOccurrence(partsOfSpeechObject.noun);
+        partsOfSpeechObject.possessive = sortByOccurrence(partsOfSpeechObject.possessive);
+        partsOfSpeechObject.personal = sortByOccurrence(partsOfSpeechObject.personal);
+        partsOfSpeechObject.adverb = sortByOccurrence(partsOfSpeechObject.adverb);
+        partsOfSpeechObject.symbol = sortByOccurrence(partsOfSpeechObject.symbol);
+        partsOfSpeechObject.interjection = sortByOccurrence(partsOfSpeechObject.interjection);
+        partsOfSpeechObject.url = sortByOccurrence(partsOfSpeechObject.url);
+        partsOfSpeechObject.verb = sortByOccurrence(partsOfSpeechObject.verb);
+        partsOfSpeechObject.other = sortByOccurrence(partsOfSpeechObject.other).splice(0, 100);
+        //console.log(partsOfSpeechObject);
+        return partsOfSpeechObject;
     }
 
 })();
