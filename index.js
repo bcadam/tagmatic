@@ -448,7 +448,8 @@ apiRouter.get('/twitter/formatted/:value/:count?', function(req, res) {
                     filtered: {
                         query: {
                             match: {
-                                _all: needle
+                                _all: needle,
+                                in_reply_to_screen_name : null
                             }
                         }
 
