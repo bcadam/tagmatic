@@ -28,7 +28,6 @@ query.find({
     }
 });
 
-
 function openStream(fullString) {
 
     var elasticsearch = require('elasticsearch');
