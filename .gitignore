@@ -2,3 +2,8 @@ node_modules
 bundle.min.js
 dist/
 app.js
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
