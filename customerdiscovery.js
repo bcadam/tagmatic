@@ -293,21 +293,21 @@
                 //console.log(word);
             }
         };
-        partsOfSpeechObject.conjunction = sortByOccurrence(partsOfSpeechObject.conjunction);
-        partsOfSpeechObject.cardinal = sortByOccurrence(partsOfSpeechObject.cardinal);
-        partsOfSpeechObject.foreign = sortByOccurrence(partsOfSpeechObject.foreign);
-        partsOfSpeechObject.preposition = sortByOccurrence(partsOfSpeechObject.preposition);
-        partsOfSpeechObject.adjective = sortByOccurrence(partsOfSpeechObject.adjective);
-        partsOfSpeechObject.modal = sortByOccurrence(partsOfSpeechObject.modal);
-        partsOfSpeechObject.noun = sortByOccurrence(partsOfSpeechObject.noun);
-        partsOfSpeechObject.possessive = sortByOccurrence(partsOfSpeechObject.possessive);
-        partsOfSpeechObject.personal = sortByOccurrence(partsOfSpeechObject.personal);
-        partsOfSpeechObject.adverb = sortByOccurrence(partsOfSpeechObject.adverb);
-        partsOfSpeechObject.symbol = sortByOccurrence(partsOfSpeechObject.symbol);
-        partsOfSpeechObject.interjection = sortByOccurrence(partsOfSpeechObject.interjection);
-        partsOfSpeechObject.url = sortByOccurrence(partsOfSpeechObject.url);
-        partsOfSpeechObject.verb = sortByOccurrence(partsOfSpeechObject.verb);
-        partsOfSpeechObject.other = sortByOccurrence(partsOfSpeechObject.other).splice(0, 100);
+        // partsOfSpeechObject.conjunction = sortByOccurrence(partsOfSpeechObject.conjunction);
+        // partsOfSpeechObject.cardinal = sortByOccurrence(partsOfSpeechObject.cardinal);
+        // partsOfSpeechObject.foreign = sortByOccurrence(partsOfSpeechObject.foreign);
+        // partsOfSpeechObject.preposition = sortByOccurrence(partsOfSpeechObject.preposition);
+        // partsOfSpeechObject.adjective = sortByOccurrence(partsOfSpeechObject.adjective);
+        // partsOfSpeechObject.modal = sortByOccurrence(partsOfSpeechObject.modal);
+        // partsOfSpeechObject.noun = sortByOccurrence(partsOfSpeechObject.noun);
+        // partsOfSpeechObject.possessive = sortByOccurrence(partsOfSpeechObject.possessive);
+        // partsOfSpeechObject.personal = sortByOccurrence(partsOfSpeechObject.personal);
+        // partsOfSpeechObject.adverb = sortByOccurrence(partsOfSpeechObject.adverb);
+        // partsOfSpeechObject.symbol = sortByOccurrence(partsOfSpeechObject.symbol);
+        // partsOfSpeechObject.interjection = sortByOccurrence(partsOfSpeechObject.interjection);
+        // partsOfSpeechObject.url = sortByOccurrence(partsOfSpeechObject.url);
+        // partsOfSpeechObject.verb = sortByOccurrence(partsOfSpeechObject.verb);
+        // partsOfSpeechObject.other = sortByOccurrence(partsOfSpeechObject.other).splice(0, 100);
         //console.log(partsOfSpeechObject);
         return partsOfSpeechObject;
     }

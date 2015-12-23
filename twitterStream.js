@@ -51,35 +51,38 @@ function openStream(fullString) {
         language: "en"
     };
 
+    var x = 1;
+
     twitterClient.stream('statuses/filter', params, function(stream) {
         stream.on('data', function(tweet) {
 
             var elasticClient = new elasticsearch.Client({
-                host: 'search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
-                log: 'trace'
+                host: 'https://search-tagmatic-37f3redwytadtwnjdlot3gxeyi.us-east-1.es.amazonaws.com',
+                // log: 'trace',
+                stall_warnings: true
             });
             var lengthOfTweetsFound;
             var tweets;
-            
+
+
+                // elasticClient.create({
+                //     index: 'twitter',
+                //     type: 'tweet',
+                //     id: tweet['id'],
+                //     body: tweet
+                // }, function(error, response) {
+                //     console.log(response);
+                // });
+               
+
             elasticClient.create({
                 index: 'twitter',
                 type: 'tweet',
                 id: tweet['id'],
                 body: tweet
             }, function(error, response) {
-                console.log(error);
+                console.log(response);
             });
-
-
-
-            // elasticClient.create({
-            //     index: 'twitter',
-            //     type: 'tweet',
-            //     id: tweet['id'],
-            //     body: tweet
-            // }, function(error, response) {
-            //     console.log(error);
-            // });
 
 
         });
