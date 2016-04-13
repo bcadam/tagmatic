@@ -3,6 +3,15 @@ var ParseReact = require('parse-react');
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
+var ReactDOM = require('react-dom');
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import RaisedButton from 'material-ui/lib/raised-button';
+import AppBar from 'material-ui/lib/app-bar';
+import FlatButton from 'material-ui/lib/flat-button';
+import IconButton from 'material-ui/lib/icon-button';
+import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
+import Menu from 'material-ui/lib/svg-icons/action/settings';
 
 var Project = require('./Project.react.js');
 
@@ -26,8 +35,19 @@ var NavBar = React.createClass({
         };
     },
     getInitialState: function() {
+
+        var display;
+
+        var currentUser = Parse.User.current();
+        if (currentUser) {
+            // do stuff with the user
+            display = false;
+        } else {
+            display = true;
+        }
+
         return ({
-            menu: false,
+            menu: display,
             projects: [],
             user: Parse.User.current(),
             data: this.props.data,
@@ -147,7 +167,7 @@ var NavBar = React.createClass({
         }
 
         var brandText = {
-          backgroundImage: 'url("../images/logo_1.png")',
+//          backgroundImage: 'url("../images/logo_1.png")',
           backgroundPosition: '0px 0px',
           backgroundSize: '25px',
           backgroundRepeat: 'no-repeat',
@@ -204,7 +224,36 @@ var NavBar = React.createClass({
             menuIcon = <i className="fa fa-bars"></i>;
         }
         return (
-            <div style={navBar} className="navbar">
+            <div>
+                <AppBar
+                    title={<span>OneMonarch</span>}
+                    iconElementLeft={<IconButton onTitleTouchTap={this._toggleMenu}
+                    onClick={this._toggleMenu}><Menu /></IconButton>}
+                    style={{backgroundColor:"#FF7A42"}}
+                  />
+                <LeftNav open={this.state.menu}>
+                  <AppBar
+                    title={<span>Close</span>}
+                    onTitleTouchTap={this._toggleMenu}
+                    onClick={this._toggleMenu}
+                    style={{backgroundColor:"#FF7A42"}}
+                  />
+                  <p>{button}</p>
+                  {self.data.projects.map(function(c) {
+                            return (
+                              <MenuItem key={c.id}><Project 
+                              object={c}     
+                              data={self.state.data} 
+                              stage={self.state.stage} 
+                              header={self.state.header}
+                              twitterQuery={self.state.twitterQuery}
+                              className="list-group-item" 
+                              key={c.id} 
+                              style={brandText}
+                              projectId={self.state.projectId} /></MenuItem>
+                            );
+                          })}
+                </LeftNav>
                 <div style={navButton} className="nav_button" onClick={this._toggleMenu}>
                   {menuIcon}
                 </div>
@@ -252,9 +301,7 @@ var NavBar = React.createClass({
         );
     },
     _toggleMenu: function() {
-        this.setState({
-            menu: !this.state.menu
-        });
+        this.setState({menu: !this.state.menu});
     }
 });
 

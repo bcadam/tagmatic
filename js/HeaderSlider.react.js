@@ -92,8 +92,8 @@ var HeaderSlider = React.createClass({
         });
     },
     getInitialState: function() {
-        console.log("this.props.data");
-        console.log(this.props.data);
+        // console.log("this.props.data");
+        // console.log(this.props.data);
         return {
             stage: this.props.stage,
             header: this.props.header,

@@ -337,7 +337,7 @@ var TagMachine = React.createClass({
                 //self._enterTags(5);
                 break;
             default:
-                console.log(e.keyCode);
+                //console.log(e.keyCode);
                 break;
         }
     },

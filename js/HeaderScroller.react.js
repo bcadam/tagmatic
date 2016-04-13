@@ -211,7 +211,7 @@ var HeaderScroller = React.createClass({
         }
     },
     _enterTags: function(key) {
-        console.log("button pressed");
+        //console.log("button pressed");
 
         var self = this;
         var headerTextPointer = self.props.header[0];
@@ -276,12 +276,11 @@ var HeaderScroller = React.createClass({
 
         originalDataAtHeader[headerTextPointer] = valueOfTag;
 
-        console.log(originalDataAtHeader);
+        //console.log(originalDataAtHeader);
 
         originalData[positionInData] = originalDataAtHeader;
 
-        console.log(originalDataAtHeader);
-
+        //console.log(originalDataAtHeader);
         // var originalData = React.addons.update(originalData, {
         //     'data': {
         //         positionInData: {
@@ -289,8 +288,6 @@ var HeaderScroller = React.createClass({
         //         }
         //     }
         // });
-
-
 
         this.props.data.requestChange(originalData);
 

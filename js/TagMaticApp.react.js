@@ -46,6 +46,7 @@ TagMachine takes two states, the data that was parsed and the header object. Usi
 
 var Parse = require('parse').Parse;
 var React = require('react');
+var ReactDOM = require('react-dom');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var ParseReact = require('parse-react');
 
