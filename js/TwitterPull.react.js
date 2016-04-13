@@ -53,7 +53,8 @@ var TwitterPull = React.createClass({
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
-
+                // console.log("myArr.twitterResponse");
+                // console.log(myArr.twitterResponse);
                 self._moveStageAndDataAlong(myArr);
 
             }
@@ -66,6 +67,9 @@ var TwitterPull = React.createClass({
 
         var self = this;
         var data = data['twitterResponse'];
+
+        // console.log("data");
+        // console.log(data);
 
         var tempSuggestedClassifier = [];
 

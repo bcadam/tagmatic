@@ -923,7 +923,7 @@ var HeaderScroller = React.createClass({
                         counter = counter + 1;
                         return React.createElement(
                             'div',
-                            { key: c, className: '', counter: counter, key: c.id },
+                            { key: c, className: '', counter: counter },
                             c,
                             ' ',
                             React.createElement(
@@ -1054,7 +1054,7 @@ var HeaderScroller = React.createClass({
         }
     },
     _enterTags: function _enterTags(key) {
-        //console.log("button pressed");
+        console.log("button pressed");
 
         var self = this;
         var headerTextPointer = self.props.header[0];
@@ -1118,13 +1118,19 @@ var HeaderScroller = React.createClass({
 
         originalDataAtHeader[headerTextPointer] = valueOfTag;
 
-        var originalData = React.addons.update(originalData, {
-            'data': {
-                positionInData: {
-                    $set: originalDataAtHeader
-                }
-            }
-        });
+        console.log(originalDataAtHeader);
+
+        originalData[positionInData] = originalDataAtHeader;
+
+        console.log(originalDataAtHeader);
+
+        // var originalData = React.addons.update(originalData, {
+        //     'data': {
+        //         positionInData: {
+        //             $set: originalDataAtHeader
+        //         }
+        //     }
+        // });
 
         this.props.data.requestChange(originalData);
 
@@ -1219,7 +1225,7 @@ var HeaderScrollerNotActive = React.createClass({
                         counter = counter + 1;
                         return React.createElement(
                             'div',
-                            { key: c, className: 'col-xs-12', counter: counter, key: c.id },
+                            { key: c, className: 'col-xs-12', counter: counter },
                             c
                         );
                     })
@@ -1327,6 +1333,8 @@ var HeaderSlider = React.createClass({
         });
     },
     getInitialState: function getInitialState() {
+        console.log("this.props.data");
+        console.log(this.props.data);
         return {
             stage: this.props.stage,
             header: this.props.header,
@@ -2124,9 +2132,11 @@ var TagMachine = React.createClass({
 
         //console.log(currentPosition, previousPosition, nextPosition);
         //console.log(self.props.data.value.data[currentPosition]);
-        var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
-        var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
-        var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
+        //console.log(self.props.data.value.data[currentPosition].text);
+
+        var currentTweet = self.props.data.value.data[currentPosition].text;
+        var previousTweet = self.props.data.value.data[previousPosition].text;
+        var nextTweet = self.props.data.value.data[nextPosition].text;
 
         var appMain = {
             position: 'fixed',
@@ -2417,6 +2427,7 @@ var TagMachine = React.createClass({
             case 49:
                 // #1 button
                 //self._enterTags(1);
+                //console.log("button 1 pressed");
                 break;
             case 50:
                 // #2 button
@@ -2677,7 +2688,8 @@ var TwitterPull = React.createClass({
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 myArr = JSON.parse(xmlhttp.responseText);
-
+                // console.log("myArr.twitterResponse");
+                // console.log(myArr.twitterResponse);
                 self._moveStageAndDataAlong(myArr);
             }
         };
@@ -2688,6 +2700,9 @@ var TwitterPull = React.createClass({
 
         var self = this;
         var data = data['twitterResponse'];
+
+        // console.log("data");
+        // console.log(data);
 
         var tempSuggestedClassifier = [];
 
@@ -23300,7 +23315,7 @@ var config = {
   IS_NODE: typeof process !== 'undefined' && !!process.versions && !!process.versions.node,
   REQUEST_ATTEMPT_LIMIT: 5,
   SERVER_URL: 'https://api.parse.com',
-  VERSION: '1.6.8',
+  VERSION: '1.6.9',
   APPLICATION_ID: null,
   JAVASCRIPT_KEY: null,
   MASTER_KEY: null,
@@ -25986,10 +26001,11 @@ var singleInstance = !_CoreManager2['default'].get('IS_NODE');
  * @constructor
  * @param {String} className The class name for the object
  * @param {Object} attributes The initial set of data to store in the object.
+ * @param {Object} options The options for this object instance.
  */
 
 var ParseObject = (function () {
-  function ParseObject(className, attributes) {
+  function ParseObject(className, attributes, options) {
     _classCallCheck(this, ParseObject);
 
     var toSet = null;
@@ -26007,8 +26023,11 @@ var ParseObject = (function () {
           toSet[attr] = className[attr];
         }
       }
+      if (attributes && typeof attributes === 'object') {
+        options = attributes;
+      }
     }
-    if (toSet && !this.set(toSet)) {
+    if (toSet && !this.set(toSet, options)) {
       throw new Error('Can\'t create an invalid Parse Object');
     }
     // Enable legacy initializers
@@ -26231,10 +26250,7 @@ var ParseObject = (function () {
     key: '_handleSaveError',
     value: function _handleSaveError() {
       var pending = this._getPendingOps();
-      if (pending.length > 2) {
-        // There are more saves on the queue
-        ObjectState.mergeFirstPendingState(this.className, this._getStateIdentifier());
-      }
+      ObjectState.mergeFirstPendingState(this.className, this._getStateIdentifier());
     }
 
     /** Public methods **/
@@ -26518,12 +26534,14 @@ var ParseObject = (function () {
       }
 
       // Validate changes
-      var validation = this.validate(newValues);
-      if (validation) {
-        if (typeof options.error === 'function') {
-          options.error(this, validation);
+      if (!options.ignoreValidation) {
+        var validation = this.validate(newValues);
+        if (validation) {
+          if (typeof options.error === 'function') {
+            options.error(this, validation);
+          }
+          return false;
         }
-        return false;
       }
 
       // Consolidate Ops
@@ -27303,11 +27321,11 @@ var ParseObject = (function () {
       } else if (classMap[adjustedClassName]) {
         parentProto = classMap[adjustedClassName].prototype;
       }
-      var ParseObjectSubclass = function ParseObjectSubclass(attributes) {
+      var ParseObjectSubclass = function ParseObjectSubclass(attributes, options) {
         this.className = adjustedClassName;
         this._objCount = objectCount++;
         if (attributes && typeof attributes === 'object') {
-          if (!this.set(attributes || {})) {
+          if (!this.set(attributes || {}, options)) {
             throw new Error('Can\'t create an invalid Parse Object');
           }
         }
@@ -28600,8 +28618,9 @@ var ParsePromise = (function () {
     /**
      * Returns a new promise that is fulfilled when all of the input promises
      * are resolved. If any promise in the list fails, then the returned promise
-     * will fail with the last error. If they all succeed, then the returned
-     * promise will succeed, with the results being the results of all the input
+     * will be rejected with an array containing the error from each promise.
+     * If they all succeed, then the returned promise will succeed, with the
+     * results being the results of all the input
      * promises. For example: <pre>
      *   var p1 = Parse.Promise.as(1);
      *   var p2 = Parse.Promise.as(2);
@@ -30838,6 +30857,48 @@ var ParseUser = (function (_ParseObject) {
       var controller = _CoreManager2['default'].getUserController();
       return controller.logIn(this, loginOptions)._thenRunCallbacks(options, this);
     }
+
+    /**
+     * Wrap the default save behavior with functionality to save to local
+     * storage if this is current user.
+     */
+  }, {
+    key: 'save',
+    value: function save() {
+      var _this3 = this;
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _get(Object.getPrototypeOf(ParseUser.prototype), 'save', this).apply(this, args).then(function () {
+        if (_this3.isCurrent()) {
+          return _CoreManager2['default'].getUserController().updateUserOnDisk(_this3);
+        }
+        return _this3;
+      });
+    }
+
+    /**
+     * Wrap the default fetch behavior with functionality to save to local
+     * storage if this is current user.
+     */
+  }, {
+    key: 'fetch',
+    value: function fetch() {
+      var _this4 = this;
+
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return _get(Object.getPrototypeOf(ParseUser.prototype), 'fetch', this).apply(this, args).then(function () {
+        if (_this4.isCurrent()) {
+          return _CoreManager2['default'].getUserController().updateUserOnDisk(_this4);
+        }
+        return _this4;
+      });
+    }
   }], [{
     key: 'readOnlyAttributes',
     value: function readOnlyAttributes() {
@@ -31159,16 +31220,20 @@ exports['default'] = ParseUser;
 _ParseObject3['default'].registerSubclass('_User', ParseUser);
 
 var DefaultController = {
-  setCurrentUser: function setCurrentUser(user) {
-    currentUserCache = user;
-    user._cleanupAuthData();
-    user._synchronizeAllAuthData();
+  updateUserOnDisk: function updateUserOnDisk(user) {
     var path = _Storage2['default'].generatePath(CURRENT_USER_KEY);
     var json = user.toJSON();
     json.className = '_User';
     return _Storage2['default'].setItemAsync(path, JSON.stringify(json)).then(function () {
       return user;
     });
+  },
+
+  setCurrentUser: function setCurrentUser(user) {
+    currentUserCache = user;
+    user._cleanupAuthData();
+    user._synchronizeAllAuthData();
+    return DefaultController.updateUserOnDisk(user);
   },
 
   currentUser: function currentUser() {
@@ -31304,7 +31369,7 @@ var DefaultController = {
       if (currentUser !== null) {
         var currentSession = currentUser.getSessionToken();
         if (currentSession && (0, _isRevocableSession2['default'])(currentSession)) {
-          promise.then(function () {
+          promise = promise.then(function () {
             return RESTController.request('POST', 'logout', {}, { sessionToken: currentSession });
           });
         }
@@ -35978,6 +36043,7 @@ var HTMLDOMPropertyConfig = {
     icon: null,
     id: MUST_USE_PROPERTY,
     inputMode: MUST_USE_ATTRIBUTE,
+    integrity: null,
     is: MUST_USE_ATTRIBUTE,
     keyParams: MUST_USE_ATTRIBUTE,
     keyType: MUST_USE_ATTRIBUTE,
@@ -36000,6 +36066,7 @@ var HTMLDOMPropertyConfig = {
     multiple: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     muted: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     name: null,
+    nonce: MUST_USE_ATTRIBUTE,
     noValidate: HAS_BOOLEAN_VALUE,
     open: HAS_BOOLEAN_VALUE,
     optimum: null,
@@ -36011,6 +36078,7 @@ var HTMLDOMPropertyConfig = {
     readOnly: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
     rel: null,
     required: HAS_BOOLEAN_VALUE,
+    reversed: HAS_BOOLEAN_VALUE,
     role: MUST_USE_ATTRIBUTE,
     rows: MUST_USE_ATTRIBUTE | HAS_POSITIVE_NUMERIC_VALUE,
     rowSpan: null,
@@ -36493,6 +36561,7 @@ assign(React, {
 });
 
 React.__SECRET_DOM_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOM;
+React.__SECRET_DOM_SERVER_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOMServer;
 
 module.exports = React;
 },{"./Object.assign":283,"./ReactDOM":296,"./ReactDOMServer":306,"./ReactIsomorphic":324,"./deprecated":369}],286:[function(require,module,exports){
@@ -39090,6 +39159,7 @@ var registrationNameModules = ReactBrowserEventEmitter.registrationNameModules;
 // For quickly matching children type, to test if can be treated as content.
 var CONTENT_TYPES = { 'string': true, 'number': true };
 
+var CHILDREN = keyOf({ children: null });
 var STYLE = keyOf({ style: null });
 var HTML = keyOf({ __html: null });
 
@@ -39580,7 +39650,9 @@ ReactDOMComponent.Mixin = {
         }
         var markup = null;
         if (this._tag != null && isCustomComponent(this._tag, props)) {
-          markup = DOMPropertyOperations.createMarkupForCustomAttribute(propKey, propValue);
+          if (propKey !== CHILDREN) {
+            markup = DOMPropertyOperations.createMarkupForCustomAttribute(propKey, propValue);
+          }
         } else {
           markup = DOMPropertyOperations.createMarkupForProperty(propKey, propValue);
         }
@@ -39839,6 +39911,9 @@ ReactDOMComponent.Mixin = {
       } else if (isCustomComponent(this._tag, nextProps)) {
         if (!node) {
           node = ReactMount.getNode(this._rootNodeID);
+        }
+        if (propKey === CHILDREN) {
+          nextProp = null;
         }
         DOMPropertyOperations.setValueForAttribute(node, propKey, nextProp);
       } else if (DOMProperty.properties[propKey] || DOMProperty.isCustomAttribute(propKey)) {
@@ -42522,11 +42597,12 @@ if (process.env.NODE_ENV !== 'production') {
     var fakeNode = document.createElement('react');
     ReactErrorUtils.invokeGuardedCallback = function (name, func, a, b) {
       var boundFunc = func.bind(null, a, b);
-      fakeNode.addEventListener(name, boundFunc, false);
+      var evtType = 'react-' + name;
+      fakeNode.addEventListener(evtType, boundFunc, false);
       var evt = document.createEvent('Event');
-      evt.initEvent(name, false, false);
+      evt.initEvent(evtType, false, false);
       fakeNode.dispatchEvent(evt);
-      fakeNode.removeEventListener(name, boundFunc, false);
+      fakeNode.removeEventListener(evtType, boundFunc, false);
     };
   }
 }
@@ -46869,7 +46945,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.1';
+module.exports = '0.14.3';
 },{}],348:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48902,7 +48978,7 @@ module.exports = adler32;
 var canDefineProperty = false;
 if (process.env.NODE_ENV !== 'production') {
   try {
-    Object.defineProperty({}, 'x', {});
+    Object.defineProperty({}, 'x', { get: function () {} });
     canDefineProperty = true;
   } catch (x) {
     // IE will fail on defineProperty

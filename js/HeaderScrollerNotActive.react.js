@@ -69,7 +69,7 @@ var HeaderScrollerNotActive = React.createClass({
                         self.props.header[1].map(function(c) {
                         counter = counter + 1;
                         return (
-                          <div key={c} className="col-xs-12" counter={counter} key={c.id}>{c}</div>
+                          <div key={c} className="col-xs-12" counter={counter}>{c}</div>
                           );
                         })
                     }

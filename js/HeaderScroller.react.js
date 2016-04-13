@@ -78,7 +78,7 @@ var HeaderScroller = React.createClass({
                         self.props.header[1].map(function(c) {
                         counter = counter + 1;
                         return (
-                          <div key={c} className="" counter={counter} key={c.id}>{c} <span style={hotKey}>{counter}</span></div>
+                          <div key={c} className="" counter={counter}>{c} <span style={hotKey}>{counter}</span></div>
                           );
                         })
                     }
@@ -211,7 +211,7 @@ var HeaderScroller = React.createClass({
         }
     },
     _enterTags: function(key) {
-        //console.log("button pressed");
+        console.log("button pressed");
 
         var self = this;
         var headerTextPointer = self.props.header[0];
@@ -276,13 +276,19 @@ var HeaderScroller = React.createClass({
 
         originalDataAtHeader[headerTextPointer] = valueOfTag;
 
-        var originalData = React.addons.update(originalData, {
-            'data': {
-                positionInData: {
-                    $set: originalDataAtHeader
-                }
-            }
-        });
+        console.log(originalDataAtHeader);
+
+        originalData[positionInData] = originalDataAtHeader;
+
+        console.log(originalDataAtHeader);
+
+        // var originalData = React.addons.update(originalData, {
+        //     'data': {
+        //         positionInData: {
+        //             $set: originalDataAtHeader
+        //         }
+        //     }
+        // });
 
 
 

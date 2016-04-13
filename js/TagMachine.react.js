@@ -36,9 +36,11 @@ var TagMachine = React.createClass({
 
         //console.log(currentPosition, previousPosition, nextPosition);
         //console.log(self.props.data.value.data[currentPosition]);
-        var currentTweet = self.props.data.value.data[currentPosition][holderOfTweetColumn];
-        var previousTweet = self.props.data.value.data[previousPosition][holderOfTweetColumn];
-        var nextTweet = self.props.data.value.data[nextPosition][holderOfTweetColumn];
+        //console.log(self.props.data.value.data[currentPosition].text);
+
+        var currentTweet = self.props.data.value.data[currentPosition].text;
+        var previousTweet = self.props.data.value.data[previousPosition].text;
+        var nextTweet = self.props.data.value.data[nextPosition].text;
 
         var appMain = {
             position: 'fixed',
@@ -316,6 +318,7 @@ var TagMachine = React.createClass({
             case 49:
                 // #1 button
                 //self._enterTags(1);
+                //console.log("button 1 pressed");
                 break;
             case 50:
                 // #2 button
