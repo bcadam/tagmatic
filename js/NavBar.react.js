@@ -207,15 +207,15 @@ var NavBar = React.createClass({
               <input onChange={self._onChangePassword} className="form-control" type="password" placeholder="Password"/>
               </div>
               <div className="form-group">
-              <div className="btn btn-success" onClick={self._logIn} style={fullWidth}>Log In</div>
+              <div className="btn btn-success" onTouchTap={self._logIn} style={fullWidth}>Log In</div>
               </div>
               <div className="form-group">
-              <div className="btn btn-warning" onClick={self._createAccount} style={fullWidth}>Create Account</div>
+              <div className="btn btn-warning" onTouchTap={self._createAccount} style={fullWidth}>Create Account</div>
               </div>
               </div>
             );
         } else {
-            button = <div className="btn btn-info" style={fullWidth} onClick={self._logOut}>LogOut</div>;
+            button = <div className="btn btn-info" style={fullWidth} onTouchTap={self._logOut}>LogOut</div>;
         }
         var menuIcon;
         if (self.state.menu == true) {
@@ -227,15 +227,18 @@ var NavBar = React.createClass({
             <div>
                 <AppBar
                     title={<span>OneMonarch</span>}
-                    iconElementLeft={<IconButton onTitleTouchTap={this._toggleMenu}
-                    onClick={this._toggleMenu}><Menu /></IconButton>}
+                    iconElementLeft={
+                        <IconButton
+                            onTouchTap={this._toggleMenu}>
+                            <Menu />
+                        </IconButton>
+                        }
                     style={{backgroundColor:"#FF7A42"}}
                   />
                 <LeftNav open={this.state.menu}>
                   <AppBar
                     title={<span>Close</span>}
-                    onTitleTouchTap={this._toggleMenu}
-                    onClick={this._toggleMenu}
+                    onTouchTap={this._toggleMenu}
                     style={{backgroundColor:"#FF7A42"}}
                   />
                   <p>{button}</p>

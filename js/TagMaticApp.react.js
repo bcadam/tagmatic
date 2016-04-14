@@ -57,6 +57,9 @@ var TagMachine = require('./TagMachine.react.js');
 var StatusUpdates = require('./StatusUpdates.react.js');
 var TwitterPull = require('./TwitterPull.react.js');
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 var TagMaticApp = React.createClass({
     mixins: [LinkedStateMixin],
     /** State   Variables
@@ -151,6 +154,7 @@ var TagMaticApp = React.createClass({
                   header={self.linkState('header')}
                 />
                 {postionHolder}
+                {this.props.children}
               </div>
             </div>
           );
