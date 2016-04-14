@@ -2367,10 +2367,25 @@ var TagMachine = React.createClass({
             acl.setWriteAccess(Parse.User.current(), true);
             acl.setReadAccess(Parse.User.current(), true);
 
+            // console.log(self.state.positionInData);
+            // console.log(self.state.positionInData);
+            console.log('self.props.data.value');
+            console.log(self.props.data.value.data);
+            // console.log(self.props.header.value);
+            // console.log(self.props.header.value);
+            // console.log(self.state.publishHeaders);
+            // console.log(self.state.publishHeaders);
+            // console.log(Parse.User.current());
+            // console.log(Parse.User.current());
+            // console.log(self.props.twitterQuery.value);
+            // console.log(self.props.twitterQuery.value);
+            // console.log(self.props.stage.value);
+            // console.log(self.props.stage.value);
+
             var creator = ParseReact.Mutation.Create('Project', {
                 positionInData: self.state.positionInData,
                 positionInHeader: self.state.positionInHeader,
-                data: self.props.data.value,
+                data: self.props.data.value.data,
                 header: self.props.header.value,
                 publishHeaders: self.state.publishHeaders,
                 user: Parse.User.current(),
